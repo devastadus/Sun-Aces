@@ -2,7 +2,6 @@
 using System.Collections;
 using Rewired;
 
-[RequireComponent(typeof(CharacterController))]
 public class SimpleShip : MonoBehaviour
 {
 
@@ -19,11 +18,14 @@ public class SimpleShip : MonoBehaviour
 
     void Awake()
     {
+
         // Get the Rewired Player object for this player and keep it for the duration of the character's lifetime
         player = ReInput.players.GetPlayer(playerId);
 
         // Get the character controller
         cc = GetComponent<CharacterController>();
+        
+        
     }
 
     void Update()
