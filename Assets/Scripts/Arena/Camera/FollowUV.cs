@@ -3,7 +3,6 @@ using System.Collections;
 
 public class FollowUV : MonoBehaviour {
 
-    public float offsetSpeed = 10f;
     private MeshRenderer mr;
     public float parralax = 2f;
 

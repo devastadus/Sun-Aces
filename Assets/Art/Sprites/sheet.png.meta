@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 8f9c21ab9688b4a49a1a8171d56f6819
-timeCreated: 1458364118
+timeCreated: 1458432834
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -54,24 +54,26 @@ TextureImporter:
     - name: Red Ship
       rect:
         serializedVersion: 2
-        x: 224
+        x: 225
         y: 117
-        width: 99
+        width: 98
         height: 75
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 12.5, y: 37.5}
-        - {x: -29.5, y: 37.5}
-        - {x: -49.5, y: 10.5}
-        - {x: -49.5, y: -27.5}
-        - {x: -48.5, y: -32.5}
-        - {x: -28.5, y: -37.5}
-        - {x: 32.5, y: -37.5}
-        - {x: 49.5, y: -28.5}
-        - {x: 49.5, y: 15.5}
-        - {x: 39.5, y: 23.5}
+      - - {x: 39, y: 38.5}
+        - {x: 12, y: 52.5}
+        - {x: -29, y: 52.5}
+        - {x: -49, y: 24.5}
+        - {x: -49, y: -9.5}
+        - {x: -46, y: -12.5}
+        - {x: -44, y: -12.5}
+        - {x: -13, y: -22.5}
+        - {x: 13, y: -22.5}
+        - {x: 47, y: -14.5}
+        - {x: 49, y: -9.5}
+        - {x: 49, y: 30.5}
     outline: []
   spritePackingTag: 
   userData: 
