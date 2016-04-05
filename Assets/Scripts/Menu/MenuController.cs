@@ -27,7 +27,5 @@ public class MenuController : MonoBehaviour {
 	public void buttonClick(){		
 		Debug.Log("player1: "+player1.isOn+ "player2: "+player2.isOn);
 		SceneManager.LoadScene("Arena");
-		ArenaController arenaController = GameObject.Find("ArenaManager").GetComponent<ArenaController>();
-		arenaController.bam();
 	}
 }
