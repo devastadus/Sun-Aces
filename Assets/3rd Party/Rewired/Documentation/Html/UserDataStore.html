@@ -5,9 +5,8 @@
 <!-- InstanceBeginEditable name="doctitle" -->
 <title>Rewired Documentation | User Data Store</title>
 <!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
 <!-- InstanceParam name="isRoot" type="boolean" value="false" -->
+<!-- InstanceParam name="wide" type="boolean" value="false" -->
 <link href="files/css/styles.css" rel="stylesheet" type="text/css" />
 <!-- Favicons -->
 <link rel="icon" type="image/x-icon" href="/projects/rewired/files/images/favicon.ico?v=1" />
@@ -30,6 +29,7 @@
 
 <body>
 
+
 <div class="container">
   <div class="content">
 	
@@ -42,10 +42,12 @@
 	    
       	<div class="sidebar-nav">
 	        <h4><a href="Documentation.html">Documentation</a></h4>
-
-            <strong>The Essentials:</strong>
+	        <ul>
+	          <li><a href="Overview.html">Overview</a></li>
+	          <li><a href="ReleaseNotes.txt">Release Notes</a></li>
+          </ul>
+	        <strong>The Essentials:</strong>
             <ol>
-              <li><a href="Overview.html">Overview</a></li>
               <li><a href="Installation.html">Installation</a></li>
               <li><a href="QuickStart.html">Quick Start</a></li>
               <li><a href="BasicUsage.html">Basic Usage</a></li>
@@ -65,15 +67,15 @@
               <li><a href="ControllerMaps.html"></a><a href="Layouts.html">Layouts</a></li>
               <li><a href="CustomControllers.html">Custom Controllers</a></li>
             </ul>
+            <strong>Extras:</strong>
+            <ul>
+              <li><a href="ControlMapper.html" title="Control Mapper">Control Mapper</a></li>
+              <li><a href="RewiredStandaloneInputModule.html">Rewired Standalone Input Module</a></li>
+	          <li><a href="UserDataStore.html" title="User Data Store">User Data Store</a></li>
+            </ul>
             <strong>How To's</strong>
             <ul>
             	<li><a href="HowTos.html">See all topics...</a></li>
-            </ul>
-            <strong>Extras:</strong>
-            <ul>
-              <li><a href="UserDataStore.html" title="User Data Store">User Data Store</a></li>
-              <li><a href="ControlMapper.html" title="Control Mapper">Control Mapper</a></li>
-              <li><a href="RewiredStandaloneInputModule.html">Rewired Standalone Input Module</a></li>
             </ul>
             <strong>Help:</strong>
             <ul>
@@ -84,6 +86,10 @@
 	          <li><a href="Updating.html" title="Updating Rewired">Updating Rewired</a></li>
 	          <li><a href="Troubleshooting.html" title="Troubleshooting">Troubleshooting</a></li>
               <li><a href="KnownIssues.html">Known Issues</a></li>
+            </ul>
+            <strong>FAQ</strong>
+            <ul>
+            	<li><a href="FAQ.html">See all topics...</a></li>
             </ul>
             <strong>Unity Help:</strong>
             <ul>
@@ -132,10 +138,12 @@ public class MyUserDataStore : Rewired.Data.UserDataStore {
 (ReInuput.userDataStore as MyUserDataStore).MyCustomMethod(); <span class="comment">// cast to concrete class and call the custom method</span>
 </pre>
     <p>&nbsp;</p>
-<p><strong>UserDataStore_PlayerPrefs</strong></p>
+<p><strong><a name="playerprefs" id="playerprefs"></a>UserDataStore_PlayerPrefs</strong></p>
     <p>This is a user data storage component that uses Unity's PlayerPrefs class for storing data. Whenever a controller is attached, if any data has been saved before for that controller, it will be loaded from PlayerPrefs. If the user has customized his control mappings, these will be loaded  on a per-player, per-controller basis. Controller calibration settings and customized Input Behavior settings will also be loaded. Data will be saved manually when Save() is called or automatically when a controller is disconnected from the system.</p>
     <p>If &quot;Load Data on Start&quot; is checked in the inspector, all controller data will be loaded at the beginning of the session. This is useful if you want the player's last settings to be loaded automatically for any controllers already attached to the system at runtime.</p>
-    <p><strong>Note:</strong> During development, you may run into a situation where your controls don't seem to make sense. This may happen when you make some runtime control changes, save them, and then proceed to change your mappings in the Rewired Input Manager. Because UserDataStore_PlayerPrefs is configured to save controller data on disconnect and load controller data on start and controller connect, the loaded settings will override new changes you make to the default mappings in the Rewired Input Manager. During development, it may be useful to disable or remove the UserDataStore_PlayerPrefs component. If you've already saved controller settings and want to remove them, you can use the Clear All Player Prefs button in the Debug Options foldout on the UserDataStore_PlayerPrefs inspector. IMPORTANT: This will clear ALL PlayerPrefs for the current project. This is due to the limitation that there is no way to look up what keys exist in PlayerPrefs.</p>
+    <p><strong><a name="clearing-playerprefs" id="clearing-playerprefs"></a>IMPORTANT:</strong></p>
+    <p>During development, you may run into a situation where your controls don't seem to make sense. This may happen when you make some runtime control changes, save them, and then proceed to change your mappings in the Rewired Input Manager. Because UserDataStore_PlayerPrefs is configured to save controller data on disconnect and load controller data on start and controller connect, the loaded settings will override new changes you make to the default mappings in the Rewired Input Manager.</p>
+    <p>During development, it may be useful to disable or remove the UserDataStore_PlayerPrefs component. If you've already saved controller settings and want to remove them, you can use the Clear All Player Prefs button in the Debug Options foldout on the UserDataStore_PlayerPrefs inspector. <strong>WARNING:</strong> This will clear <em>ALL</em> PlayerPrefs data for the current project. This is due to the limitation that there is no way to look up what keys exist in PlayerPrefs.</p>
     <p>&nbsp;</p>
     <div class="bottom-pager clearfix">
       <a class="back-button" href="Documentation.html" title="Actions"><span class="button-img"></span>Documentation</a></div>
@@ -144,10 +152,12 @@ public class MyUserDataStore : Rewired.Data.UserDataStore {
         
     </div>
   <div class="footer clearfix">
-   	<p class="left">Copyright &copy;2014 <a href="http://guavaman.com" title="Guavaman Enterprises">Guavaman Enterprises</a>. All rights reserved. No materials may be reproduced without permission.</p>
+   	<p class="left">Copyright &copy;2014-2016 <a href="http://guavaman.com" title="Guavaman Enterprises">Guavaman Enterprises</a>. All rights reserved. No materials may be reproduced without permission.</p>
   	<p class="right"><a href="http://guavaman.com/projects/rewired" title="Return to Rewired Website">Return to Rewired Website</a></p>
   </div>
   <!-- end .content --></div>
   <!-- end .container --></div>
+  
+  
 </body>
 <!-- InstanceEnd --></html>

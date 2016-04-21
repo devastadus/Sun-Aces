@@ -5,9 +5,8 @@
 <!-- InstanceBeginEditable name="doctitle" -->
 <title>Rewired Documentation | Troubleshooting</title>
 <!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
 <!-- InstanceParam name="isRoot" type="boolean" value="false" -->
+<!-- InstanceParam name="wide" type="boolean" value="false" -->
 <link href="files/css/styles.css" rel="stylesheet" type="text/css" />
 <!-- Favicons -->
 <link rel="icon" type="image/x-icon" href="/projects/rewired/files/images/favicon.ico?v=1" />
@@ -30,6 +29,7 @@
 
 <body>
 
+
 <div class="container">
   <div class="content">
 	
@@ -42,10 +42,12 @@
 	    
       	<div class="sidebar-nav">
 	        <h4><a href="Documentation.html">Documentation</a></h4>
-
-            <strong>The Essentials:</strong>
+	        <ul>
+	          <li><a href="Overview.html">Overview</a></li>
+	          <li><a href="ReleaseNotes.txt">Release Notes</a></li>
+          </ul>
+	        <strong>The Essentials:</strong>
             <ol>
-              <li><a href="Overview.html">Overview</a></li>
               <li><a href="Installation.html">Installation</a></li>
               <li><a href="QuickStart.html">Quick Start</a></li>
               <li><a href="BasicUsage.html">Basic Usage</a></li>
@@ -65,15 +67,15 @@
               <li><a href="ControllerMaps.html"></a><a href="Layouts.html">Layouts</a></li>
               <li><a href="CustomControllers.html">Custom Controllers</a></li>
             </ul>
+            <strong>Extras:</strong>
+            <ul>
+              <li><a href="ControlMapper.html" title="Control Mapper">Control Mapper</a></li>
+              <li><a href="RewiredStandaloneInputModule.html">Rewired Standalone Input Module</a></li>
+	          <li><a href="UserDataStore.html" title="User Data Store">User Data Store</a></li>
+            </ul>
             <strong>How To's</strong>
             <ul>
             	<li><a href="HowTos.html">See all topics...</a></li>
-            </ul>
-            <strong>Extras:</strong>
-            <ul>
-              <li><a href="UserDataStore.html" title="User Data Store">User Data Store</a></li>
-              <li><a href="ControlMapper.html" title="Control Mapper">Control Mapper</a></li>
-              <li><a href="RewiredStandaloneInputModule.html">Rewired Standalone Input Module</a></li>
             </ul>
             <strong>Help:</strong>
             <ul>
@@ -84,6 +86,10 @@
 	          <li><a href="Updating.html" title="Updating Rewired">Updating Rewired</a></li>
 	          <li><a href="Troubleshooting.html" title="Troubleshooting">Troubleshooting</a></li>
               <li><a href="KnownIssues.html">Known Issues</a></li>
+            </ul>
+            <strong>FAQ</strong>
+            <ul>
+            	<li><a href="FAQ.html">See all topics...</a></li>
             </ul>
             <strong>Unity Help:</strong>
             <ul>
@@ -117,16 +123,20 @@
       <li><a href="#keyboard-problems">Keyboard control doesn't work</a></li>
       <li><a href="#joystick-problems">Mouse control doesn't work</a></li>
       <li><a href="#xbox360-triggers">XBox 360 controller L/R triggers can't be pressed at the same time on Windows</a></li>
+      <li><a href="#compiler-errors-name-clashes">Compiler errors with Rewired classes such as Rewired.Player</a></li>
       <li><a href="#null-reference-during-recompile">Null reference exception when recompiling scripts in the editor at runtime</a></li>
       <li><a href="#compile-errors-ps4-xbone">Unity 5 compile errors in PS4, XBox One, WiiU, or other special platforms</a></li>
       <li><a href="#time-comparison">Time comparisons to Time.time don't match</a></li>
-      <li><a href="#steamworks">Exceptions with Steamworks.Net plugin</a></li>
       <li><a href="#android-joystick-keyboard-keys">Joystick buttons  activate keyboard keys on Android</a></li>
+      <li><a href="#ongui-getbuttondown">OnGUI may return GetButtonDown/Up true for multiple frames</a></li>
+      <li><a href="#steamworks">Exceptions with Steamworks.Net plugin</a></li>
       <li><a href="#steam-controller">Steam Controller</a></li>
       <li><a href="#steam-controller-not-detected-windows">Steam Controller is not detected (Windows)</a></li>
       <li><a href="#steam-streaming-linux">Steam Streaming controller support on Linux/SteamOS</a></li>
       <li><a href="#steam-controller-breaks-rawinput-controllers">Steam Controller doesn't work with other controllers at the same time in Windows</a></li>
       <li><a href="#rewired-standalone-input-module-issues">RewiredStandaloneInputModue issues</a></li>
+      <li><a href="#xbox-one-crash-on-start">XBox One: Crash/blank screen on start in game build</a></li>
+      <li><a href="#xbox-one-profiler">XBox One: High CPU usage in profiler</a></li>
       </ul>
     <hr />
     <h3><a name="something-isnt-working"></a>Something isn't working...</h3>
@@ -142,11 +152,49 @@
     <p>If you're using a controller <a href="SupportedControllers.html">that   is not listed here</a>, your controller doesn't have a hardware definition and will not   automatically be recognized and mapped. Instead, it will use the Unknown Controller map and need to be manually mapped by the user prior to use through a custom control remapping screen. Please read about the <a href="ControllerMaps.html#unknown-controllers">Unknown Controller map and how unrecognized controllers are handled</a> to understand why.</p>
     <p><strong>My gamepad doesn't work. I created a map using the Dual Analog Gamepad Template but it doesn't work.</strong></p>
     <p>Just because a controller is a gamepad does not mean Rewired will recognize it as a gamepad. Just what a &quot;gamepad&quot; is varies from product to product. There is no universal definition of a gamepad. The Dual Analog Gamepad Template only applies to <a href="SupportedControllers.html">controllers that have had definitions created for them</a> and have been specifically assigned and configured for that template. If you want to use a gamepad <a href="SupportedControllers.html">that is not listed here</a>, you either have to <a href="HowTos.html#new-controller-definitions">make a controller definition for it</a> and <a href="HowTos.html#add-controller-to-existing-controller-template">add it to the Dual Analog Gamepad Template</a> or <a href="HowTos.html#controller-mapping-screen">provide your users with a control remapping screen</a> so they can map the controls themselves.</p>
-    <p><strong>More reasons why your controller may appear not to work:</strong></p>
+    <p><strong><a name="controller-doesnt-work-more-reasons" id="controller-doesnt-work-more-reasons"></a>More reasons why your controller may appear not to work:</strong></p>
     <ul>
       <li>You have multiple controllers connected, one Player, and have left the default <a href="http://guavaman.com/projects/rewired/docs/RewiredEditor.html#Settings">Joystick Auto-Assignment Settings in the Rewired input manager</a>: 
         Based on the default settings, Rewired will assign only one controller per-Player. If multiple controllers are present, only one will be assigned to each Player. If you only have one Player, the second controller will be left unassigned. In order to allow auto-assignment of multiple Joysticks to the same Player, Max Joysticks Per Player must be raised to a value greater than 1.  <a href="Controllers.html">See this page for information on Controllers</a>.</li>
     </ul>
+<p><strong>How to determine the source of the issue:</strong></p>
+<p>You can easily determine why your joystick is not working with a little bit of debug code. This code will show all Joysticks assigned to each Player and all mappings in each Controller Map. You will be able to tell if a Joystick is assigned to a particular Player, if any Controller Maps were loaded for that Joystick, whether or not those Controller Maps are enabled, and the what Action is bound to each element. There are many more members in each of the <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/T_Rewired_Player.htm">Player</a>, <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/T_Rewired_Joystick.htm">Joystick</a>, <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/T_Rewired_JoystickMap.htm">JoystickMap</a>, and <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/T_Rewired_ActionElementMap.htm">ActionElementMap</a> classes that you can get useful information from.</p>
+<pre class="code">
+<span class="comment">// Log assigned Joystick information for all joysticks regardless of whether or not they've been assigned</span>
+Debug.Log(&quot;Rewired found &quot; + ReInput.controllers.joystickCount + &quot; joysticks attached.&quot;);
+for(int i = 0; i &lt; ReInput.controllers.joystickCount; i++) {
+    Joystick j = ReInput.controllers.Joysticks[i];
+    Debug.Log(
+        &quot;[&quot; + i + &quot;] Joystick: &quot; + j.name + &quot;\n&quot; +
+        &quot;Hardware Name: &quot; + j.hardwareName + &quot;\n&quot; +
+        &quot;Is Recognized: &quot; + (j.hardwareTypeGuid != System.Guid.Empty ? &quot;Yes&quot; : &quot;No&quot;) + &quot;\n&quot; +<br />        &quot;Is Assigned: &quot; + (ReInput.controllers.IsControllerAssigned(j.type, j) ? &quot;Yes&quot; : &quot;No&quot;)
+    );
+}
+
+<span class="comment">// Log assigned Joystick information for each Player</span>
+foreach(var p in ReInput.players.Players) {
+    Debug.Log("PlayerId = " + p.id + &quot; is assigned &quot; + p.controllers.joystickCount + &quot; joysticks.&quot;);
+
+    <span class="comment">// Log information for each Joystick assigned to this Player</span>
+    foreach(var j in p.controllers.Joysticks) {
+        Debug.Log(
+          "Joystick: " + j.name + &quot;\n&quot; +
+          &quot;Is Recognized: &quot; + (j.hardwareTypeGuid != System.Guid.Empty ? &quot;Yes&quot; : &quot;No&quot;)
+        );
+
+        <span class="comment">// Log information for each Controller Map for this Joystick</span>
+        foreach(var map in p.controllers.maps.GetMaps(j.type, j.id)) {
+            Debug.Log(&quot;Controller Map:\n&quot; +<br />                &quot;Category = &quot; +<br />                ReInput.mapping.GetMapCategory(map.categoryId).name + &quot;\n&quot; +<br />                &quot;Layout = &quot; +<br />                ReInput.mapping.GetJoystickLayout(map.layoutId).name + &quot;\n&quot; +<br />                &quot;enabled = &quot; + map.enabled<br />            );
+            foreach(var aem in map.GetElementMaps()) {
+                var action = ReInput.mapping.GetAction(aem.actionId);
+                if(action == null) continue; <span class="comment">// invalid Action</span>
+                Debug.Log("Action \"" + action.name + "\" is bound to \"" +
+                    aem.elementIdentifierName
+                );
+            }
+        }
+    }
+}</pre>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="joystick-problems" id="dll-not-found-xinput2"></a>Joystick control doesn't work</h3>
@@ -182,13 +230,48 @@
   <li>Did you check <a href="RewiredEditor.html#Players">&quot;Assign Mouse on Start&quot; in the Player(s)</a> you want to have access to the mouse or <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/P_Rewired_Player_ControllerHelper_hasMouse.htm">assign the mouse manually to the Player(s) during runtime through scripting</a>?</li>
   <li>Please go through the <a href="QuickStart.html">Quick Start guide</a> and ensure you haven't missed any steps.</li>
   <li>Read the documentation to learn more about how <a href="Controllers.html">Controllers</a> and <a href="ControllerMaps.html">Controller Maps</a> work.</li>
-  </ol>
-<p>&nbsp;</p>
+</ol>
+  <p>&nbsp;</p>
 <hr />
 <h3><a name="xbox360-triggers" id="dll-not-found-xinput5"></a>XBox 360 controller L/R triggers can't be pressed at the same time on Windows</h3>
 <p>This is a design issue with the Microsoft XBox 360 controller driver. The XBox 360 controller driver only returns a single byte of data for both the left and right triggers making it impossible to distinguish the two when both are pressed simultaneously when using Raw Input or Direct Input. You can read about this issue and the reasoning behind the design <a href="https://en.wikipedia.org/wiki/DirectInput#Xbox_360_Controller_support" target="_blank">here</a>.</p>
 <p>The solution is to <a href="RewiredEditor.html#Settings">enable XInput in the Rewired Editor - Settings</a>. XInput is able to treat the triggers as separate values.</p>
 <p>&nbsp;</p>
+<hr />
+<h3><a name="compiler-errors-name-clashes" id="compiler-errors-name-clashes"></a>Compiler errors with Rewired classes such as Rewired.Player</h3>
+<p>It is sometimes possible to have class names in your project that may clash with Rewired classes such as Rewired.Player. If you have a global Player class declared in your project, the compiler will prefer that globally-declared Player over the Rewired.Player even with the &quot;using Rewired;&quot;
+  statement placed at the top of your script. (A globally-declared class is a class declared  outside of any namespace.)</p>
+<p>If you receive a compiler error such as the following, you have a globally-declared class, interface, struct, or enum that clashes with a Rewired class name:</p>
+<pre class="code">Assets/Scripts/MyScript.cs(16,9): error CS0029: Cannot implicitly convert type `Rewired.Player' to `Player'</pre>
+<p>In general, it is very bad practice to have any classes declared globally. Unfortunately, the vast majority of Unity users, including many who sell assets on the Unity Asset Store, do not use namespaces. Therefore, there is a high probability of class name clashes. If you do not know what namespaces are, <a href="https://msdn.microsoft.com/en-us/library/0d941h9d.aspx">read about them on MSDN here</a>.</p>
+<p> In these cases, if you have a class that clashes with a Rewired class, it is best to use the fully-qualified name of the Rewired class in your script such as Rewired.Player instead of just Player.</p>
+<p>This example shows how to explicitly declare the Rewired.Player class to avoid clashes:</p>
+<pre class="code">
+using UnityEngine;
+using Rewired;
+
+public class MyClass {
+    public Rewired.Player rewiredPlayer; <span class="comment">// explicit declaration of the fully-qualified class name to avoid clashes with global Player classes.</span>
+}</pre>
+You can also move the &quot;using Rewired;&quot; statment from the top of your script to inside your namespace declaration (provided you are using a namespace for your class) like this:
+<pre class="code">using UnityEngine;
+
+namespace MyNamespace {
+    using Rewired; <span class="comment">// this declaration will make Rewired classes take precedence over any global classes of the same name</span>
+
+    public class MyClass {
+        public Player rewiredPlayer; <span class="comment">// no more clash because Rewired.Player is higher priority than ::Player (global)</span>
+    }
+}</pre>
+You can also make a single class take precence over any global class with the same name like this:
+<pre class="code">using UnityEngine;
+using Rewired;
+using Player = Rewired.Player;  <span class="comment">// this declaration will make Rewired.Player take precedence over a global Player class</span>
+
+public class MyClass {
+    public Player rewiredPlayer; <span class="comment">// no more clash because Rewired.Player is higher priority than ::Player (global)</span>
+}</pre>
+<p></p>
 <hr />
 <h3><a name="null-reference-during-recompile" id="null-reference-during-recompile"></a>Null reference exception when recompiling scripts in the editor at runtime</h3>
 <p>NOTE: This information only applies to runtime recompiling in the editor while in Play mode. If you don't need this functionality, you do not need to do any of the following.</p>
@@ -269,10 +352,15 @@ void CacheRewiredPlayer() {
 <p>When doing time comparisons to the current time from methods such as Controller.GetLastTimeActive(), you must compare current time based on ReInput.time.unscaledTime, <strong>not</strong> Time.time or Time.unscaledTime as Rewired always uses its own unscaled time calculation for all input for better accuracy in the various update loops. Do not compare against Time.unscaledTime as this is not always in perfect sync with Rewired's unscaled time.</p>
 <p>&nbsp;</p>
 <hr />
-<h3><a name="steamworks" id="compile-errors-ps4-xbone3"></a>Exceptions with Steamworks.Net plugin</h3>
-<p>There have been two reports of exceptions being thrown during Rewired's initialization on Windows with the <a href="http://steamworks.github.io/">Steamworks.Net Unity plugin</a>. Thus far, the only information I have is that Steamworks may be setting up a hook that intercepts all external calls and routes them through its callback dispatcher system. When Rewired tries to initialize Raw Input, Steamworks intercepts the call and throws an exception. This is an issue with Steamworks and not Rewired. Based on reports, it appears to only happen when Steamworks is initialized and certain methods are called before instantiating and initializing Rewired. (I have been unable to reproduce this issue myself thus far.)</p>
-<p>Until I receive a reliable repro case where I can determine exactly what Steamworks is doing and find a workaround if one exists, the only solution is to always initialize Rewired first before Steamworks. This means you must have your Rewired Input Manager in your scene before your Steamworks manager is spawned and initialized and never destroy that Rewired Input Manager for the duration of runtime. (Don't Destroy on Load is checked by default on the Rewired Input Manager.)</p>
-<p>There are many games on Steam that use Rewired with no issues whatsoever.</p>
+<h3><a name="ongui-getbuttondown" id="ongui-getbuttondown"></a>OnGUI may return GetButtonDown/Up true for multiple frames</h3>
+<p>Due to the unpredictable order of OnGUI Repaint updates even with Script Execution Order set, Rewired has no way of being guaranteed to run first OnGUI Repaint events. Therefore, it is impossible to guarantee the input system will be able to update itself in the Repaint event before another script with an OnGUI call updates. Input may not yet be updated in the frame in which you are calling GetButtonDown from an OnGUI Repaint event and you may get the last frame's value (the value generated in the Layout event) for GetButtonDown. The end result is you may receive GetButtonDown or GetButtonUp multiple times in a row -- once in the Layout event and again in the Repaint event. In order to avoid this issue, only check for input in the Layout event as shown in the following example:</p>
+<pre class="code">void OnGUI() {
+    if(Event.current.type == EventType.Layout) {
+        if(player.GetButtonDown("MyAction")) {
+            // do something
+        }
+    }
+}</pre>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="android-joystick-keyboard-keys" id="android-joystick-keyboard-keys"></a>Joystick buttons  activate keyboard keys on Android</h3>
@@ -283,6 +371,13 @@ void CacheRewiredPlayer() {
     Rewired.ReInput.controllers.keyboardEnabled = false; <span class="comment">// Disable keyboard input on Android platform</span>
 #endif
 }</pre><p></p>
+<p></p>
+<hr />
+<h3><a name="steamworks" id="compile-errors-ps4-xbone3"></a>Exceptions with Steamworks.Net plugin</h3>
+<p>There have been two reports of exceptions being thrown during Rewired's initialization on Windows with the <a href="http://steamworks.github.io/">Steamworks.Net Unity plugin</a>. Thus far, the only information I have is that Steamworks may be setting up a hook that intercepts all external calls and routes them through its callback dispatcher system. When Rewired tries to initialize Raw Input, Steamworks intercepts the call and throws an exception. This is an issue with Steamworks and not Rewired. Based on reports, it appears to only happen when Steamworks is initialized and certain methods are called before instantiating and initializing Rewired. (I have been unable to reproduce this issue myself thus far.)</p>
+<p>Until I receive a reliable repro case where I can determine exactly what Steamworks is doing and find a workaround if one exists, the only solution is to always initialize Rewired first before Steamworks. This means you must have your Rewired Input Manager in your scene before your Steamworks manager is spawned and initialized and never destroy that Rewired Input Manager for the duration of runtime. (Don't Destroy on Load is checked by default on the Rewired Input Manager.)</p>
+<p>There are many games on Steam that use Rewired with no issues whatsoever.</p>
+<p>&nbsp;</p>
 <hr />
 <h3><a name="steam-controller" id="steam-controller-not-detected-windows2"></a>Steam Controller</h3>
 <p><strong>All Platforms</strong><br />
@@ -311,6 +406,15 @@ void CacheRewiredPlayer() {
 <h3><a name="rewired-standalone-input-module-issues" id="rewired-standalone-input-module-issues"></a>RewiredStandaloneInputModue issues</h3>
 <p><a href="RewiredStandaloneInputModule.html#troubleshooting">Please see Rewired Standalone Input Module - Troubleshooting</a>.</p>
 <p>&nbsp;</p>
+<hr />
+<h3><a name="xbox-one-crash-on-start" id="rewired-standalone-input-module-issues2"></a>XBox One: Crash/blank screen on start in game build</h3>
+<p>This is always due to improper setup of the required dependencies. See <a href="SpecialPlatformSupport.html#xbox-one">Special Platform Support - XBox One</a> for details on setting up the required dependencies.</p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="xbox-one-profiler" id="dll-not-found-xinput"></a>XBox One: High CPU usage in profiler</h3>
+<p>Debug builds on Xbox One show ridiculously high CPU usage from InputManager_Base.Update, sometimes as high as 28 ms. On Development builds the CPU usage is much, much lower.</p>
+<p>Set Build Type to &quot;Development Build&quot; to avoid the huge debug overhead when profiling.</p>
+<p>&nbsp;</p>
 <div class="bottom-pager clearfix">
   <a class="back-button" href="Documentation.html" title="Documentation"><span class="button-img"></span>Documentation</a>
 </div>
@@ -319,10 +423,12 @@ void CacheRewiredPlayer() {
         
     </div>
   <div class="footer clearfix">
-   	<p class="left">Copyright &copy;2014 <a href="http://guavaman.com" title="Guavaman Enterprises">Guavaman Enterprises</a>. All rights reserved. No materials may be reproduced without permission.</p>
+   	<p class="left">Copyright &copy;2014-2016 <a href="http://guavaman.com" title="Guavaman Enterprises">Guavaman Enterprises</a>. All rights reserved. No materials may be reproduced without permission.</p>
   	<p class="right"><a href="http://guavaman.com/projects/rewired" title="Return to Rewired Website">Return to Rewired Website</a></p>
   </div>
   <!-- end .content --></div>
   <!-- end .container --></div>
+  
+  
 </body>
 <!-- InstanceEnd --></html>

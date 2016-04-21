@@ -4,6 +4,20 @@
         <name>Rewired_Core</name>
     </assembly>
     <members>
+        <member name="T:Rewired.ActionIdPropertyAttribute">
+            <summary>
+            A PropertyAttribute for an InputAction id.
+            Use on a serialized int field to allow selecting of Rewired Actions from a popup in the Unity inspector.
+            Usage: [ActionIdProperty(typeof(MyType)]
+            Type should be a class that contains public const int fields, each of which corresponds to a Rewired Input Action id.
+            </summary>
+        </member>
+        <member name="M:Rewired.ActionIdPropertyAttribute.#ctor(System.Type)">
+            <summary>
+            Creates an instance of the class.
+            </summary>
+            <param name="type">Type containing public const int fields or a System.Enum:int.</param>
+        </member>
         <member name="T:Rewired.ControllerStatusChangedEventArgs">
             <summary>
             Event args returned by controller connect and disconnect events.
@@ -2118,6 +2132,24 @@
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Linux.Axis">
             <exclude></exclude>
         </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_WindowsUWP">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_WindowsUWP.MatchingCriteria">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_WindowsUWP.Elements">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_WindowsUWP.Element">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_WindowsUWP.Button">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_WindowsUWP.Axis">
+            <exclude></exclude>
+        </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Fallback">
             <exclude></exclude>
         </member>
@@ -3514,6 +3546,11 @@
             Linux Standalone input sources.
             </summary>
         </member>
+        <member name="T:Rewired.Platforms.WindowsUWPPrimaryInputSource">
+            <summary>
+            Windows 10 Universal input sources.
+            </summary>
+        </member>
         <member name="T:Rewired.Platforms.XboxOnePrimaryInputSource">
             <summary>
             Xbox One input sources.
@@ -4905,6 +4942,16 @@
             Removes all controller maps.
             </summary>
         </member>
+        <member name="M:Rewired.Player.ControllerHelper.MapHelper.GetFirstButtonMapWithAction(Rewired.Controller,System.Int32,System.Boolean)">
+            <summary>
+            Get the first button ActionElementMap for a specific controller that contains a specific Action.
+            </summary>
+        </member>
+        <member name="M:Rewired.Player.ControllerHelper.MapHelper.GetFirstButtonMapWithAction(Rewired.Controller,System.String,System.Boolean)">
+            <summary>
+            Get the first button ActionElementMap for a specific controller that contains a specific Action.
+            </summary>
+        </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.GetFirstButtonMapWithAction(Rewired.ControllerType,System.Int32,System.Boolean)">
             <summary>
             Get the first button ActionElementMap for a specific controller type that contains a specific Action.
@@ -4923,6 +4970,16 @@
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.GetFirstButtonMapWithAction(System.String,System.Boolean)">
             <summary>
             Get the first button ActionElementMap for any controller type that contains a specific Action.
+            </summary>
+        </member>
+        <member name="M:Rewired.Player.ControllerHelper.MapHelper.ButtonMapsWithAction(Rewired.Controller,System.Int32,System.Boolean)">
+            <summary>
+            Enumerates all button ActionElementMaps for a specific controller that contains a specific Action.
+            </summary>
+        </member>
+        <member name="M:Rewired.Player.ControllerHelper.MapHelper.ButtonMapsWithAction(Rewired.Controller,System.String,System.Boolean)">
+            <summary>
+            Enumerates all button ActionElementMaps for a specific controller that contains a specific Action.
             </summary>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.ButtonMapsWithAction(Rewired.ControllerType,System.Int32,System.Boolean)">
@@ -4945,6 +5002,16 @@
             Enumerates all button ActionElementMaps for any controller type that contains a specific Action.
             </summary>
         </member>
+        <member name="M:Rewired.Player.ControllerHelper.MapHelper.GetFirstAxisMapWithAction(Rewired.Controller,System.Int32,System.Boolean)">
+            <summary>
+            Get the first axis ActionElementMap for a specific controller that contains a specific Action.
+            </summary>
+        </member>
+        <member name="M:Rewired.Player.ControllerHelper.MapHelper.GetFirstAxisMapWithAction(Rewired.Controller,System.String,System.Boolean)">
+            <summary>
+            Get the first axis ActionElementMap for a specific controller that contains a specific Action.
+            </summary>
+        </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.GetFirstAxisMapWithAction(Rewired.ControllerType,System.Int32,System.Boolean)">
             <summary>
             Get the first axis ActionElementMap for a specific controller type that contains a specific Action.
@@ -4963,6 +5030,16 @@
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.GetFirstAxisMapWithAction(System.String,System.Boolean)">
             <summary>
             Get the first axis ActionElementMap for any controller type that contains a specific Action.
+            </summary>
+        </member>
+        <member name="M:Rewired.Player.ControllerHelper.MapHelper.AxisMapsWithAction(Rewired.Controller,System.Int32,System.Boolean)">
+            <summary>
+            Enumerates all axis ActionElementMaps for a specific controller that contains a specific Action.
+            </summary>
+        </member>
+        <member name="M:Rewired.Player.ControllerHelper.MapHelper.AxisMapsWithAction(Rewired.Controller,System.String,System.Boolean)">
+            <summary>
+            Enumerates all axis ActionElementMaps for a specific controller that contains a specific Action.
             </summary>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.AxisMapsWithAction(Rewired.ControllerType,System.Int32,System.Boolean)">
@@ -4985,6 +5062,16 @@
             Enumerates all axis ActionElementMaps for any controller type that contains a specific Action.
             </summary>
         </member>
+        <member name="M:Rewired.Player.ControllerHelper.MapHelper.GetFirstElementMapWithAction(Rewired.Controller,System.Int32,System.Boolean)">
+            <summary>
+            Get the first ActionElementMap for a specific controller that contains a specific Action.
+            </summary>
+        </member>
+        <member name="M:Rewired.Player.ControllerHelper.MapHelper.GetFirstElementMapWithAction(Rewired.Controller,System.String,System.Boolean)">
+            <summary>
+            Get the first ActionElementMap for a specific controller that contains a specific Action.
+            </summary>
+        </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.GetFirstElementMapWithAction(Rewired.ControllerType,System.Int32,System.Boolean)">
             <summary>
             Get the first ActionElementMap for a specific controller type that contains a specific Action.
@@ -5003,6 +5090,16 @@
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.GetFirstElementMapWithAction(System.String,System.Boolean)">
             <summary>
             Get the first ActionElementMap for any controller type that contains a specific Action.
+            </summary>
+        </member>
+        <member name="M:Rewired.Player.ControllerHelper.MapHelper.ElementMapsWithAction(Rewired.Controller,System.Int32,System.Boolean)">
+            <summary>
+            Enumerates all ActionElementMaps for a specific controller that contains a specific Action.
+            </summary>
+        </member>
+        <member name="M:Rewired.Player.ControllerHelper.MapHelper.ElementMapsWithAction(Rewired.Controller,System.String,System.Boolean)">
+            <summary>
+            Enumerates all ActionElementMaps for a specific controller that contains a specific Action.
             </summary>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.ElementMapsWithAction(Rewired.ControllerType,System.Int32,System.Boolean)">
@@ -6281,6 +6378,11 @@
         <member name="P:Rewired.ReInput.ConfigHelper.linuxStandalonePrimaryInputSource">
             <summary>
             Changes the primary input source in Linux Standalone during runtime. Rewired must be completely reset if this value is changed.
+            </summary>
+        </member>
+        <member name="P:Rewired.ReInput.ConfigHelper.windowsUWPPrimaryInputSource">
+            <summary>
+            Changes the primary input source in Windows 10 Universal during runtime. Rewired must be completely reset if this value is changed.
             </summary>
         </member>
         <member name="P:Rewired.ReInput.ConfigHelper.alwaysUseUnityInput">

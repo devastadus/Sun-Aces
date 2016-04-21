@@ -6909,5 +6909,100 @@ MonoBehaviour:
       joystickId2: 0
       splitAxis: 0
       sourceAxisPole: 1
+  - id: 70
+    name: Thrustmaster Dual Analog 3
+    joystickGuid: 8bf3582e-cc1c-4c09-9c69-a8ea04050d16
+    fileGuid: c70965609466c8f4eb3b220d97a0c0fb
+    elementIdentifierMappings:
+    - templateId: 0
+      joystickId: 0
+      joystickId2: 0
+      splitAxis: 0
+      sourceAxisPole: 0
+    - templateId: 1
+      joystickId: 1
+      joystickId2: 0
+      splitAxis: 0
+      sourceAxisPole: 1
+    - templateId: 2
+      joystickId: 2
+      joystickId2: 0
+      splitAxis: 0
+      sourceAxisPole: 1
+    - templateId: 3
+      joystickId: 3
+      joystickId2: 0
+      splitAxis: 0
+      sourceAxisPole: 1
+    - templateId: 4
+      joystickId: 10
+      joystickId2: 0
+      splitAxis: 0
+      sourceAxisPole: 1
+    - templateId: 5
+      joystickId: 11
+      joystickId2: 0
+      splitAxis: 0
+      sourceAxisPole: 1
+    - templateId: 7
+      joystickId: 12
+      joystickId2: 0
+      splitAxis: 0
+      sourceAxisPole: 1
+    - templateId: 8
+      joystickId: 13
+      joystickId2: 0
+      splitAxis: 0
+      sourceAxisPole: 1
+    - templateId: 10
+      joystickId: 5
+      joystickId2: 0
+      splitAxis: 0
+      sourceAxisPole: 1
+    - templateId: 11
+      joystickId: 7
+      joystickId2: 0
+      splitAxis: 0
+      sourceAxisPole: 1
+    - templateId: 12
+      joystickId: 4
+      joystickId2: 0
+      splitAxis: 0
+      sourceAxisPole: 1
+    - templateId: 13
+      joystickId: 6
+      joystickId2: 0
+      splitAxis: 0
+      sourceAxisPole: 1
+    - templateId: 17
+      joystickId: 14
+      joystickId2: 0
+      splitAxis: 0
+      sourceAxisPole: 1
+    - templateId: 18
+      joystickId: 15
+      joystickId2: 0
+      splitAxis: 0
+      sourceAxisPole: 1
+    - templateId: 19
+      joystickId: 16
+      joystickId2: 0
+      splitAxis: 0
+      sourceAxisPole: 1
+    - templateId: 20
+      joystickId: 17
+      joystickId2: 0
+      splitAxis: 0
+      sourceAxisPole: 1
+    - templateId: 21
+      joystickId: 19
+      joystickId2: 0
+      splitAxis: 0
+      sourceAxisPole: 1
+    - templateId: 22
+      joystickId: 18
+      joystickId2: 0
+      splitAxis: 0
+      sourceAxisPole: 1
   elementIdentifierIdCounter: 23
-  joystickIdCounter: 70
+  joystickIdCounter: 72

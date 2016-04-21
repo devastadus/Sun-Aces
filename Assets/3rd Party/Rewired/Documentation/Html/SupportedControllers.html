@@ -5,9 +5,8 @@
 <!-- InstanceBeginEditable name="doctitle" -->
 <title>Rewired Documentation | Supported Controllers</title>
 <!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
 <!-- InstanceParam name="isRoot" type="boolean" value="false" -->
+<!-- InstanceParam name="wide" type="boolean" value="true" -->
 <link href="files/css/styles.css" rel="stylesheet" type="text/css" />
 <!-- Favicons -->
 <link rel="icon" type="image/x-icon" href="/projects/rewired/files/images/favicon.ico?v=1" />
@@ -30,6 +29,9 @@
 
 <body>
 
+<div class="wide">
+
+
 <div class="container">
   <div class="content">
 	
@@ -42,10 +44,12 @@
 	    
       	<div class="sidebar-nav">
 	        <h4><a href="Documentation.html">Documentation</a></h4>
-
-            <strong>The Essentials:</strong>
+	        <ul>
+	          <li><a href="Overview.html">Overview</a></li>
+	          <li><a href="ReleaseNotes.txt">Release Notes</a></li>
+          </ul>
+	        <strong>The Essentials:</strong>
             <ol>
-              <li><a href="Overview.html">Overview</a></li>
               <li><a href="Installation.html">Installation</a></li>
               <li><a href="QuickStart.html">Quick Start</a></li>
               <li><a href="BasicUsage.html">Basic Usage</a></li>
@@ -65,15 +69,15 @@
               <li><a href="ControllerMaps.html"></a><a href="Layouts.html">Layouts</a></li>
               <li><a href="CustomControllers.html">Custom Controllers</a></li>
             </ul>
+            <strong>Extras:</strong>
+            <ul>
+              <li><a href="ControlMapper.html" title="Control Mapper">Control Mapper</a></li>
+              <li><a href="RewiredStandaloneInputModule.html">Rewired Standalone Input Module</a></li>
+	          <li><a href="UserDataStore.html" title="User Data Store">User Data Store</a></li>
+            </ul>
             <strong>How To's</strong>
             <ul>
             	<li><a href="HowTos.html">See all topics...</a></li>
-            </ul>
-            <strong>Extras:</strong>
-            <ul>
-              <li><a href="UserDataStore.html" title="User Data Store">User Data Store</a></li>
-              <li><a href="ControlMapper.html" title="Control Mapper">Control Mapper</a></li>
-              <li><a href="RewiredStandaloneInputModule.html">Rewired Standalone Input Module</a></li>
             </ul>
             <strong>Help:</strong>
             <ul>
@@ -84,6 +88,10 @@
 	          <li><a href="Updating.html" title="Updating Rewired">Updating Rewired</a></li>
 	          <li><a href="Troubleshooting.html" title="Troubleshooting">Troubleshooting</a></li>
               <li><a href="KnownIssues.html">Known Issues</a></li>
+            </ul>
+            <strong>FAQ</strong>
+            <ul>
+            	<li><a href="FAQ.html">See all topics...</a></li>
             </ul>
             <strong>Unity Help:</strong>
             <ul>
@@ -111,7 +119,7 @@
 			<p>Rewired supports most USB and Bluetooth controllers available, many with extended support. <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">1</a>]</span></p>
 			<h3>Controllers with Extended Support</h3>
 			<p>Controllers with hardware definitions are recognized on each platform and are fully mapable by element name and have standardized axis directions.</p>
-			<p><strong>Rewired currently includes extended support for the following game controllers as of version 1.0.0.81:</strong></p>
+			<p><strong>Rewired currently includes extended support for the following game controllers as of version 1.0.0.83:</strong></p>
 			<table width="100%" border="0" class="supported-controllers-table">
               <tr>
                 <td valign="top"><span class="controller-type"><a name="gamepads" id="gamepads"></a>Gamepads</span></td>
@@ -121,14 +129,16 @@
                 <td align="center" valign="top"><strong>OSX<br />
                   (Native)
                 </strong></td>
-                <td align="center" valign="top"><strong>Windows Store</strong></td>
+                <td align="center" valign="top"><strong>Windows 8 Store</strong></td>
+                <td align="center" valign="top"><strong>Windows 10 Universal<br />
+                (Native)                </strong></td>
                 <td align="center" valign="top"><strong>Linux (Native)<span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">15</a>]</span></strong></td>
                 <td align="center" valign="top"><strong>Linux Fallback<span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">2</a>]<br />
                 </span></strong></td>
                 <td align="center" valign="top"><strong>Android <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
                 <td align="center" valign="top"><strong>Amazon Fire TV <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
                 <td align="center" valign="top"><strong>Apple iOS / tvOS <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
-                <td align="center" valign="top"><strong>Webplayer <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
+                <td align="center" valign="top"><strong>Webplayer (Windows / OSX Fallback) <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
               </tr>
               <tr>
                 <td valign="top">Microsoft XBox 360 Controller (Wired)<br />
@@ -136,6 +146,7 @@
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><p><span class="yes">Yes<br />
                 </span><span class="note"><a href="https://github.com/360Controller/360Controller" target="_blank">Driver Required</a></span></p></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
@@ -151,6 +162,7 @@
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><p><span class="yes">Yes</span><br />
                   <span class="note"><a href="https://github.com/360Controller/360Controller" target="_blank">Driver Required</a></span></p></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
 (</span>has issues<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">5</a>]</span></strong>)</td>
@@ -171,6 +183,7 @@
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -182,6 +195,7 @@
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
@@ -197,6 +211,7 @@
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="note">Not Mapped Yet</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -211,6 +226,8 @@
                 (<a href="http://forums.pcsx2.net/Thread-XInput-Wrapper-for-DS3-and-Play-com-USB-Dual-DS2-Controller" target="_blank">Driver</a>)</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="note">XBox 360 Emulation Required<br />
+(<a href="http://forums.pcsx2.net/Thread-XInput-Wrapper-for-DS3-and-Play-com-USB-Dual-DS2-Controller" target="_blank">Driver</a>)</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
@@ -223,6 +240,7 @@
                 <td valign="top">Sony DualShock 3 <span class="note">(Bluetooth)</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span><br />
                 <span class="note">(<a href="https://help.ubuntu.com/community/Sixaxis" target="_blank">QTSixA Driver</a>)</span></td>
@@ -241,6 +259,7 @@
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
                 <span class="note">(L1, R1, R2, Select, Start, LSB, RSB not working)</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
@@ -255,6 +274,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
                 <span class="note">(XInput mode only)</span></span></td>
+                <td align="center" valign="top"><span class="yes">Yes <strong><span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">14</a>]</span></strong></span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
                 <span class="note">(XInput mode only)</span></span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
@@ -272,6 +292,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top">Windows: <span  class="yes">Yes</span><br />
@@ -282,6 +303,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -302,6 +324,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top">Windows: <span  class="yes">Yes</span><br />
                 OSX: <span class="yes">Yes</span></td>
@@ -311,6 +334,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top" class="maybe">Maybe <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">17</a>]</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -326,6 +350,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -337,6 +362,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><p class="yes">Yes</p></td>
@@ -354,6 +380,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top">Windows: <span  class="yes">Yes</span><br />
                 OSX: <span class="yes">Yes</span></td>
@@ -363,6 +390,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="note">Not Mapped Yet</span></td>
                 <td align="center" valign="top"><span class="partial"><span class="note">Not Mapped Yet</span></span></td>
                 <td align="center" valign="top"><span class="partial"><span class="note">Not Mapped Yet</span></span></td>
@@ -376,6 +404,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
@@ -392,6 +421,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
                    <span class="note">(L2, R1, R2, Silver, Black, LSB, RSB, FPS not working</span>)</td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
@@ -404,6 +434,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
@@ -420,6 +451,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
                 <span class="note">(L2, R1, R2, 9, 10, 11, LSB, RSB not working)</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
@@ -432,6 +464,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
@@ -449,6 +482,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -460,6 +494,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
@@ -476,6 +511,7 @@ OSX:</td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top">Windows: <span class="yes">Yes</span><br />
@@ -489,6 +525,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top">Windows: <span class="yes">Yes</span><br />
@@ -496,6 +533,7 @@ OSX: <span class="no">No</span></td>
               </tr>
               <tr>
                 <td valign="top"><p>Zhidong V+ <span class="note">(Direct Input mode)</span></p></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
@@ -514,6 +552,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
                 <span class="note">(L/R Press, Z, Start not working)</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
@@ -528,6 +567,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
                 <span class="note">(XInput mode only)</span></span></td>
+                <td align="center" valign="top"><span class="yes">Yes <strong><span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">14</a>]</span></strong></span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
                 <span class="note">(XInput mode only)</span></span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
@@ -550,6 +590,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top">Windows: <span class="yes"><span class="no">No</span></span><br />
 OSX:<span class="no"> No</span></td>
@@ -560,6 +601,7 @@ OSX:<span class="no"> No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span><br />
                   <span class="yes"><span class="note">(w/ pressure-sensitive buttons</span><span class="note">)</span></span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -579,6 +621,7 @@ OSX:<span class="no"> No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top">Windows: <span class="yes"><span class="no">No</span></span><br />
                   OSX:<span class="no"> No</span></td>
@@ -590,6 +633,8 @@ OSX:<span class="no"> No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
                 </span><span class="note">(PC Mode)</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes<br />
+                </span><span class="note">(PC Mode)</span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
                 </span><span class="note">(PC Mode)</span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
@@ -614,6 +659,8 @@ OSX:<span class="no"> No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
                 </span><span class="note">(PC Mode)</span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
+                </span><span class="note">(PC Mode)</span></td>
+                <td align="center" valign="top"><span class="yes">Yes<br />
                 <span class="note">(GameSmart Mode)</span></span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
                   <span class="note">(GameSmart Mode)</span></span></td>
@@ -626,6 +673,7 @@ OSX:<span class="no"> No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
@@ -643,6 +691,7 @@ OSX:<span class="no"> No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><p>Windows:<span class="no"> No</span><strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">12</a>]<br />
                 </span></strong>OSX: <span class="yes">Yes</span></p></td>
@@ -656,6 +705,7 @@ OSX:<span class="no"> No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">16</a>]</span></strong></span></td>
                 <td align="center" valign="top"><span class="no">No<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">16</a>]</span></strong></span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -666,8 +716,8 @@ OSX:<span class="no"> No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
-                <td align="center" valign="top"><span class="yes">Yes</span><br />
-                <span class="note">(Gamepad Mode)</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span><br /></td>
+                <td align="center" valign="top"><span class="yes">Yes</span><br /></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
                   <span class="note">(L2, R1, R2, Select, Start, LSB, RSB not working)</span></td>
@@ -681,8 +731,8 @@ OSX:<span class="no"> No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
-                <td align="center" valign="top"><span class="yes">Yes</span><br />
-                <span class="note">(Gamepad Mode)</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span><br /></td>
+                <td align="center" valign="top"><span class="yes">Yes</span><br /></td>
                 <td align="center" valign="top"><span class="no">No</span> <strong><span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">10</a>]</span></strong></td>
                 <td align="center" valign="top"><span class="no">No</span> <strong><span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">10</a>]</span></strong></td>
                 <td align="center" valign="top"><span class="no">No</span> <strong><span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">10</a>]</span></strong></td>
@@ -700,6 +750,8 @@ OSX:<span class="no"> No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span><br />
                 <span class="note">(Gamepad Mode)</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span><br />
+                <span class="note">(Gamepad Mode)</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span><br />
                   <span class="note">(Gamepad Mode)</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -714,6 +766,8 @@ OSX:<span class="no"> No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span><br />
                 <span class="note">(Gamepad Mode)</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span><br />
+                <span class="note">(Gamepad Mode)</span></td>
                 <td align="center" valign="top"><span class="note">Not Mapped Yet</span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
                   <span class="note">(Gamepad Mode)</span></span></td>
@@ -733,6 +787,8 @@ OSX:<span class="no"> No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
                 <span class="note">(Gamepad Mode)</span></span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
+                <span class="note">(Gamepad Mode)</span></span></td>
+                <td align="center" valign="top"><span class="yes">Yes<br />
                   <span class="note">(Gamepad Mode)</span></span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -746,6 +802,7 @@ OSX:<span class="no"> No</span></td>
                   <span class="note">(Gamepad Mode, Raw Input only)</span></span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
@@ -764,6 +821,7 @@ OSX:<span class="no"> No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top">Windows:<span class="no"> No</span><strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">12</a>]</span></strong><br />
                   OSX:<span class="no"> No</span></td>
@@ -773,6 +831,7 @@ OSX:<span class="no"> No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
@@ -788,6 +847,8 @@ OSX:<span class="no"> No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
                 <span class="note">(Mode B only)</span></span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes<br />
+                <span class="note">(Mode B only)</span></span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
                 <span class="note">(Mode B only)</span></span></td>
                 <td align="center" valign="top"><span class="partial">Partial</span><br />
@@ -808,6 +869,8 @@ OSX:<span class="no"> No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
                 <span class="note">(Mode B only)</span></span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes<br />
+                <span class="note">(Mode B only)</span></span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
                 <span class="note">(Mode B only)</span></span></td>
                 <td align="center" valign="top"><span class="partial">Partial</span><br />
@@ -833,6 +896,8 @@ OSX:<span class="no"> No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
                 <span class="note">(PC mode only)</span></span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
+                <span class="note">(PC mode only)</span></span></td>
+                <td align="center" valign="top"><span class="yes">Yes<br />
                 <span class="note">(Android mode only)</span></span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -840,10 +905,25 @@ OSX:<span class="no"> No</span></td>
 OSX: <span class="no">No<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">12</a>]</span></strong></span></td>
               </tr>
               <tr>
+                <td valign="top">Thrustmaster Dual Analog 3</td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="partial"> Not yet mapped</span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="partial"> Not yet mapped</span></td>
+                <td align="center" valign="top"><span class="partial"> Not yet mapped</span></td>
+                <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top">Windows:<span class="partial"> Not yet mapped</span><br />
+OSX: <span class="partial">Not yet mapped</span></td>
+              </tr>
+              <tr>
                 <td valign="top">XiaoMi Wireless Game Controller</td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
@@ -865,6 +945,8 @@ OSX:<span class="no"> No<strong><span style="vertical-align: super; font-size: 6
                 </span><span class="note">(Android Mode)</span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
                 </span><span class="note">(Android Mode)</span></td>
+                <td align="center" valign="top"><span class="yes">Yes<br />
+                </span><span class="note">(Android Mode)</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top">Windows:<span class="no"> No</span><strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">12</a>]</span></strong><br />
@@ -877,6 +959,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
                   <span class="note">(L, R, Select, Start not working)</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -886,6 +969,7 @@ OSX: <span class="no">No</span></td>
               </tr>
               <tr>
                 <td valign="top">8Bitdo NES30 / FC30 <span class="note">(Bluetooth, Mode 1)</span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -906,6 +990,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top">Windows:<span class="no"> No</span><strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">12</a>]</span></strong><br />
                   OSX: <span class="no">No</span></td>
@@ -917,6 +1002,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
                   <span class="note">(L, R, Select, Start not working)</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -926,6 +1012,7 @@ OSX: <span class="no">No</span></td>
               </tr>
               <tr>
                 <td valign="top">8Bitdo SNES30 / SFC30 <span class="note">(Bluetooth, Mode 1)</span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -946,6 +1033,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top">Windows:<span class="no"> No</span><strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">12</a>]</span></strong><br />
                   OSX: <span class="no">No</span></td>
@@ -956,6 +1044,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
@@ -970,6 +1059,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
@@ -990,7 +1080,9 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span><br />
                 <span class="note">(Windows Mode)</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span><br />
-                <span class="note">(Android mode &amp;&amp; Windows mode)</span></td>
+                <span class="note">(Windows Mode)</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span><br />
+                <span class="note">(Android mode, Windows mode)</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top">Windows:<span class="no"> No</span><strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">12</a>]</span></strong><br />
@@ -1001,6 +1093,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
@@ -1018,6 +1111,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top">Windows: <span class="yes">Yes</span><br />
@@ -1028,6 +1122,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
@@ -1045,6 +1140,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top">Windows:<span class="no"> No</span><br />
                 OSX:<span class="no"> No</span></td>
@@ -1058,6 +1154,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top">Windows: <span class="no">No</span><strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">12</a>]</span></strong><br />
                 OSX:<span class="no"> No</span></td>
@@ -1066,6 +1163,7 @@ OSX: <span class="no">No</span></td>
                 <td valign="top">Google Nexus Player Gamepad</td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial</span><br />
@@ -1082,6 +1180,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial</span><br />
                 <span class="note">(Back, Home not working)</span></td>
@@ -1101,6 +1200,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span> <strong><span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">8</a>]</span></strong></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -1115,6 +1215,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes <strong><span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">6</a>]</span></strong></span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -1123,40 +1224,43 @@ OSX: <span class="no">No</span></td>
               </tr>
               <tr>
                 <td>Nvidia Shield Portable<span class="note"> (Console)</span></td>
-                <td colspan="9">Android: <span class="yes">Yes</span><span class="yes"> <strong><span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">6</a>]</span></strong></span></td>
+                <td colspan="10">Android: <span class="yes">Yes</span><span class="yes"> <strong><span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">6</a>]</span></strong></span></td>
               </tr>
               <tr>
                 <td>Sony Playstation Vita</td>
-                <td colspan="9"><p>PSM Target: <span class="yes">Yes<br />
+                <td colspan="10"><p>PSM Target: <span class="yes">Yes<br />
                 </span>PS Vita Target:<span class="yes"> Yes</span></p></td>
               </tr>
               <tr>
                 <td>Apple iOS Mfi Controllers <span class="note">(All Mfi gamepads)</span></td>
-                <td colspan="9"><p>iOS: <span class="yes">Yes</span><br />
+                <td colspan="10"><p>iOS: <span class="yes">Yes</span><br />
                   tvOS: <span class="yes">Yes</span> <br />
               </tr>
               <tr>
-              	<td colspan="10">&nbsp;</td>
+              	<td colspan="11">&nbsp;</td>
               </tr>
               <tr>
                 <td valign="top"><p class="controller-type"><a name="flight-controllers" id="flight-controllers"></a>Flight Controllers</p></td>
                 <td align="center" valign="top"><strong>Windows<br />
 (Native)</strong></td>
                 <td align="center" valign="top"><strong>OSX<br />
+                (Native)</strong></td>
+                <td align="center" valign="top"><strong>Windows 8 Store</strong></td>
+                <td align="center" valign="top"><strong>Windows 10 Universal<br />
 (Native)</strong></td>
-                <td align="center" valign="top"><strong>Windows Store</strong></td>
                 <td align="center" valign="top"><strong>Linux (Native)<span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">15</a>]</span></strong></td>
                 <td align="center" valign="top"><strong>Linux Fallback<span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">2</a>]</span></strong></td>
                 <td align="center" valign="top"><strong>Android <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
                 <td align="center" valign="top"><strong>Amazon Fire TV <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
                 <td align="center" valign="top"><strong>Apple iOS / tvOS <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
-                <td align="center" valign="top"><strong>Webplayer / Windows OSX Fallback <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
+                <td align="center" valign="top"><strong>Webplayer (Windows / OSX Fallback) <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
               </tr>
               <tr>
                 <td valign="top">CH Products Fighterstick USB</td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
@@ -1171,6 +1275,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial</span><strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">2</a>]</span></strong><br />
                   <span class="note">(Buttons 21-26 not working)</span></td>
@@ -1188,6 +1293,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
                 <span class="note">(Most buttons and hats not working)</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
@@ -1201,6 +1307,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
@@ -1213,6 +1320,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes <strong><span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">9</a>]</span></strong></span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
@@ -1228,6 +1336,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="note">Not Mapped Yet</span></td>
                 <td align="center" valign="top"><span class="note">Not Mapped Yet</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
@@ -1241,6 +1350,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">2</a>]</span></strong></span><br />
                   <span class="note">(Buttons 20-34 not working)</span></td>
@@ -1258,6 +1368,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="maybe">Maybe <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">17</a>]</span></span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">2</a>]</span></strong></span><br />
                   <span class="note">(Many elements not working)</span></td>
@@ -1276,6 +1387,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><p class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong><br />
                 <span class="note">(All hats, pull trigger not working)</span></p></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
@@ -1288,6 +1400,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span><br /></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">2</a>]</span></strong><br />
                   <span class="note">(Hats, slider, pinky wheel, pinky switch, mode dial, mouse nub not working)</span></span></td>
@@ -1304,6 +1417,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><p class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">2</a>]</span></strong></p>
                   <p class="partial"><span class="note">(Lever down buttons not working)</span></p></td>
@@ -1322,6 +1436,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
                 <span class="note">(T6, Lever down buttons not working)</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
@@ -1335,6 +1450,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
@@ -1351,6 +1467,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -1362,6 +1479,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -1377,6 +1495,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -1388,6 +1507,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -1402,6 +1522,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="note">Not Mapped Yet</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="note">Not Mapped Yet</span></td>
                 <td align="center" valign="top"><span class="note">Not Mapped Yet</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
@@ -1414,6 +1535,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong><br />
@@ -1430,6 +1552,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong><br />
                 <span class="note">(Trigger Stage 2, CMS, TMS, DMS not working)</span></span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
@@ -1442,6 +1565,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">2</a>]</span></strong></span><br />
                   <span class="note">(Buttons 20-32 not working) </span></td>
@@ -1460,6 +1584,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong><br />
                 <span class="note">(Buttons 5-12 not working)</span></span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
@@ -1472,6 +1597,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong><br />
@@ -1489,6 +1615,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top">Windows: <span class="no">No</span><br />
@@ -1501,6 +1628,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
                   <span class="note">(Thumb R1, Body Buttons 1-6 not working)</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
@@ -1509,21 +1637,23 @@ OSX: <span class="yes">Yes</span></td>
                   OSX: <span class="yes">Yes</span></td>
               </tr>
               <tr>
-              	<td colspan="10">&nbsp;</td>
+              	<td colspan="11">&nbsp;</td>
               </tr>
               <tr>
                 <td valign="top"><p class="controller-type"><a name="racing-controllers" id="racing-controllers"></a>Racing Controllers</p></td>
                 <td align="center" valign="top"><strong>Windows<br />
 (Native)</strong></td>
                 <td align="center" valign="top"><strong>OSX<br />
+                (Native)</strong></td>
+                <td align="center" valign="top"><strong>Windows 8 Store</strong></td>
+                <td align="center" valign="top"><strong>Windows 10 Universal<br />
 (Native)</strong></td>
-                <td align="center" valign="top"><strong>Windows Store</strong></td>
                 <td align="center" valign="top"><strong>Linux (Native)<span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">15</a>]</span></strong></td>
                 <td align="center" valign="top"><strong>Linux Fallback<span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">2</a>]</span></strong></td>
                 <td align="center" valign="top"><strong>Android <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
                 <td align="center" valign="top"><strong>Amazon Fire TV <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
                 <td align="center" valign="top"><strong>Apple iOS / tvOS <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
-                <td align="center" valign="top"><strong>Webplayer / Windows OSX Fallback <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
+                <td align="center" valign="top"><strong>Webplayer (Windows / OSX Fallback) <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
               </tr>
               <tr>
                 <td valign="top"><a name="Logitech-G27" id="Logitech-G27"></a>Logitech G27 Racing Wheel<br />
@@ -1532,6 +1662,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes*</span><br />
                   <span class="note">(<a href="HowTos.html#Logitech-G27">See notes</a>)</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial</span><strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">2</a>]</span></strong><br />
                   <span class="note">(2 wheel buttons, reverse gear not working)</span></td>
@@ -1548,6 +1679,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="note">Not Mapped Yet</span></td>
                 <td align="center" valign="top"><span class="note">Not Mapped Yet</span></td>
                 <td align="center" valign="top"><span class="note">Not Mapped Yet</span></td>
@@ -1560,6 +1692,7 @@ OSX:<span class="note">Not Mapped Yet</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
@@ -1576,6 +1709,7 @@ OSX:<span class="note">Not Mapped Yet</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br /><span class="note">(Buttons 6-12, Manettino controller not working)</span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -1590,6 +1724,8 @@ OSX:<span class="note">Not Mapped Yet</span></td>
                 <span class="note">(PS3 Mode only)</span></span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
+                  <span class="note">(PS3 Mode only)</span></span></td>
+                <td align="center" valign="top"><span class="yes">Yes<br />
                 <span class="note">(PS3 Mode only)</span></span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
                 <span class="note">(PS3 Mode only)</span></span></td>
@@ -1603,21 +1739,23 @@ OSX: <span class="yes">Yes<br />
 <span class="note">(PS3 Mode only)</span></span></td>
               </tr>
               <tr>
-              	<td colspan="10">&nbsp;</td>
+              	<td colspan="11">&nbsp;</td>
               </tr>
               <tr>
                 <td valign="top"><p class="controller-type"><a name="specialty-controllers" id="specialty-controllers"></a>Specialty Controllers</p></td>
                 <td align="center" valign="top"><strong>Windows<br />
 (Native)</strong></td>
                 <td align="center" valign="top"><strong>OSX<br />
+                (Native)</strong></td>
+                <td align="center" valign="top"><strong>Windows 8 Store</strong></td>
+                <td align="center" valign="top"><strong>Windows 10 Universal<br />
 (Native)</strong></td>
-                <td align="center" valign="top"><strong>Windows Store</strong></td>
                 <td align="center" valign="top"><strong>Linux (Native)<span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">15</a>]</span></strong></td>
                 <td align="center" valign="top"><strong>Linux Fallback<span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">2</a>]</span></strong></td>
                 <td align="center" valign="top"><strong>Android <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
                 <td align="center" valign="top"><strong>Amazon Fire TV <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
                 <td align="center" valign="top"><strong>Apple iOS / tvOS <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
-                <td align="center" valign="top"><strong>Webplayer / Windows OSX Fallback <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
+                <td align="center" valign="top"><strong>Webplayer (Windows / OSX Fallback) <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
               </tr>
               <tr>
                 <td valign="top"><p>Arcade Guns G-500 AimTrak Light Gun<br />
@@ -1625,6 +1763,7 @@ OSX: <span class="yes">Yes<br />
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
@@ -1639,6 +1778,7 @@ OSX: <span class="yes">Yes<br />
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -1658,6 +1798,7 @@ OSX: <span class="yes">Yes<br />
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top">Windows:<span class="no"> No</span><br />
 OSX: <span class="no">No</span></td>
               </tr>
@@ -1666,6 +1807,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -1680,6 +1822,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -1693,6 +1836,7 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
@@ -1701,7 +1845,7 @@ OSX: <span class="no">No</span></td>
 OSX: <span class="no">No</span></td>
               </tr>
               <tr>
-              	<td colspan="10">&nbsp;</td>
+              	<td colspan="11">&nbsp;</td>
               </tr>
             <tr>
               <td valign="top"><p class="controller-type"><a name="remote-controls" id="remote-controls"></a>Remote Controls</p></td>
@@ -1709,18 +1853,21 @@ OSX: <span class="no">No</span></td>
                 (Native)</strong></td>
               <td align="center" valign="top"><strong>OSX<br />
                 (Native)</strong></td>
-              <td align="center" valign="top"><strong>Windows Store</strong></td>
+              <td align="center" valign="top"><strong>Windows 8 Store</strong></td>
+              <td align="center" valign="top"><strong>Windows 10 Universal<br />
+(Native)</strong></td>
               <td align="center" valign="top"><strong>Linux (Native)<span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">15</a>]</span></strong></td>
               <td align="center" valign="top"><strong>Linux Fallback<span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">2</a>]</span></strong></td>
               <td align="center" valign="top"><strong>Android <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
               <td align="center" valign="top"><strong>Amazon Fire TV <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
               <td align="center" valign="top"><strong>Apple iOS / tvOS <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
-              <td align="center" valign="top"><strong>Webplayer / Windows OSX Fallback <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
+              <td align="center" valign="top"><strong>Webplayer (Windows / OSX Fallback) <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">2</a>]</span></strong></td>
               </tr>
             <tr>
               <td valign="top"><p>Amazon Fire TV Remote</p></td>
               <td align="center" valign="top" class="partial">Keyboard</td>
               <td align="center" valign="top"><span class="note">Not Mapped Yet</span></td>
+              <td align="center" valign="top"><span class="no">No</span></td>
               <td align="center" valign="top"><span class="no">No</span></td>
               <td align="center" valign="top"><span class="note">Not Mapped Yet</span></td>
               <td align="center" valign="top"><span class="note">Not Mapped Yet</span></td>
@@ -1734,6 +1881,7 @@ OSX: <span class="no">No</span></td>
               <td valign="top">Google Nexus Player Remote</td>
               <td align="center" valign="top"><span class="no">No</span></td>
               <td align="center" valign="top"><span class="note">Not Mapped Yet</span></td>
+              <td align="center" valign="top"><span class="no">No</span></td>
               <td align="center" valign="top"><span class="no">No</span></td>
               <td align="center" valign="top"><span class="note">Not Mapped Yet</span></td>
               <td align="center" valign="top"><span class="note">Not Mapped Yet</span></td>
@@ -1750,6 +1898,7 @@ OSX: <span class="no">No</span></td>
               <td align="center" valign="top"><span class="no">No</span></td>
               <td align="center" valign="top"><span class="no">No</span></td>
               <td align="center" valign="top"><span class="no">No</span></td>
+              <td align="center" valign="top"><span class="no">No</span></td>
               <td align="center" valign="top"><span class="yes">Maybe</span><strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">13</a>]</span></strong></td>
               <td align="center" valign="top"><span class="no">No</span></td>
               <td align="center" valign="top"><span class="no">No</span></td>
@@ -1759,6 +1908,7 @@ OSX: <span class="no">No</span></td>
             <tr>
               <td valign="top">Apple TV Siri Remote<br />
               <span class="note">(2015 model)</span></td>
+              <td align="center" valign="top"><span class="no">No</span></td>
               <td align="center" valign="top"><span class="no">No</span></td>
               <td align="center" valign="top"><span class="no">No</span></td>
               <td align="center" valign="top"><span class="no">No</span></td>
@@ -2372,10 +2522,11 @@ OSX: <span class="no">No</span></td>
 <p style="font-size: 60%">10 Mapping Conflict: Due to limitations of Unity's input system, the controller can only be mapped for one mode setting, not multiple. On fallback platforms that use Unity's input system, Unity provides no way to identify the controller apart from a single name string. These controllers return the identical name string for all mode settings, however the element mappings vary greatly between the different modes. Therefore, there is no way possible to determine what mode the controller is in and therefore no way to make separate profiles for the different modes.</p>
 <p style="font-size: 60%">11 Mapping Conflict: All identifying information available on Windows fallback is identical between the ipega Wireless GAMEPAD Controller, the ipega BLUETOOTH Classic GamePad, and the ipega Multi-Media Bluetooth Controller. There is no way to reliably determine which controller is attached. Therefore, none of these devices are mapped so all can be mapped by the user using the Unknown Controller map.</p>
 <p style="font-size: 60%">12 The controller's returned identifying information is too generic to be safe to create a map for because other controllers could also match that device's identifying information. Therefore, the controller was intentionally left unmapped, but could be manually mapped manually by the user in-game.</p>
-<p style="font-size: 60%">13 These remotes may not work on versions of Unity 5.02 or greater. Unity introduced a new bug in this version that makes the remote appear with a NULL name in the Input.GetJoystickNames array. There is no way to identify these remotes because of this. The bug still exists as of 5.2.2f1. It has been reported and this information will be updated if a fix is issued.</p>
+<p style="font-size: 60%">13 These remotes may not work on versions of Unity 5.02 or greater.  <a href="KnownIssues.html#android-remotes">Please see this known issue for more information</a>.</p>
 <p style="font-size: 60%">14 Adapter registers multiple controllers regardless of whether controllers are plugged in. This can interfere with controller assignment because there is no way to determine which controllers are attached and which are just placeholders.</p>
 <p style="font-size: 60%">15 Linux native support has been tested under Ubuntu 12.04 amd64, Ubuntu 14.04 x86/amd64, Ubuntu 15.04 amd64, and Mint 17.2 amd64.</p>
 <p style="font-size: 60%">16 Unity Android returns a blank string for the name of this joystick. Unity also uses blank strings for any joystick that was previously attached and then removed. There is no way to identify that this controller is connected on Unity Android, therefore it is not supported.</p>
+<p style="font-size: 60%">17 Has definition, but device cannot be opened by HID system in Windows UWP for unknown reason. YMMV.</p>
 <div class="bottom-pager clearfix">
   <a class="back-button" href="Documentation.html" title="Documentation"><span class="button-img"></span>Documentation</a>
 </div>
@@ -2384,10 +2535,14 @@ OSX: <span class="no">No</span></td>
         
     </div>
   <div class="footer clearfix">
-   	<p class="left">Copyright &copy;2014 <a href="http://guavaman.com" title="Guavaman Enterprises">Guavaman Enterprises</a>. All rights reserved. No materials may be reproduced without permission.</p>
+   	<p class="left">Copyright &copy;2014-2016 <a href="http://guavaman.com" title="Guavaman Enterprises">Guavaman Enterprises</a>. All rights reserved. No materials may be reproduced without permission.</p>
   	<p class="right"><a href="http://guavaman.com/projects/rewired" title="Return to Rewired Website">Return to Rewired Website</a></p>
   </div>
   <!-- end .content --></div>
   <!-- end .container --></div>
+  
+  
+  </div>
+  
 </body>
 <!-- InstanceEnd --></html>

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2014 Augie R. Maddox, Guavaman Enterprises. All rights reserved.
 #pragma warning disable 0219
 #pragma warning disable 0618
+#pragma warning disable 0649
 
 namespace Rewired {
 
@@ -123,8 +124,12 @@ namespace Rewired {
             platform = Platform.Flash;
 #endif
 
-#if UNITY_METRO
+#if UNITY_METRO || UNITY_WSA || UNITY_WSA_8_0 || UNITY_WSA_8_1
             platform = Platform.WindowsAppStore;
+#endif
+
+#if UNITY_WSA_10_0
+            platform = Platform.WindowsUWP;
 #endif
 
 #if UNITY_WINRT

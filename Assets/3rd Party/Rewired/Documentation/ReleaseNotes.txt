@@ -1,3 +1,161 @@
+1.0.0.84:
+
+  Changes:
+    - Improved accuracy of button down detection when frame rate is extremely low and a button is pressed and released quickly on all platforms. (Note: XInput, being polling-based, still has the potential for button misses at low frame rates.)
+
+  Bug Fixes:
+    - OSX Fallback: Fixed bug in Sony Dual Shock 3 controller definition.
+    - Float XML data is now read correctly when system's current culture expects commas instead of periods for decimal separator.
+
+1.0.0.83:
+
+  Changes:
+    - Added Windows 10 Universal (UWP) platform native input support for joysticks. (.NET scripting backend)
+    - Added Windows 10 Universal (UWP) platform native input support for joysticks. (IL2CPP scripting backend)
+    - Added Windows 10 Universal (UWP) platform fallback input support for joysticks.
+    - Control Mapper: Added additional options to theme text settings.
+    
+  API Changes:
+    - Added ReInput.ConfigHelper.windowsUWPPrimaryInputSource property.
+    - Added Platforms.WindowsUWPPrimaryInputSource enum.
+    - Added Player.ControllerHelper.MapHelper.GetFirstButtonMapWithAction(Controller controller, int actionId, bool skipDisabledMaps)
+    - Added Player.ControllerHelper.MapHelper.GetFirstButtonMapWithAction(Controller controller, string actionName, bool skipDisabledMaps)
+    - Added Player.ControllerHelper.MapHelper.GetFirstAxisMapWithAction(Controller controller, int actionId, bool skipDisabledMaps)
+    - Added Player.ControllerHelper.MapHelper.GetFirstAxisMapWithAction(Controller controller, string actionName, bool skipDisabledMaps)
+    - Added Player.ControllerHelper.MapHelper.GetFirstElementMapWithAction(Controller controller, int actionId, bool skipDisabledMaps)
+    - Added Player.ControllerHelper.MapHelper.GetFirstElementMapWithAction(Controller controller, string actionName, bool skipDisabledMaps)
+    - Added Player.ControllerHelper.MapHelper.ButtonMapsWithAction(Controller controller, int actionId, bool skipDisabledMaps)
+    - Added Player.ControllerHelper.MapHelper.ButtonMapsWithAction(Controller controller, string actionName, bool skipDisabledMaps)
+    - Added Player.ControllerHelper.MapHelper.AxisMapsWithAction(Controller controller, int actionId, bool skipDisabledMaps)
+    - Added Player.ControllerHelper.MapHelper.AxisMapsWithAction(Controller controller, string actionName, bool skipDisabledMaps)
+    - Added Player.ControllerHelper.MapHelper.ElementMapsWithAction(Controller controller, int actionId, bool skipDisabledMaps)
+    - Added Player.ControllerHelper.MapHelper.ElementMapsWithAction(Controller controller, string actionName, bool skipDisabledMaps)
+
+  New Controller Definitions:
+    - Added Windows UWP Fallback definitions for the following controllers:
+        Microsoft XBox 360 Controller (Includes many generics/clones, XBox One Controller, etc.)
+    - Added Windows UWP Native definitions for the following controllers:
+        8Bitdo NES30 / FC30 (Bluetooth, Joy Mode)
+        8Bitdo NES30 / FC30 (Wired)
+        8Bitdo NES30 Pro / FC30 Pro (Bluetooth, Mode 1)
+        8Bitdo NES30 Pro / FC30 Pro (Wired)
+        8Bitdo SNES30 / SFC30 (Bluetooth, Joy Mode)
+        8Bitdo SNES30 / SFC30 (Wired)
+        8Bitdo Zero
+        Amazon Fire Game Controller
+        Arcade Guns G-500 AimTrak Light Gun
+        Buffalo BGCFC801 (NES/Famicom Gamepad w/ Turbo)
+        Buffalo BSGP801 (SNES Gamepad w/ Turbo)
+        CH Products Eclipse Yoke
+        CH Products Fighterstick USB
+        CH Products Pro Pedals
+        CH Products Pro Throttle
+        CH Products Throttle Quadrant
+        Game Elements GGE909 Recoil
+        GameCube Controller (Mayflash 2-port USB adapter, Mayflash 2-port adapter for WiiU & PC, Mayflash 4-port adapter for WiiU & PC)
+        GameStick Controller
+        idroid:con Snakebyte (Mode 1)
+        idroid:con Snakebyte (Mode 2)
+        ípega BLUETOOTH Classic GamePad (full-size gamepad)
+        ípega Multi-Media Bluetooth Controller
+        ípega Wireless GAMEPAD Controller (mini gamepad)
+        Logitech Dual Action
+        Logitech Extreme 3D Pro
+        Logitech F310 (X mode)
+        Logitech F310 (D mode)
+        Logitech F710 (X mode)
+        Logitech F710 (D mode)
+        Logitech G27 Racing Wheel
+        Logitech G29 Driving Force Racing Wheel
+        Logitech RumblePad 2 USB
+        Mad Catz C.T.R.L.R
+        Mad Catz C.Y.B.O.R.G. V1
+        Mad Catz Micro C.T.R.L.R
+        Microsoft XBox 360 Controller (Wired) (Includes many generics/clones)
+        Microsoft XBox 360 Controller (Wireless) (Includes many generics/clones)
+        Microsoft XBox One Controller
+        Moga Hero Power
+        Moga Pro Power
+        Nvidia Shield Controller (Wired)
+        Nyko Playpad
+        Nyko Playpad Pro
+        Nyko AirFlo EX
+        Ouya Gamepad
+        P.I. Engineering RailDriver
+        P.I. Engineering XK-24
+        PS3 Controller (Gasia Wireless USB Adapter. Includes Trust GXT 39)
+        PS3 Controller (Mayflash Wireless USB Adapter)
+        Radio Shack PC Gaming Controller
+        Razer Serval
+        Red Samurai Wireless Android Gamepad (G mode)
+        Saitek Heavy Equipment Control Panel (Pro Farming)
+        Saitek Heavy Equipment Wheel and Pedals (Pro Farming)
+        Saitek JI3 Cyborg 3D Gold
+        Saitek P880
+        Saitek P990
+        Saitek Pro Flight Cessna Rudder Pedals
+        Saitek Pro Flight Cessna Trim Wheel
+        Saitek Pro Flight Combat Rudder Pedals
+        Saitek Pro Flight Rudder Pedals
+        Saitek Pro Flight Throttle Quadrant
+        Saitek Pro Flight TPM Panel
+        Saitek Pro Flight Yoke System
+        Saitek X45 Digital Joystick & Throttle
+        Saitek X52 Flight Control System
+        Saitek X52 Pro Flight Control System
+        Saitek X-55 Rhino Stick
+        Saitek X-55 Rhino Throttle
+        Samsung EI-GP20 Smartphone Game Pad
+        Satechi Bluetooth Wireless Universal Gamepad (ST-UBGC)
+        Sony DualShock 2 (Insten Adapter)
+        Sony DualShock 2 (My-Power CO., LTD Adapter)
+        Sony DualShock 4 (Bluetooth)
+        Sony DualShock 4 (Wired)
+        SteelSeries FREE
+        SteelSeries Stratus XL (Windows/Android version)
+        Thrustmaster Dual Analog 3
+        Thrustmaster F430 Racing Wheel
+        Thrustmaster HOTAS Warthog Joystick
+        Thrustmaster HOTAS Warthog Throttle
+        Thrustmaster Score-A
+        Thrustmaster T.16000M
+        Thrustmaster T.Flight Hotas X
+        Thrustmaster T100 Racing Wheel
+        Thrustmaster T300 RS Racing Wheel
+        Thrustmaster USB Joystick
+        VRinsight Ship Console
+        WiiU Pro Controller (Mayflash Wireless USB adapter)
+        XiaoMi Wireless Game Controller
+        Zhidong N (XInput mode)
+        Zhidong N (Android mode)
+        Zhidong N (Direct Input mode)
+        Zhidong V+ (XInput mode)
+        Zhidong V+ (Direct Input mode)
+        
+  Bug Fixes:
+    - Fixed exception when an unrecognized controller is attached when native input is disabled in a Windows Standalone build.
+    - Fixed issue causing input event delegate removal to fail in Player.RemoveInputEventDelegate functions.
+
+1.0.0.82:
+
+  Changes:
+    - Windows Raw Input: Improved Bluetooth device detection when paired during gameplay.
+    - Windows Raw Input: Reduced Bluetooth device detection overhead.
+    - Rewired Input Manager: Added Action list exporter.
+    - Added Action id property drawer and attribute.
+    - Changed platform library loading system to include only necessary libraries to reduce project build size on Unity 5.0+ builds. (Unity 4.x still uses Resources system.)
+  
+  API Changes:
+    - Added ActionIdPropertyAttribute
+    - Added Dev.ActionIdFieldInfoAttribute
+
+  Bug Fixes:
+    - Windows XInput: Fixed newly introduced bug where exception could be thrown when an XInput controller was disconnected.
+    - Windows Raw Input: Fixed extremely rare exception thrown when Bluetooth device is not identified properly when paired during gameplay, disconnected, then re-connected.
+
+  New Controller Definitions:
+    - Thrustmaster Dual Analog 3
+
 1.0.0.81:
 
   New Controller Definitions:

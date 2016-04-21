@@ -1,3 +1,7 @@
+#pragma warning disable 0219
+#pragma warning disable 0618
+#pragma warning disable 0649
+
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -246,13 +250,6 @@ namespace Rewired.Integration.UnityUI {
 
             // Determine if touch is supported
             isTouchSupported = Input.touchSupported;
-            
-#if UNITY_TVOS
-          // Deactivate the touch input module on TVOS so Siri Remote touchpad doesn't prevent joystick UI control
-          TouchInputModule tim = GetComponent<TouchInputModule>();
-          if(tim == null) tim = FindObjectOfType<TouchInputModule>();
-          if(tim != null) tim.enabled = false;
-#endif
 
             // Initialize Rewired
             InitializeRewired();

@@ -5,9 +5,8 @@
 <!-- InstanceBeginEditable name="doctitle" -->
 <title>Rewired Documentation | Overview</title>
 <!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
 <!-- InstanceParam name="isRoot" type="boolean" value="false" -->
+<!-- InstanceParam name="wide" type="boolean" value="false" -->
 <link href="files/css/styles.css" rel="stylesheet" type="text/css" />
 <!-- Favicons -->
 <link rel="icon" type="image/x-icon" href="/projects/rewired/files/images/favicon.ico?v=1" />
@@ -30,6 +29,7 @@
 
 <body>
 
+
 <div class="container">
   <div class="content">
 	
@@ -42,10 +42,12 @@
 	    
       	<div class="sidebar-nav">
 	        <h4><a href="Documentation.html">Documentation</a></h4>
-
-            <strong>The Essentials:</strong>
+	        <ul>
+	          <li><a href="Overview.html">Overview</a></li>
+	          <li><a href="ReleaseNotes.txt">Release Notes</a></li>
+          </ul>
+	        <strong>The Essentials:</strong>
             <ol>
-              <li><a href="Overview.html">Overview</a></li>
               <li><a href="Installation.html">Installation</a></li>
               <li><a href="QuickStart.html">Quick Start</a></li>
               <li><a href="BasicUsage.html">Basic Usage</a></li>
@@ -65,15 +67,15 @@
               <li><a href="ControllerMaps.html"></a><a href="Layouts.html">Layouts</a></li>
               <li><a href="CustomControllers.html">Custom Controllers</a></li>
             </ul>
+            <strong>Extras:</strong>
+            <ul>
+              <li><a href="ControlMapper.html" title="Control Mapper">Control Mapper</a></li>
+              <li><a href="RewiredStandaloneInputModule.html">Rewired Standalone Input Module</a></li>
+	          <li><a href="UserDataStore.html" title="User Data Store">User Data Store</a></li>
+            </ul>
             <strong>How To's</strong>
             <ul>
             	<li><a href="HowTos.html">See all topics...</a></li>
-            </ul>
-            <strong>Extras:</strong>
-            <ul>
-              <li><a href="UserDataStore.html" title="User Data Store">User Data Store</a></li>
-              <li><a href="ControlMapper.html" title="Control Mapper">Control Mapper</a></li>
-              <li><a href="RewiredStandaloneInputModule.html">Rewired Standalone Input Module</a></li>
             </ul>
             <strong>Help:</strong>
             <ul>
@@ -84,6 +86,10 @@
 	          <li><a href="Updating.html" title="Updating Rewired">Updating Rewired</a></li>
 	          <li><a href="Troubleshooting.html" title="Troubleshooting">Troubleshooting</a></li>
               <li><a href="KnownIssues.html">Known Issues</a></li>
+            </ul>
+            <strong>FAQ</strong>
+            <ul>
+            	<li><a href="FAQ.html">See all topics...</a></li>
             </ul>
             <strong>Unity Help:</strong>
             <ul>
@@ -115,9 +121,9 @@
     <ul>
       <li>Works in Unity free and Pro.</li>
       <li>Player-centric input system.</li>
-      <li>Full hot-plugging support on Windows, Windows Store, OSX, Linux, Ouya, and Xbox One. (Other platforms depend on Unity's input system's support for hot-plugging on that platform.)</li>
+      <li>Full hot-plugging support on Windows, OSX, Linux, Windows 8 Store, Windows 10 Universal, Ouya, and Xbox One. (Other platforms depend on Unity's input system's support for hot-plugging on that platform.)</li>
       <li>Extended native input support on several platforms.</li>
-      <li>Optional XInput support for Windows (mandatory for Windows Store).</li>
+      <li>Optional XInput support for Windows (mandatory for Windows 8 Store).</li>
       <li>Fallback on Unity input for all other platforms. Most features still work.</li>
       <li>Intelligent auto assignment and re-assignment of controllers to players on connect/disconnect with configurable options to tune the assignment to your needs.</li>
       <li>Connect, pre-disconnect, and disconnect events.</li>
@@ -135,12 +141,12 @@
     </h4>
     <ul>
       <li>Functional support for most USB and Bluetooth controllers <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">1</a>]</span> (see below).</li>
-      <li><a href="SupportedControllers.html">Extended support for many game controllers of all types</a> on Windows, Windows Store, OSX, Linux, Android, iOS, and Webplayers. You can create additional controller definitions to support more, or if you'd like you can mail me your controller and I'll add the definitions and mail it back! :)</li>
+      <li><a href="SupportedControllers.html">Extended support for many game controllers of all types</a> on numerous platforms. You can create additional controller definitions to support more, or if you'd like you can mail me your controller and I'll add the definitions and mail it back! :)</li>
       <li>Supported controllers are recognized on each platform and are fully mapable by element name and have standardized axis directions.</li>
       <li>For any controller not included, you can map an Unknown controller which includes all possible buttons/axes on the platform (Windows 128 buttons &amp; 32 axes, etc.) Regardless of whether you define a map for this, users will always be able to manually map every element on the controller. This means support for the vast majority of USB and Bluetooth controllers. <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">1</a>]</span></li>
       <li>Controller template system so you can either choose to create default maps for every controller you wish to explicitly support, or save time and just map the template. All controllers that use that template will be mapped automatically. (Comes with a Dual Axis Gamepad template that works for the included gamepads.) User can always map any remaining controller elements even if they're not defined on the template.</li>
       <li>Named buttons and controller elements for supported controllers (for help messages and config screens).</li>
-      <li>Vibration (Windows, Linux, XBox One currently)</li>
+      <li>Vibration (Windows, Windows 8 Store, Windows 10 Universal, Linux, XBox One currently).</li>
       <li>Custom Controllers  - Any source can be used to drive the controller's element values. Custom Controllers can be used for on-screeen touch controllers and more.</li>
     </ul>
     <h4>Mapping:<br>
@@ -231,12 +237,13 @@
 	    <li><a href="http://unity3d.com" target="_blank">Unity 4.3</a> or later, Free or Pro</li>
 	    <li>OSX 10.5 or later is required for the OSX Unity editor and OSX Standalone builds.</li>
 	    </ul>
-    <h4>Tested Platforms:</h4>
+    <h4><a name="tested-platforms" id="tested-platforms"></a>Tested Platforms:</h4>
     <p>Rewired has been tested on the following platforms. Others may work but have not been tested.</p>
     <ul>
       <li>Windows Standalone 32-bit/64-bit*</li>
       <li>Windows Webplayer</li>
-      <li>Windows App Store*</li>
+      <li>Windows 8 Store*</li>
+      <li>Windows 10 Universal 32-bit/64-bit (.NET and IL2CPP)*</li>
       <li>OSX Standalone 32-bit/64-bit/Universal*</li>
       <li>OSX Webplayer</li>
       <li>Android</li>
@@ -258,7 +265,7 @@
     <p>&nbsp;</p>
 <div class="bottom-pager clearfix">
 	    <a class="back-button" href="Documentation.html" title="Documentation"><span class="button-img"></span>Documentation</a>
-    	<a class="forward-button" href="Installation.html" title="Installation"><span class="button-img"></span>Installation</a>
+    	<a class="forward-button" href="ReleaseNotes.txt" title="Installation"><span class="button-img"></span>Release Notes</a>
 	</div>
     
       <!-- InstanceEndEditable -->
@@ -266,10 +273,12 @@
         
     </div>
   <div class="footer clearfix">
-   	<p class="left">Copyright &copy;2014 <a href="http://guavaman.com" title="Guavaman Enterprises">Guavaman Enterprises</a>. All rights reserved. No materials may be reproduced without permission.</p>
+   	<p class="left">Copyright &copy;2014-2016 <a href="http://guavaman.com" title="Guavaman Enterprises">Guavaman Enterprises</a>. All rights reserved. No materials may be reproduced without permission.</p>
   	<p class="right"><a href="http://guavaman.com/projects/rewired" title="Return to Rewired Website">Return to Rewired Website</a></p>
   </div>
   <!-- end .content --></div>
   <!-- end .container --></div>
+  
+  
 </body>
 <!-- InstanceEnd --></html>

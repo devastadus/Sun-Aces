@@ -263,6 +263,72 @@ MonoBehaviour:
         sourceHatDirection: 0
         sourceHatRange: 0
       buttons: []
+  windowsUWP:
+    matchingCriteria:
+      axisCount: 3
+      buttonCount: 0
+      disabled: 0
+      hatCount: 0
+      manufacturer_useRegex: 0
+      productName_useRegex: 0
+      manufacturer: []
+      productName:
+      - Saitek Pro Flight Rudder Pedals
+      - Saitek Pro Flight Combat Rudder Pedals
+      - "Mad Catz Pro Flight Cessna Rudder Pedals\r"
+      productGUID:
+      - 076306a3-0000-0000-0000-504944564944
+      - 076406a3-0000-0000-0000-504944564944
+      - 076506a3-0000-0000-0000-504944564944
+    elements:
+      compoundElements: []
+      axes:
+      - elementIdentifier: 0
+        sourceType: 1
+        sourceAxis: 0
+        sourceAxisRange: 0
+        invert: 0
+        axisDeadZone: .0500000007
+        calibrateAxis: 1
+        axisZero: -1
+        axisMin: -1
+        axisMax: 1
+        sourceButton: 0
+        buttonAxisContribution: 0
+        sourceHat: 0
+        sourceHatDirection: 0
+        sourceHatRange: 0
+      - elementIdentifier: 1
+        sourceType: 1
+        sourceAxis: 1
+        sourceAxisRange: 0
+        invert: 0
+        axisDeadZone: .0500000007
+        calibrateAxis: 1
+        axisZero: -1
+        axisMin: -1
+        axisMax: 1
+        sourceButton: 0
+        buttonAxisContribution: 0
+        sourceHat: 0
+        sourceHatDirection: 0
+        sourceHatRange: 0
+      - elementIdentifier: 2
+        sourceType: 1
+        sourceAxis: 2
+        sourceAxisRange: 0
+        invert: 0
+        axisDeadZone: .0500000007
+        calibrateAxis: 0
+        axisZero: 0
+        axisMin: 0
+        axisMax: 0
+        sourceButton: 0
+        buttonAxisContribution: 0
+        sourceHat: 0
+        sourceHatDirection: 0
+        sourceHatRange: 0
+      buttons: []
   fallback_Windows:
     matchingCriteria:
       axisCount: 0
