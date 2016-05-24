@@ -46,7 +46,7 @@
 	          <li><a href="Overview.html">Overview</a></li>
 	          <li><a href="ReleaseNotes.txt">Release Notes</a></li>
           </ul>
-	        <strong>The Essentials:</strong>
+	        <strong>Essentials:</strong>
             <ol>
               <li><a href="Installation.html">Installation</a></li>
               <li><a href="QuickStart.html">Quick Start</a></li>
@@ -72,6 +72,7 @@
               <li><a href="ControlMapper.html" title="Control Mapper">Control Mapper</a></li>
               <li><a href="RewiredStandaloneInputModule.html">Rewired Standalone Input Module</a></li>
 	          <li><a href="UserDataStore.html" title="User Data Store">User Data Store</a></li>
+	          <li><a href="UnityInputOverride.html" title="Unity Input Override">Unity Input Override</a></li>
             </ul>
             <strong>How To's</strong>
             <ul>
@@ -120,13 +121,13 @@
     <p>During installation, a number of things will happen:</p>
     <ol>
       <li>The Rewired.InputManager script will be added to the Script Execution Order and set to -32000 so it will run before any other scripts. This is very important and should not be changed.</li>
-      <li>The Unity InputManager.asset file in YourProjectFolder/ProjectSettings will be appended with new settings that contain all the joystick and mouse buttons and axes needed by Rewired. This is required for platforms that make use of Unity's input system such as Webplayer, Android, iOS, etc. IMPORTANT: If you have already created custom entries in Unity's input manager, these entries will not be overwritten by Rewired, but your original InputManager.asset file will be backed up a location which will be shown in the installer window.</li>
+      <li>The Unity InputManager.asset file in YourProjectFolder/ProjectSettings will be appended with new settings that contain all the joystick and mouse buttons and axes needed by Rewired. This is required for platforms that make use of Unity's input system such as Webplayer, Android, iOS, etc. IMPORTANT: If you have already created custom entries in Unity's input manager, these entries will not be overwritten by Rewired, and your original InputManager.asset file will be backed up a location which will be shown in the installer window.</li>
       <li>A few files that contain necessary data for the Rewired editor will be created in Rewired/Data.</li>
     </ol>
     <p>Once installation is complete you can start using Rewired. See <a href="QuickStart.html">Quick Start</a> for a step-by-step guide to getting started.</p>
     <h3>Dependencies:</h3>
     <p><strong>Windows:</strong><br />
-    Windows dependencies are optional but may provide better support for certain devices. See <a href="Deployment.html">Deployment</a> for details.</p>
+    Certain dependencies may need to be installed depending on the version of Windows and the selected input sources. See <a href="Deployment.html">Deployment</a> for details.</p>
     <p><strong>OSX:</strong><br />
       For Xbox 360 controller support, install 
       <a href="http://tattiebogle.net/index.php/ProjectRoot/Xbox360Controller/OsxDriver" target="_blank">this driver</a> (no XBox One controller support) or <a href="https://github.com/360Controller/360Controller" target="_blank">this newer driver instead</a> (includes XBox One controller support).</p>

@@ -46,7 +46,7 @@
 	          <li><a href="Overview.html">Overview</a></li>
 	          <li><a href="ReleaseNotes.txt">Release Notes</a></li>
           </ul>
-	        <strong>The Essentials:</strong>
+	        <strong>Essentials:</strong>
             <ol>
               <li><a href="Installation.html">Installation</a></li>
               <li><a href="QuickStart.html">Quick Start</a></li>
@@ -72,6 +72,7 @@
               <li><a href="ControlMapper.html" title="Control Mapper">Control Mapper</a></li>
               <li><a href="RewiredStandaloneInputModule.html">Rewired Standalone Input Module</a></li>
 	          <li><a href="UserDataStore.html" title="User Data Store">User Data Store</a></li>
+	          <li><a href="UnityInputOverride.html" title="Unity Input Override">Unity Input Override</a></li>
             </ul>
             <strong>How To's</strong>
             <ul>
@@ -132,7 +133,8 @@
       <li><a href="#xinput-device-name">Windows Standalone: XInput devices on Windows appear as &quot;XInput Gamepad&quot;</a></li>
       <li><a href="#windows-xinput-devices-use-x360-map">Windows Standalone: All XInput devices use the Xbox 360 Controller map when &quot;Use XInput&quot; is enabled</a></li>
       <li><a href="#more-than-4-xbox-controllers">More than 4 XBox controllers cannot be used at the same time</a></li>
-      <li><a href="#windows-10-xbox-one-crash">Windows Standalone: XBox One controller causes system crash when removed when using Raw Input on Windows 10</a></li>
+      <li><a href="#windows-10-xbox-one-crash">Windows Standalone (Raw Input, Windows 10): XBox One controller causes system crash when removed when using Raw Input on Windows 10</a></li>
+      <li><a href="#direct-input-windows-10-multiple-xbox-one-controllers-hang">Windows Standalone (Direct Input, Windows 10): Using two or more XBox One controllers  will cause Unity to hang when using Direct Input on Windows 10</a></li>
       <li><a href="#windows-fallback-xbox-one-controller-mapping">Windows Standalone: XBox One controller has incorrect mapping on Windows XP, Vista, 7, and 8 when using Unity fallback input</a></li>
       <li><a href="#uwp-il2cpp-controller-disconnect-crash">Windows 10 Universal IL2CPP: Crash when disconnecting controllers</a></li>
     </ul>
@@ -325,8 +327,14 @@ public class RewiredCustomController_AndroidRemote : MonoBehaviour {
   XBox 360 controllers on OSX require <a href="https://github.com/360Controller/360Controller" target="_blank"> this XBox 360 driver</a>. This driver also imposes the 4-device limit just like XInput. It is currently not possible to use more than 4 XInput devices simultaneously on OSX. Again, you can mix and match non-XInput controllers to achieve a total count greater than 4. Because the driver is required for the controller to be detected, there is no way to disable the use of this driver and get around this issue.</p>
 <p>&nbsp;</p>
 <hr />
-<h3><a name="windows-10-xbox-one-crash" id="windows-10-xbox-one-crash"></a>Windows Standalone: XBox One controller causes system crash when removed when using Raw Input on Windows 10</h3>
+<h3><a name="windows-10-xbox-one-crash" id="windows-10-xbox-one-crash"></a>Windows Standalone (Raw Input, Windows 10): XBox One controller causes system crash when removed when using Raw Input on Windows 10</h3>
 <p>This is not a bug or issue with Rewired. A recent Windows Update has introduced a new bug in Windows 10 when using the XBox One controller. When Raw Input is enabled, if the XBox One controller is disconnected at runtime, it will cause the entire system to become unresponsive requiring a hard reboot to fix. I have isolated this issue to a specific Windows API Raw Input function call which is not optional. There is no known workaround for this problem when using Raw Input. This bug has been reported to Microsoft.</p>
+<p>The only possible workaround is to enable Use XInput so the XBox One Controller is handled by XInput instead of Raw Input.</p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="direct-input-windows-10-multiple-xbox-one-controllers-hang" id="direct-input-windows-10-multiple-xbox-one-controllers-hang"></a>Windows Standalone (Direct Input, Windows 10): Using two or more XBox One controllers will cause Unity to hang when using Direct Input on Windows 10</h3>
+<p>This is not a bug or issue with Rewired. A recent Windows Update has introduced a new bug in Windows 10 when using multiple XBox One controllers. When Direct Input is enabled, if two or more XBox One controller are attached, it will cause Unity to hang until all but one controller are removed.  I have isolated this issue to a specific Windows API Direct Input function call which is not optional. There is no known workaround for this problem when using Direct Input.</p>
+<p>The only possible workaround  is to enable Use XInput so the XBox One Controller is handled by XInput instead of Direct Input.</p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="windows-fallback-xbox-one-controller-mapping" id="windows-fallback-xbox-one-controller-mapping"></a>Windows Standalone: XBox One controller has incorrect mapping on Windows XP, Vista, 7, and 8 when using Unity fallback input</h3>

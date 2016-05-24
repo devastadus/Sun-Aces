@@ -1,3 +1,54 @@
+1.0.0.86:
+
+  Changes:
+    - Added Rewired.UnityInputOverride class to allow changing UnityInputOverride settings at runtime.
+    - Thrustmaster Dual Analog 3: Added Left Trigger / Right Trigger mappings to Dual Analog Gamepad Template.
+    - UFPS Rewired Input Manager prefab: Added default mapping for 3D Rudder.
+  
+  New Controller Definitions:
+    - 3D Rudder
+    - Thrustmaster TH8A Add-on Shifter
+    - Thrustmaster T150 Racing Wheel
+  
+  Modified Controller Definitions:
+    - Windows Standalone Raw Input: Fixed Thrustmaster T300RS controller definition missing R2 binding in Variant 1.
+    - Added Clutch to Thrustmaster T300RS controller definition.
+    - Changed Logitech G29 controller definition Clutch element identifier type to Axis.
+
+1.0.0.85:
+
+  Changes:
+    - Added Unity Input Override script to reroute calls to Unity input to Rewired in most scripts with no code changes required.
+    - Rewired Standalone Input Module: Updated to include changes to Unity 5.3 Standalone Input Module including incorporating touch input.
+    - Removed Touch Input Module component from Rewired Event System prefab.
+    - Updated Control Mapper demo scenes due to changes to the Rewired Standalone Input Module.
+    - Added controller definition variant system.
+    - Added Windows Phone 8.1 DLL for building to Windows 8.1 Universal platform. (Requires Unity 5.3.4p2+)
+    - Getting input for an Action that doesn't exist every frame no longer spams the log.
+
+  API Changes:
+    - Added Player.ControllerHelper.MapHelper.ContainsMapInCategory(string categoryName) method overload
+    - Changed Player.ControllerHelper.MapHelper.SetMapsEnabled methods to return the number of maps that changed state.
+    - Changed Player.ControllerHelper.MapHelper.SetAllMapsMapEnabled methods to return the number of maps that changed state.
+    - Changed ControllerExtensions.DualShock4ControllerExtension.GetAccelerometerValueRaw method to return unmodified data directly from hardware.
+    - Added ControllerExtensions.DualShock4ControllerExtension.GetAccelerometerValue method.
+    - Changed ControllerExtensions.DualShock4ControllerExtension.GetGyroscopeValueRaw method to return unmodified data directly from hardware.
+    - Added ControllerExtensions.DualShock4ControllerExtension.GetGyroscopeValue method.
+    - Added ControllerExtensions.DualShock4ControllerExtension.GetLastGyroscopeValue method.
+    - Added ControllerExtensions.DualShock4ControllerExtension.GetLastGyroscopeValueRaw method.
+    - Added ControllerExtensions.DualShock4ControllerExtension.GetOrientation method.
+    - Added ControllerExtensions.DualShock4ControllerExtension.ResetOrientation method.
+
+  Controller Definitions:
+    - Linux Native: Added SteamOS variant for Microsoft XBox 360 Controller.
+    - Windows Raw Input: Merged XBox One Controller (Windows 10+) into XBox One Controller definition.
+    - Windows Direct Input: Merged XBox One Controller (Windows 10+) into XBox One Controller definition.
+    - Windows Raw Input / Direct Input: Added Thrustmaster T300 RS definition variant for controller with Thrustmaster driver installed.
+    - Android: Added SteelSeries Stratus XL (Unity 5+ required).
+    - Android: Added Xiaomi Wireless Game Controller mappings for Unity 5+.
+    - Android: Merged Samsung EI-GP20 controller definitions for Unity 4.x and Unity 5.x.
+    - Removed Xbox One Controller (Windows 10+) definition (obsolete).
+
 1.0.0.84:
 
   Changes:

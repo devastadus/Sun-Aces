@@ -4,14 +4,17 @@ using UnityEngine.UI;
 
 public class playerCamera : MonoBehaviour
 {
-    public Toggle Player1Toggle;
-    public Toggle Player2Toggle;
+    public Toggle[] PlayerToggles;
+    public GameObject[] PlayerCameras;
 
-    public GameObject Player1Camera;
-    public GameObject Player2Camera;
 	// Use this for initialization
 	void Start ()
 	{
+        foreach(GameObject playerCamera in PlayerCameras)
+        {
+            playerCamera.SetActive(false);
+        }
+
         Player1Camera.SetActive(false);
         Player2Camera.SetActive(false);
         Player1Toggle.onValueChanged.AddListener(Player1Callback);

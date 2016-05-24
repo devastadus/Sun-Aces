@@ -46,7 +46,7 @@
 	          <li><a href="Overview.html">Overview</a></li>
 	          <li><a href="ReleaseNotes.txt">Release Notes</a></li>
           </ul>
-	        <strong>The Essentials:</strong>
+	        <strong>Essentials:</strong>
             <ol>
               <li><a href="Installation.html">Installation</a></li>
               <li><a href="QuickStart.html">Quick Start</a></li>
@@ -72,6 +72,7 @@
               <li><a href="ControlMapper.html" title="Control Mapper">Control Mapper</a></li>
               <li><a href="RewiredStandaloneInputModule.html">Rewired Standalone Input Module</a></li>
 	          <li><a href="UserDataStore.html" title="User Data Store">User Data Store</a></li>
+	          <li><a href="UnityInputOverride.html" title="Unity Input Override">Unity Input Override</a></li>
             </ul>
             <strong>How To's</strong>
             <ul>
@@ -126,6 +127,8 @@
       <li><a href="#compiler-errors-name-clashes">Compiler errors with Rewired classes such as Rewired.Player</a></li>
       <li><a href="#null-reference-during-recompile">Null reference exception when recompiling scripts in the editor at runtime</a></li>
       <li><a href="#compile-errors-ps4-xbone">Unity 5 compile errors in PS4, XBox One, WiiU, or other special platforms</a></li>
+      <li><a href="#not-initialized">Rewired is not initialized error</a></li>
+      <li><a href="#missing-unity-input-entries">Rewired works in the editor but not on PS4, Android, etc.</a></li>
       <li><a href="#time-comparison">Time comparisons to Time.time don't match</a></li>
       <li><a href="#android-joystick-keyboard-keys">Joystick buttons  activate keyboard keys on Android</a></li>
       <li><a href="#ongui-getbuttondown">OnGUI may return GetButtonDown/Up true for multiple frames</a></li>
@@ -345,6 +348,33 @@ void CacheRewiredPlayer() {
   Unity added the ability to designate what platforms DLLs compile to in Unity 5 by setting check boxes on the DLL in the inspector for each platform. Rewired_Core.dll comes with all options checked except Windows App Store. Special versions of Unity add checkboxes for that specific platform (PS4 for example). That special platform check box is not and cannot be automatically checked by Rewired because it is built on a standard Unity 5 build that does not contain these special platforms.</p>
 <p>To fix this, simply click on Rewired/Internal/Libraries/Runtime/Rewired_Core.dll and check the appropriate platform checkbox in the inspector.</p>
 <p><img src="files/images/troubleshooting_dllplatforms.png" width="533" height="239" /></p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="not-initialized" id="not-initialized"></a>Rewired is not initialized error</h3>
+<p>If you see the following error at runtime in the log:</p>
+<p>&quot;Rewired is not initialized. Do you have a Rewired Input Manager in the scene and enabled?&quot;</p>
+<p>There are only 3 reasons you could get this error:</p>
+<ol>
+  <li>There is no enabled Rewired Input Manager in the scene.</li>
+  <li>You canceled the installation process when Rewired tried to install itself and the Script Execution Order was not set causing Rewired to run after your other scripts and therefore it cannot initialize before you try to call it.</li>
+  <li>The Script Execution Order that Rewired sets during installation was changed or removed by some other asset that was installed. This can happen with assets that contain an entire project. These assets will warn you before installation that they will overwrite the entire project.</li>
+</ol>
+<p>The solution to #1 is to add a Rewired Input Manager to the scene.</p>
+<p>The solution to #2 and #3 is to re-run the Rewired installation script by going to the menu:</p>
+<ul>
+  <li> Window -&gt; Rewired -&gt; Setup -&gt; Run Installer</li>
+</ul>
+<p>Proceed with the installation and Rewired will set its Script Execution Order.</p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="missing-unity-input-entries" id="missing-unity-input-entries"></a>Rewired works in the editor but not on PS4, Android, etc.</h3>
+<p>If Rewired works in the editor but not on certain platforms, check the log file. The logs will tell you if Rewired was unable to initialize or any other errors that may have occurred.</p>
+<p>The most common reason for this issue is that Rewired was not installed properly (canceled during installation) preventing it from installing the Unity Input Manager entries necessary for supporting input on Unity fallback platforms. Another possible cause is that these entries were deleted by some other asset installed after Rewired. This can happen with assets that contain an entire project. These assets will warn you before installation that they will overwrite the entire project. It can also happen if the asset contains its own Input Manager settings and overwrites the file instead of adding entries to it.</p>
+<p>The solution is to re-run the Rewired installation script by going to the menu:</p>
+<ul>
+  <li> Window -&gt; Rewired -&gt; Setup -&gt; Run Installer</li>
+</ul>
+<p>Proceed with the installation and Rewired will add the necessary Input Manager entries.</p>
 <p><br />
 </p>
 <hr />

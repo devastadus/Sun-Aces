@@ -48,7 +48,7 @@
 	          <li><a href="Overview.html">Overview</a></li>
 	          <li><a href="ReleaseNotes.txt">Release Notes</a></li>
           </ul>
-	        <strong>The Essentials:</strong>
+	        <strong>Essentials:</strong>
             <ol>
               <li><a href="Installation.html">Installation</a></li>
               <li><a href="QuickStart.html">Quick Start</a></li>
@@ -74,6 +74,7 @@
               <li><a href="ControlMapper.html" title="Control Mapper">Control Mapper</a></li>
               <li><a href="RewiredStandaloneInputModule.html">Rewired Standalone Input Module</a></li>
 	          <li><a href="UserDataStore.html" title="User Data Store">User Data Store</a></li>
+	          <li><a href="UnityInputOverride.html" title="Unity Input Override">Unity Input Override</a></li>
             </ul>
             <strong>How To's</strong>
             <ul>
@@ -119,7 +120,7 @@
 			<p>Rewired supports most USB and Bluetooth controllers available, many with extended support. <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">1</a>]</span></p>
 			<h3>Controllers with Extended Support</h3>
 			<p>Controllers with hardware definitions are recognized on each platform and are fully mapable by element name and have standardized axis directions.</p>
-			<p><strong>Rewired currently includes extended support for the following game controllers as of version 1.0.0.83:</strong></p>
+			<p><strong>Rewired currently includes extended support for the following game controllers as of version 1.0.0.86:</strong></p>
 			<table width="100%" border="0" class="supported-controllers-table">
               <tr>
                 <td valign="top"><span class="controller-type"><a name="gamepads" id="gamepads"></a>Gamepads</span></td>
@@ -706,8 +707,8 @@ OSX:<span class="no"> No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
-                <td align="center" valign="top"><span class="no">No<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">16</a>]</span></strong></span></td>
-                <td align="center" valign="top"><span class="no">No<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">16</a>]</span></strong></span></td>
+                <td align="center" valign="top"><span class="no"><span class="yes">Yes</span><strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">16</a>]</span></strong></span></td>
+                <td align="center" valign="top"><span class="no"><span class="yes">Yes</span><strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">16</a>]</span></strong></span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><p>Windows:<span class="no"> No</span></p></td>
               </tr>
@@ -1717,26 +1718,63 @@ OSX:<span class="note">Not Mapped Yet</span></td>
                 OSX: <span class="yes">Yes</span></td>
               </tr>
               <tr>
-                <td valign="top">Thrustmaster T300 RS Racing Wheel</td>
+                <td valign="top">Thrustmaster T150 Racing Wheel</td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
-                <span class="note">(PS3 Mode only)</span></span></td>
+                  <span class="note">(PS3 Mode only)</span></span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
-                <span class="note">(PS3 Mode only)</span></span></td>
+                  <span class="note">(PS3 Mode only, pedals act as buttons)</span></span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
                   <span class="note">(PS3 Mode only)</span></span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
-                <span class="note">(PS3 Mode only)</span></span></td>
+                  <span class="note">(PS3 Mode only, pedals act as buttons)</span></span></td>
+                <td align="center" valign="top"><span class="yes">Yes<br />
+                  <span class="note">(PS3 Mode only, pedals act as buttons)</span></span></td>
+                <td align="center" valign="top"><span class="yes">Yes<br />
+                  <span class="note">(PS3 Mode only, pedals act as buttons)</span></span></td>
+                <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top">Windows:<span class="yes">Yes<br />
+                  <span class="note">(PS3 Mode only)</span></span><br />
+                  OSX: <span class="yes">Yes<br />
+                    <span class="note">(PS3 Mode only)</span></span></td>
+              </tr>
+              <tr>
+                <td valign="top">Thrustmaster T300 RS Racing Wheel</td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
                 <span class="note">(PS3 Mode only)</span></span></td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
-                <span class="note">(PS3 Mode only)</span></span></td>
+                <span class="note">(PS3 Mode only, pedals act as buttons)</span></span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes<br />
+                  <span class="note">(PS3 Mode only)</span></span></td>
+                <td align="center" valign="top"><span class="yes">Yes<br />
+                <span class="note">(PS3 Mode only, pedals act as buttons)</span></span></td>
+                <td align="center" valign="top"><span class="yes">Yes<br />
+                <span class="note">(PS3 Mode only, pedals act as buttons)</span></span></td>
+                <td align="center" valign="top"><span class="yes">Yes<br />
+                <span class="note">(PS3 Mode only, pedals act as buttons)</span></span></td>
                 <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top">Windows:<span class="yes">Yes<br />
                     <span class="note">(PS3 Mode only)</span></span><br />
 OSX: <span class="yes">Yes<br />
 <span class="note">(PS3 Mode only)</span></span></td>
+              </tr>
+              <tr>
+                <td valign="top">Thrustmaster TH8A Add-on Shifter<span class="note"></span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="partial">Partial<strong><span style="vertical-align: super; font-size: 65%;"> [<a href="#clarifications">4</a>]</span></strong></span><br />
+                <span class="note">(Shifter 6, 7, R, -, + not working)</span></td>
+                <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top">Windows: <span class="yes">Yes</span><br />
+OSX: <span class="yes">Yes</span></td>
               </tr>
               <tr>
               	<td colspan="11">&nbsp;</td>
@@ -1842,6 +1880,20 @@ OSX: <span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top">Windows:<span class="no"> No</span><br />
+OSX: <span class="no">No</span></td>
+              </tr>
+              <tr>
+                <td valign="top">3D Rudder</td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top">Windows: <span class="yes">Yes</span><br />
 OSX: <span class="no">No</span></td>
               </tr>
               <tr>
@@ -2525,7 +2577,7 @@ OSX: <span class="no">No</span></td>
 <p style="font-size: 60%">13 These remotes may not work on versions of Unity 5.02 or greater.  <a href="KnownIssues.html#android-remotes">Please see this known issue for more information</a>.</p>
 <p style="font-size: 60%">14 Adapter registers multiple controllers regardless of whether controllers are plugged in. This can interfere with controller assignment because there is no way to determine which controllers are attached and which are just placeholders.</p>
 <p style="font-size: 60%">15 Linux native support has been tested under Ubuntu 12.04 amd64, Ubuntu 14.04 x86/amd64, Ubuntu 15.04 amd64, and Mint 17.2 amd64.</p>
-<p style="font-size: 60%">16 Unity Android returns a blank string for the name of this joystick. Unity also uses blank strings for any joystick that was previously attached and then removed. There is no way to identify that this controller is connected on Unity Android, therefore it is not supported.</p>
+<p style="font-size: 60%">16 Unity 4.x Android returns a blank string for the name of this joystick. Unity also uses blank strings for any joystick that was previously attached and then removed. There is no way to identify that this controller is connected on Unity 4.x Android, therefore it is not supported. Unity 5+ works correctly, however.</p>
 <p style="font-size: 60%">17 Has definition, but device cannot be opened by HID system in Windows UWP for unknown reason. YMMV.</p>
 <div class="bottom-pager clearfix">
   <a class="back-button" href="Documentation.html" title="Documentation"><span class="button-img"></span>Documentation</a>

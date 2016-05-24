@@ -16,7 +16,6 @@ MonoBehaviour:
   hardwareJoystickMaps:
   - {fileID: 11400000, guid: 05f66480300b88645aebf9962934d554, type: 2}
   - {fileID: 11400000, guid: 5d47793e65ad5314e8955046fa11f359, type: 2}
-  - {fileID: 11400000, guid: 9da0e4e5da76f45488bb9c0e69fe519c, type: 2}
   - {fileID: 11400000, guid: 8806bfb92931c4544a7ebd42e9cb53ce, type: 2}
   - {fileID: 11400000, guid: c8e7ee694c990d14aa843d0b82d1552d, type: 2}
   - {fileID: 11400000, guid: 98e7e439b7575794c912c559cbd3ea87, type: 2}
@@ -108,12 +107,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5b4ec7826eed24222ba948f77f2fa65c, type: 2}
   - {fileID: 11400000, guid: 54338de8d46db2449af94046055c161c, type: 2}
   - {fileID: 11400000, guid: 1eebf7efc8bda234282ef13ff5a825a3, type: 2}
+  - {fileID: 11400000, guid: b4d506bcfb54a344c9f3f68bea11d657, type: 2}
   - {fileID: 11400000, guid: f2dd8718315e730418fc148089a673ec, type: 2}
+  - {fileID: 11400000, guid: 559012aaa7bf4a047bca356093787995, type: 2}
   - {fileID: 11400000, guid: 532dcc58022f3de45973784c5878ddde, type: 2}
   - {fileID: 11400000, guid: bd5c168ccfd771047b3b046934982159, type: 2}
   - {fileID: 11400000, guid: 724de1f3a2213094f88f5ad4cd10cc89, type: 2}
   - {fileID: 11400000, guid: 2ee88f97f16cab24bbd1e996a9721812, type: 2}
   - {fileID: 11400000, guid: 66680992b0f85d4498441e130e3892d6, type: 2}
+  - {fileID: 11400000, guid: 3c01df426ab1b5940995688f8e8b8049, type: 2}
   - {fileID: 11400000, guid: 2eaf41098f6f59147b10436abc7eea84, type: 2}
   - {fileID: 11400000, guid: 8200ea05f0e37fb4f9a16a56ed27da68, type: 2}
   - {fileID: 11400000, guid: dabaf28fe56461c4fb37d5f909cb3914, type: 2}

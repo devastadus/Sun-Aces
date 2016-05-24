@@ -46,7 +46,7 @@
 	          <li><a href="Overview.html">Overview</a></li>
 	          <li><a href="ReleaseNotes.txt">Release Notes</a></li>
           </ul>
-	        <strong>The Essentials:</strong>
+	        <strong>Essentials:</strong>
             <ol>
               <li><a href="Installation.html">Installation</a></li>
               <li><a href="QuickStart.html">Quick Start</a></li>
@@ -72,6 +72,7 @@
               <li><a href="ControlMapper.html" title="Control Mapper">Control Mapper</a></li>
               <li><a href="RewiredStandaloneInputModule.html">Rewired Standalone Input Module</a></li>
 	          <li><a href="UserDataStore.html" title="User Data Store">User Data Store</a></li>
+	          <li><a href="UnityInputOverride.html" title="Unity Input Override">Unity Input Override</a></li>
             </ul>
             <strong>How To's</strong>
             <ul>
@@ -139,17 +140,20 @@
     <li>Click Apply.</li>
     </ol>
 <p>This is not automated because users tend to move Rewired around into various folders in the project. Because Unity chose to store a path here instead of a GUID, the link will break each time the Rewired folder is moved.</p>
-<p><strong>Windows 8.1 Universal target build issue:</strong></p>
-<p>The Unity Editor currently has a bug that does not allow designating a DLL to be included only for the Windows 8.1 Universal build target. Because of this bug, it is impossible for Rewired to &quot;just work&quot; on Windows 8.1 Universal builds. In order to build to Windows 8.1 Universal, you will have to manually set the WSA target SDK in the inspector to &quot;Any SDK&quot; on both of the following DLLs:</p>
+<p><strong>Controller Support</strong></p>
+<p>Only the XBox 360 Controller and other XInput-compatible controllers will work on the Windows 8 Store platform.</p>
+<p><strong>Windows 8.1 Universal target build issue (Applies only to version of Unity before 5.3.4p2):</strong></p>
+<p>In versions of Unity prior to 5.3.4p2, the Unity Editor has a bug that does not allow designating a DLL to be included only for the Windows 8.1 Universal build target. Because of this bug, it is impossible for Rewired to &quot;just work&quot; on Windows 8.1 Universal builds. In order to build to Windows 8.1 Universal, you will have to manually set the WSA target SDK in the inspector to &quot;Any SDK&quot; on both of the following DLLs:</p>
 <ol>
   <li>Plugins/Metro/Rewired_Core.dll</li>
   <li>Plugins/Metro/Rewired_Windows8Store.dll</li>
   </ol>
 <p>If you do not the WSA SDK target to &quot;Any SDK&quot;, Windows 8.1 Universal builds will always fail.</p>
 <p>If you are also going to build to Windows 10 Universal (UWP), you must first set the above DLLs back to SDK81 or disable WSA on the DLLs entirely. If you do not, these Windows 8 DLLs will be included when building to Windows 10 Universal (UWP) and the build will fail.</p>
-<p>This bug has been reported to Unity. There is no automatic workaround at the present time.</p>
-<p><strong>Controller Support</strong></p>
-<p>Only the XBox 360 Controller and other XInput-compatible controllers will work on the Windows 8 Store platform.</p>
+<p>This bug was reported to Unity and fixed in 5.3.4p2. There is no automatic workaround at the present time.</p>
+<p>The major cause of concern for this bug is that Windows Phone 8 cannot use some of the libraries called in Rewired_Windows8Store.dll. This DLL contains calls to XInput, which will cause the Windows Phone 8 build to fail to pass validation. The only possible workaround for this in versions of Unity prior to 5.3.4p2 is to delete the REwired_Windows8Store.dll forcing Rewired to fall back to UnityEngine.Input. This is the only way to build a Windows 8.1 Universal build that will pass validation in versions of Unity prior to 5.3.4p2.</p>
+<p><strong>IL2CPP not supported in Windows 8.1 builds:</strong></p>
+<p>Rewired does not currently support Windows 8.1 with IL2CPP scripting backend. A possible workaround may be to set the DLL options in the inspector on Rewired/Internal/Libraries/Runtime/Rewired_Core.dll to include WSA for build target 8.1, IL2CPP scripting backend. This is not tested and not guaranteed to work.</p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="windows-uwp" id="windows-app-store2"></a>Windows 10 Universal</h3>
@@ -158,10 +162,10 @@
 <p>Install Windows 10 Universal platform support through the menu:<br />
   <strong>Window -&gt; Rewired -&gt; Setup -&gt; Install Platform Support -&gt; Windows 10 Universal</strong></p>
 <p><strong>IMPORTANT NOTE:</strong></p>
-<p>Unity 5  requires that a Placeholder path be set in the Plugins/UWP/Rewired_Core.dll inpspector or you will get compilation errors when you try to compile. You must set this path to the current location of the main Rewired_Core.dll in your project. If you move the Rewired folder to another directory, this path will have to be changed manually because Unity stores a path here instead of a GUID.</p>
+<p>Unity 5  requires that a Placeholder path be set in the Rewired/Internal/Libraries/Runtime/UWP/Rewired_Core.dll and/or Rewired/Internal/Libraries/Runtime/UWP/IL2CPP/Rewired_Core.dll (depending on your scripting backend) inpspector or you will get compilation errors when you try to compile. You must set this path to the current location of the main Rewired_Core.dll in your project. If you move the Rewired folder to another directory, this path will have to be changed manually because Unity stores a path here instead of a GUID.</p>
 <p>Here are the steps:</p>
 <ol>
-  <li>Select Plugins/UWP/Rewired_Core.dll in the project view.</li>
+  <li>Rewired/Internal/Libraries/Runtime/UWP/Rewired_Core.dll and/or Rewired/Internal/Libraries/Runtime/UWP/IL2CPP/Rewired_Core.dll in the project view (select and change one at a time).</li>
   <li>In the inspector, click the Placeholder field and navigate to Assets/Rewired/Internal/Libraries/Runtime/Rewired_Core.dll.</li>
   <li>Click Apply.</li>
 </ol>

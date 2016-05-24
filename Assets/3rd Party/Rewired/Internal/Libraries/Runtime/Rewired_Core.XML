@@ -799,6 +799,16 @@
             Does this contain valid touch data?
             </summary>
         </member>
+        <member name="F:Rewired.HardwareControllerMapIdentifier.inputSource">
+            <summary>
+            This is not necessarily the actual input source of the map if fallbacks happened.
+            </summary>
+        </member>
+        <member name="F:Rewired.HardwareControllerMapIdentifier.actualInputPlatform">
+            <summary>
+            This is the true specific input platform based on the matched map or default map. This does not necessarily match the inputSource or even the platform!
+            </summary>
+        </member>
         <member name="T:Rewired.UI.UIAnchor">
             <exclude></exclude>
         </member>
@@ -1520,15 +1530,68 @@
         </member>
         <member name="M:Rewired.ControllerExtensions.DualShock4Extension.GetAccelerometerValueRaw">
             <summary>
-            Gets the raw value from the accelerometer.
+            Gets the raw value from the accelerometer as reported by the device.
+            Reported device coordinates do not match Unity's coordinate system.
+            Format: 1G = 8192f
+            This value represents the last value reported by the accelerometer.
             </summary>
             <returns>Raw accelerometer data</returns>
         </member>
-        <member name="M:Rewired.ControllerExtensions.DualShock4Extension.GetGyroscopeValueRaw">
+        <member name="M:Rewired.ControllerExtensions.DualShock4Extension.GetAccelerometerValue">
             <summary>
-            Gets the raw value from the gyroscope.
+            Gets the value from the accelerometer and processes it so that 1G = 1.0 and so that coordinates match Unity coordinate system.
+            The value returned could be thought of as a gravity vector and user acceleration combined.
+            If using this value to apply a force in the direction of the vector, invert each axis first.
+            This value represents the last value reported by the accelerometer.
+            </summary>
+            <returns>Accelerometer data</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualShock4Extension.GetLastGyroscopeValueRaw">
+            <summary>
+            Gets the last raw value from the gyroscope as reported by the device.
+            Reported device coordinates do not match Unity's coordinate system.
+            The sensor can return more than one value per frame.
+            This represents only the last measurement recorded, not an accumulated value.
+            This value is not fused with the accelerometer value and can drift.
             </summary>
             <returns>Raw gyroscope data</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualShock4Extension.GetLastGyroscopeValue">
+            <summary>
+            Gets the last value from the gyroscope processed into Unity's coordinate system and adjusted for sensitivity.
+            The sensor can return more than one value per frame.
+            This represents only the last measurement recorded, not an accumulated value.
+            This value is not fused with the accelerometer value and can drift.
+            </summary>
+            <returns>Gyroscope data</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualShock4Extension.GetGyroscopeValueRaw">
+            <summary>
+            Gets the raw value from the gyroscope as reported by the device accumulated over time since the last update.
+            Reported device coordinates do not match Unity's coordinate system.
+            This value is not fused with the accelerometer value and can drift.
+            </summary>
+            <returns>Raw gyroscope data</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualShock4Extension.GetGyroscopeValue">
+            <summary>
+            Gets the value from the gyroscope processed into Unity's coordinate system, adjusted for sensitivity, and accumulated over time since the last update.
+            This value is not fused with the accelerometer value and can drift.
+            </summary>
+            <returns>Gyroscope data</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualShock4Extension.GetOrientation">
+            <summary>
+            Gets the orientation of the controller in Unity coordinates.
+            This is only an estimate because accelerometer + gyroscope is not accurate enough to perfectly determine orientation at all angles.
+            Drift can occur on the world Y axis over time. The orientation can be reset by calling ResetOrientation().
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualShock4Extension.ResetOrientation">
+            <summary>
+            Resets the orientation to zero state. (Controller laying on back with buttons facing up and the top edge of the controller facing the screen.)
+            </summary>
         </member>
         <member name="M:Rewired.ControllerExtensions.DualShock4Extension.GetTouchId(System.Int32)">
             <summary>
@@ -1539,7 +1602,7 @@
         </member>
         <member name="M:Rewired.ControllerExtensions.DualShock4Extension.GetTouchPosition(System.Int32,UnityEngine.Vector2@)">
             <summary>
-            Gets the touch position for a particular index normalized to a 0 - 1 range. (Left = 0, Top = 0)
+            Gets the touch position for a particular index normalized to a 0 - 1 range. (Left = 0, Bottom = 0)
             </summary>
             <param name="index">The index of the touch for which to return position.</param>
             <param name="position">X/Y position of the touch [0 - 1]</param>
@@ -1547,7 +1610,7 @@
         </member>
         <member name="M:Rewired.ControllerExtensions.DualShock4Extension.GetTouchPositionByTouchId(System.Int32,UnityEngine.Vector2@)">
             <summary>
-            Gets the touch position for a particular touch id normalized to a 0 - 1 range. (Left = 0, Top = 0)
+            Gets the touch position for a particular touch id normalized to a 0 - 1 range. (Left = 0, Bottom = 0)
             </summary>
             <param name="touchId">The id of the touch for which to return position.</param>
             <param name="position">X/Y position of the touch [0 - 1]</param>
@@ -1555,7 +1618,7 @@
         </member>
         <member name="M:Rewired.ControllerExtensions.DualShock4Extension.GetTouchPositionAbsolute(System.Int32,UnityEngine.Vector2@)">
             <summary>
-            Gets the touch position for a particular index in absolute units as returned by the device. (Left = 0, Top = 0)
+            Gets the touch position for a particular index in absolute units as returned by the device. (Left = 0, Bottom = 0)
             </summary>
             <param name="index">The index of the touch for which to return position.</param>
             <param name="position">X/Y position of the touch in absolute units.</param>
@@ -1563,7 +1626,7 @@
         </member>
         <member name="M:Rewired.ControllerExtensions.DualShock4Extension.GetTouchPositionAbsoluteByTouchId(System.Int32,UnityEngine.Vector2@)">
             <summary>
-            Gets the touch position for a particular touch id in absolute units as returned by the device. (Left = 0, Top = 0)
+            Gets the touch position for a particular touch id in absolute units as returned by the device. (Left = 0, Bottom = 0)
             </summary>
             <param name="touchId">The id of the touch for which to return position.</param>
             <param name="position">X/Y position of the touch in absolute units.</param>
@@ -2001,6 +2064,9 @@
             </summary>
             <exclude></exclude>
         </member>
+        <member name="T:Rewired.Utils.Classes.SerializedMethod">
+            <exclude></exclude>
+        </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap">
             <summary>
             A hardware controller profile. Maps physical hardware elements to identifiable elements on supported platforms.
@@ -2012,17 +2078,50 @@
             Interface for hardware controller maps.
             </summary>
         </member>
+        <member name="M:Rewired.Data.Mapping.HardwareJoystickMap.GetSpecificPlatformMap(Rewired.HardwareControllerMapIdentifier)">
+            <summary>
+            Get a specific Platform map at the location pointed to by HardwareControllerMapIdentifier.
+            </summary>
+        </member>
+        <member name="M:Rewired.Data.Mapping.HardwareJoystickMap.GetSpecificPlatformRoot(Rewired.InputPlatform)">
+            <summary>
+            Get the root-level Platform for the InputPlatform. Does not do any kind of fallbacks.
+            </summary>
+        </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform">
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Utils.Interfaces.IDeepCloneable">
             <exclude></exclude>
         </member>
+        <member name="P:Rewired.Data.Mapping.HardwareJoystickMap.Platform.isAllowed">
+            <summary>
+            Determines whether this map is allowed on the system. It incorporates Unity version checking or other type checking not dependent on the joystick.
+            DOES NOT check whether hasData because this would cause it to fail on Default and special maps.
+            DOES check whether any buttons or axes have been assigned though.
+            </summary>
+        </member>
+        <member name="P:Rewired.Data.Mapping.HardwareJoystickMap.Platform.variants_base">
+            <summary>
+            Gets a list of all Variants. NOT NULL FILTERED! Safe to use to get varaint index.
+            </summary>
+        </member>
+        <member name="P:Rewired.Data.Mapping.HardwareJoystickMap.Platform.Variants">
+            <summary>
+            Enumerates all Variants. YES NULL FILTERED! NOT SAFE to use to get varaint index.
+            </summary>
+        </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Elements_Base">
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.MatchingCriteria_Base">
             <exclude></exclude>
+        </member>
+        <member name="P:Rewired.Data.Mapping.HardwareJoystickMap.MatchingCriteria_Base.isAllowed">
+            <summary>
+            Determines whether this map is allowed on the system. It incorporates Unity version checking or other type checking not dependent on the joystick.
+            DOES NOT check whether hasData because this would cause it to fail on Default and special maps.
+            </summary>
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.CompoundElement">
             <exclude></exclude>
@@ -2051,121 +2150,142 @@
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_RawOrDirectInput.DeviceType">
             <exclude></exclude>
         </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_DirectInput_Base">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_DirectInput_Base.Elements">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_DirectInput_Base.Button">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_DirectInput_Base.Axis">
+            <exclude></exclude>
+        </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_DirectInput">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_DirectInput.Elements">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_RawInput_Base">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_DirectInput.Button">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_RawInput_Base.Elements">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_DirectInput.Axis">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_RawInput_Base.Button">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_RawInput_Base.Axis">
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_RawInput">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_RawInput.Elements">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XInput_Base">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_RawInput.Button">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XInput_Base.MatchingCriteria">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_RawInput.Axis">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XInput_Base.Elements">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XInput_Base.Element">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XInput_Base.Button">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XInput_Base.Axis">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XInput_Base.SubType">
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XInput">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XInput.MatchingCriteria">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_OSX_Base">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XInput.Elements">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_OSX_Base.MatchingCriteria">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XInput.Element">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_OSX_Base.Elements">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XInput.Button">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_OSX_Base.Element">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XInput.Axis">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_OSX_Base.Button">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XInput.SubType">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_OSX_Base.Axis">
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_OSX">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_OSX.MatchingCriteria">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Linux_Base">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_OSX.Elements">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Linux_Base.MatchingCriteria">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_OSX.Element">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Linux_Base.Elements">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_OSX.Button">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Linux_Base.Element">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_OSX.Axis">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Linux_Base.Button">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Linux_Base.Axis">
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Linux">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Linux.MatchingCriteria">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_WindowsUWP_Base">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Linux.Elements">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_WindowsUWP_Base.MatchingCriteria">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Linux.Element">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_WindowsUWP_Base.Elements">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Linux.Button">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_WindowsUWP_Base.Element">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Linux.Axis">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_WindowsUWP_Base.Button">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_WindowsUWP_Base.Axis">
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_WindowsUWP">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_WindowsUWP.MatchingCriteria">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Fallback_Base">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_WindowsUWP.Elements">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Fallback_Base.MatchingCriteria">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_WindowsUWP.Element">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Fallback_Base.Elements">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_WindowsUWP.Button">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Fallback_Base.Element">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_WindowsUWP.Axis">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Fallback_Base.Button">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Fallback_Base.Axis">
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Fallback">
-            <exclude></exclude>
-        </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Fallback.MatchingCriteria">
-            <exclude></exclude>
-        </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Fallback.Elements">
-            <exclude></exclude>
-        </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Fallback.Element">
-            <exclude></exclude>
-        </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Fallback.Button">
-            <exclude></exclude>
-        </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Fallback.Axis">
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Custom">
@@ -2186,76 +2306,91 @@
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Custom.Axis">
             <exclude></exclude>
         </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Ouya_Base">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Ouya_Base.MatchingCriteria">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Ouya_Base.Elements">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Ouya_Base.Button">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Ouya_Base.Axis">
+            <exclude></exclude>
+        </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Ouya">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Ouya.MatchingCriteria">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XboxOne_Base">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Ouya.Elements">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XboxOne_Base.MatchingCriteria">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Ouya.Button">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XboxOne_Base.Elements">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Ouya.Axis">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XboxOne_Base.Button">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XboxOne_Base.Axis">
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XboxOne">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XboxOne.MatchingCriteria">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_InternalDriver_Base">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XboxOne.Elements">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_InternalDriver_Base.MatchingCriteria">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XboxOne.Button">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_InternalDriver_Base.Elements">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_XboxOne.Axis">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_InternalDriver_Base.Button">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_InternalDriver_Base.Axis">
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_InternalDriver">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_InternalDriver.MatchingCriteria">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_SDL2_Base">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_InternalDriver.Elements">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_SDL2_Base.MatchingCriteria">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_InternalDriver.Button">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_SDL2_Base.Elements">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_InternalDriver.Axis">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_SDL2_Base.Element">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_SDL2_Base.Button">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_SDL2_Base.Axis">
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_SDL2">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_SDL2.MatchingCriteria">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Steam_Base">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_SDL2.Elements">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Steam_Base.MatchingCriteria">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_SDL2.Element">
-            <exclude></exclude>
-        </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_SDL2.Button">
-            <exclude></exclude>
-        </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_SDL2.Axis">
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Steam_Base.Elements">
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Steam">
-            <exclude></exclude>
-        </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Steam.MatchingCriteria">
-            <exclude></exclude>
-        </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Steam.Elements">
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickTemplateMap">
@@ -2322,7 +2457,7 @@
             </summary>
             <exclude></exclude>
         </member>
-        <member name="M:Rewired.Data.UserData.FindJoystickMap_Game(Rewired.InputSource,System.Int32,System.Guid,System.Int32)">
+        <member name="M:Rewired.Data.UserData.FindJoystickMap_Game(Rewired.Joystick,System.Int32,System.Int32)">
             <summary>
             Searches the user-defined maps for a matching map based on category, layout, controller Guid, and template Guid.
             First it will search for an exact controller guid + category + layout match. If no controller guid's match, it search for a template
@@ -2608,8 +2743,16 @@
         <member name="T:Rewired.Utils.Interfaces.IExternalTools">
             <exclude></exclude>
         </member>
-        <member name="T:Rewired.InputManager_Base">
-            <exclude></exclude>
+        <member name="M:Rewired.HID.Drivers.DualShock4Driver.GetTwist(UnityEngine.Quaternion,UnityEngine.Vector3)">
+                       Decompose the rotation on to 2 parts.
+                       1. Twist - rotation around the "direction" vector
+                       2. Swing - rotation around axis that is perpendicular to "direction" vector
+                       The rotation can be composed back by 
+                       rotation = swing * twist
+            
+                       has singularity in case of swing_rotation close to 180 degrees rotation.
+                       if the input quaternion is of non-unit length, the outputs are non-unit as well
+                       otherwise, outputs are both unit
         </member>
         <member name="T:Rewired.Utils.Classes.Data.Workpool_DataContainer`1">
             <summary>
@@ -2621,6 +2764,9 @@
             Your T must implement the Workpool_DataContainer&lt;T&gt;.IEntry interface.
             </summary>
             <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Rewired.InputManager_Base">
+            <exclude></exclude>
         </member>
         <member name="T:Rewired.Internal.OnGUIHelper">
             <exclude></exclude>
@@ -4404,7 +4550,7 @@
             Gets a controller of the specified type assigned to this Player.
             </summary>
             <typeparam name="T">Controller type</typeparam>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <returns></returns>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.GetControllerWithTag``1(System.String)">
@@ -4420,7 +4566,7 @@
             Assigns a controller to this Player.
             </summary>
             <typeparam name="T">Controller type</typeparam>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="removeFromOtherPlayers">Unassign this controller from all other players.</param>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.RemoveController``1(System.Int32)">
@@ -4428,14 +4574,14 @@
             Unassigns a controller from this Player.
             </summary>
             <typeparam name="T">Controller type</typeparam>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.ContainsController``1(System.Int32)">
             <summary>
             Checks if a controller is assigned to this Player.
             </summary>
             <typeparam name="T">Controller type</typeparam>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <returns></returns>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.ClearControllersOfType``1">
@@ -4525,7 +4671,7 @@
             When replaced, map enabled state is copied from the existing map into the replacement. Otherwise, map starts disabled and must be enabled before it can contribute to input.
             </summary>
             <typeparam name="T">Controller map type</typeparam>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="categoryId">Category id</param>
             <param name="layoutId">Layout id</param>
         </member>
@@ -4535,7 +4681,7 @@
             When replaced, map enabled state is copied from the existing map into the replacement. Otherwise, map starts disabled and must be enabled before it can contribute to input.
             </summary>
             <typeparam name="T">Controller map type</typeparam>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="categoryName">Category name</param>
             <param name="layoutName">Layout name</param>
         </member>
@@ -4545,7 +4691,7 @@
             When replaced, map enabled state is copied from the existing map into the replacement. Otherwise, map starts disabled and must be enabled before it can contribute to input.
             </summary>
             <param name="controllerType">Controller type</param>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="categoryId">Category id</param>
             <param name="layoutId">Layout id</param>
         </member>
@@ -4555,7 +4701,7 @@
             When replaced, map enabled state is copied from the existing map into the replacement. Otherwise, map starts disabled and must be enabled before it can contribute to input.
             </summary>
             <param name="controllerType">Controller type</param>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="categoryName">Category name</param>
             <param name="layoutName">Layout name</param>
         </member>
@@ -4564,7 +4710,7 @@
             Loads a controller map from the maps defined in the Rewired Editor. Replaces if a map already exists with the same category and layout.
             </summary>
             <typeparam name="T">Controller map type</typeparam>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="categoryId">Category id</param>
             <param name="layoutId">Layout id</param>
             <param name="startEnabled">Start this map enabled?</param>
@@ -4574,7 +4720,7 @@
             Loads a controller map from the maps defined in the Rewired Editor. Replaces if a map already exists with the same category and layout.
             </summary>
             <typeparam name="T">Controller map type</typeparam>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="categoryName">Category name</param>
             <param name="layoutName">Layout name</param>
             <param name="startEnabled">Start this map enabled?</param>
@@ -4584,7 +4730,7 @@
             Loads a controller map from the maps defined in the Rewired Editor. Replaces if a map already exists with the same category and layout.
             </summary>
             <param name="controllerType">Controller type</param>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="categoryId">Category id</param>
             <param name="layoutId">Layout id</param>
             <param name="startEnabled">Start this map enabled?</param>
@@ -4594,7 +4740,7 @@
             Loads a controller map from the maps defined in the Rewired Editor. Replaces if a map already exists with the same category and layout.
             </summary>
             <param name="controllerType">Controller type</param>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="categoryName">Category name</param>
             <param name="layoutName">Layout name</param>
             <param name="startEnabled">Start this map enabled?</param>
@@ -4670,7 +4816,7 @@
             Gets a list of controller maps for a specific controller assigned to this Player.
             </summary>
             <typeparam name="T">Controller map type</typeparam>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <returns>IList of controller maps</returns>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.GetMaps(Rewired.ControllerType,System.Int32)">
@@ -4679,7 +4825,7 @@
             </summary>
             <typeparam name="T">Controller map type</typeparam>
             <param name="controllerType">Controller type</param>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <returns>IList of controller maps</returns>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.GetMap``1(System.Int32,System.Int32)">
@@ -4687,7 +4833,7 @@
             Gets a controller map for a specific controller by id assigned to this Player.
             </summary>
             <typeparam name="T">Controller map type</typeparam>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="mapId">Controller map id</param>
             <returns>Controller Map</returns>
         </member>
@@ -4696,7 +4842,7 @@
             Gets a controller map for a specific controller by id assigned to this Player.
             </summary>
             <typeparam name="T">Controller map type</typeparam>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="categoryId">Category id</param>
             <param name="layoutId">Layout id</param>
             <returns>Controller Map</returns>
@@ -4706,7 +4852,7 @@
             Gets a controller map for a specific controller by id assigned to this Player.
             </summary>
             <typeparam name="T">Controller map type</typeparam>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="categoryName">Category name</param>
             <param name="layoutName">Layout name</param>
             <returns>Controller Map</returns>
@@ -4717,7 +4863,7 @@
             </summary>
             <typeparam name="T">Controller map type</typeparam>
             <param name="controllerType">Controller type</param>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="mapId">Controller map id</param>
             <returns>Controller Map</returns>
         </member>
@@ -4727,7 +4873,7 @@
             </summary>
             <typeparam name="T">Controller map type</typeparam>
             <param name="controllerType">Controller type</param>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="categoryId">Category id</param>
             <param name="layoutId">Layout id</param>
             <returns>Controller Map</returns>
@@ -4738,7 +4884,7 @@
             </summary>
             <typeparam name="T">Controller map type</typeparam>
             <param name="controllerType">Controller type</param>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="categoryName">Category name</param>
             <param name="layoutName">Layout name</param>
             <returns>Controller Map</returns>
@@ -4748,7 +4894,7 @@
             Gets the first controller map for the specified controller in the matching category assigned to this Player.
             </summary>
             <typeparam name="T">Controller map type</typeparam>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="categoryName">Category name</param>
             <returns>Controller Map</returns>
         </member>
@@ -4757,7 +4903,7 @@
             Gets the first controller map for the specified controller in the matching category assigned to this Player.
             </summary>
             <typeparam name="T">Controller map type</typeparam>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="categoryId">Category id</param>
             <returns>Controller Map</returns>
         </member>
@@ -4767,7 +4913,7 @@
             </summary>
             <typeparam name="T">Controller map type</typeparam>
             <param name="controllerType">Controller type</param>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="categoryName">Category name</param>
             <returns>Controller Map</returns>
         </member>
@@ -4777,7 +4923,7 @@
             </summary>
             <typeparam name="T">Controller map type</typeparam>
             <param name="controllerType">Controller type</param>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="categoryId">Category id</param>
             <returns>Controller Map</returns>
         </member>
@@ -4787,7 +4933,7 @@
             When replaced, map enabled state is copied from the existing map into the replacement.
             </summary>
             <typeparam name="T">Map type</typeparam>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="map">Controller Map</param>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.AddMap(Rewired.Controller,Rewired.ControllerMap)">
@@ -4804,7 +4950,7 @@
             When replaced, map enabled state is copied from the existing map into the replacement.
             </summary>
             <param name="controllerType">Controller type</param>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="map">Controller Map</param>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.AddMap``1(System.Int32,Rewired.ControllerMap,System.Boolean)">
@@ -4813,7 +4959,7 @@
             When replaced, map enabled state is copied from the existing map into the replacement.
             </summary>
             <typeparam name="T">Map type</typeparam>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="map">Controller Map</param>
             <param name="startEnabled">Start this map enabled?</param>
         </member>
@@ -4832,7 +4978,7 @@
             When replaced, map enabled state is copied from the existing map into the replacement.
             </summary>
             <param name="controllerType">Controller type</param>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="map">Controller Map</param>
             <param name="startEnabled">Start this map enabled?</param>
         </member>
@@ -4841,7 +4987,7 @@
             Adds a controller map to the Player from Xml save data.
             </summary>
             <typeparam name="T">Map type</typeparam>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="xmlString">Xml save data</param>
             <returns>Success/Failure</returns>
         </member>
@@ -4850,7 +4996,7 @@
             Adds a controller map to the Player from Xml save data.
             </summary>
             <param name="controllerType">Controller type</param>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="xmlString">Xml save data</param>
             <returns>Success/Failure</returns>
         </member>
@@ -4859,7 +5005,7 @@
             Adds multiple controller maps to the Player from Xml save data.
             </summary>
             <typeparam name="T">Map type</typeparam>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="xmlStrings">Xml save data</param>
             <returns></returns>
         </member>
@@ -4868,7 +5014,7 @@
             Adds multiple controller maps to the Player from Xml save data.
             </summary>
             <param name="controllerType">Controller type</param>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="xmlStrings">Xml save data</param>
             <returns></returns>
         </member>
@@ -4877,7 +5023,7 @@
             Add an empty controller map to the Player with the specified category and layout.
             </summary>
             <typeparam name="T">Map type</typeparam>
-            <param name="controllerId">Controller id</param>
+            <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
             <param name="categoryId">Category id</param>
             <param name="layoutId">Layout id</param>
         </member>
@@ -5152,6 +5298,7 @@
             Set the enabled state in all controller maps.
             </summary>
             <param name="state">The enabled state.</param>
+            <returns>Number of maps that changed state.</returns>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.SetAllMapsEnabled(System.Boolean,Rewired.ControllerType)">
             <summary>
@@ -5159,6 +5306,7 @@
             </summary>
             <param name="state">The enabled state.</param>
             <param name="controllerType">The controller type.</param>
+            <returns>Number of maps that changed state.</returns>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.SetMapsEnabled(System.Boolean,System.Int32)">
             <summary>
@@ -5166,6 +5314,7 @@
             </summary>
             <param name="state">The enabled state.</param>
             <param name="categoryId">The id of the category.</param>
+            <returns>Number of maps that changed state.</returns>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.SetMapsEnabled(System.Boolean,System.String)">
             <summary>
@@ -5173,6 +5322,7 @@
             </summary>
             <param name="state">The enabled state.</param>
             <param name="categoryName">The name of the category.</param>
+            <returns>Number of maps that changed state.</returns>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.SetMapsEnabled(System.Boolean,System.Int32,System.Int32)">
             <summary>
@@ -5182,7 +5332,7 @@
             <param name="state">The enabled state.</param>
             <param name="categoryId">The id of the category.</param>
             <param name="layoutId">The id of the layout.</param>
-            <exclude></exclude>
+            <returns>Number of maps that changed state.</returns>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.SetMapsEnabled(System.Boolean,System.String,System.String)">
             <summary>
@@ -5191,6 +5341,7 @@
             <param name="state">The enabled state.</param>
             <param name="categoryName">The name of the category.</param>
             <param name="layoutName">The name of the layout.</param>
+            <returns>Number of maps that changed state.</returns>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.SetMapsEnabled(System.Boolean,Rewired.ControllerType,System.Int32)">
             <summary>
@@ -5199,6 +5350,7 @@
             <param name="state">The enabled state.</param>
             <param name="controllerType">The controller type.</param>
             <param name="categoryId">The id of the category.</param>
+            <returns>Number of maps that changed state.</returns>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.SetMapsEnabled(System.Boolean,Rewired.ControllerType,System.String)">
             <summary>
@@ -5207,6 +5359,7 @@
             <param name="state">The enabled state.</param>
             <param name="controllerType">The controller type.</param>
             <param name="categoryName">The name of the category.</param>
+            <returns>Number of maps that changed state.</returns>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.SetMapsEnabled(System.Boolean,Rewired.ControllerType,System.Int32,System.Int32)">
             <summary>
@@ -5216,6 +5369,7 @@
             <param name="controllerType">The controller type.</param>
             <param name="categoryId">The id of the category.</param>
             <param name="layoutId">The id of the layout.</param>
+            <returns>Number of maps that changed state.</returns>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.SetMapsEnabled(System.Boolean,Rewired.ControllerType,System.String,System.String)">
             <summary>
@@ -5225,6 +5379,7 @@
             <param name="controllerType">The controller type.</param>
             <param name="categoryName">The name of the category.</param>
             <param name="layoutName">The name of the layout.</param>
+            <returns>Number of maps that changed state.</returns>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.LoadDefaultMaps(Rewired.ControllerType)">
             <summary>
@@ -5241,6 +5396,11 @@
             </summary>
         </member>
         <member name="M:Rewired.Player.ControllerHelper.MapHelper.ContainsMapInCategory(System.Int32)">
+            <summary>
+            Determines if any maps exist in a particular Map Category.
+            </summary>
+        </member>
+        <member name="M:Rewired.Player.ControllerHelper.MapHelper.ContainsMapInCategory(System.String)">
             <summary>
             Determines if any maps exist in a particular Map Category.
             </summary>
@@ -5273,6 +5433,302 @@
         <member name="T:Rewired.Player.ControllerHelper.ConflictCheckingHelper">
             <summary>
             Provides access to all controller element assignment conflict checking related members.
+            </summary>
+        </member>
+        <member name="T:Rewired.Platforms.PS4.LoggedInUser">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Platforms.PS4.PS4GamepadExtension">
+            <summary>
+            Allows access to controller-specific functions.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.SetVibration(System.Int32,System.Single)">
+            <summary>
+            Sets vibration level for a motor at a specified index.
+            </summary>
+            <param name="motorIndex">Motor index</param>
+            <param name="motorLevel">Motor level [float: 0.0 - 1.0]</param>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.SetVibration(System.Int32,System.Single,System.Boolean)">
+            <summary>
+            Sets vibration level for a motor at a specified index.
+            </summary>
+            <param name="motorIndex">Motor index</param>
+            <param name="motorLevel">Motor level [float: 0.0 - 1.0]</param>
+            <param name="stopOtherMotors">Stop other motors?</param>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.GetVibration(System.Int32)">
+            <summary>
+            Gets vibration level for a motor at a specified index.
+            </summary>
+            <param name="motorIndex">Motor index</param>
+            <returns>Motor level [float: 0.0 - 1.0]</returns>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.StopVibration">
+            <summary>
+            Stops vibration on all motors.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.GetVibration(Rewired.Platforms.PS4.PS4GamepadMotorType)">
+            <summary>
+            Gets vibration level for a specific motor.
+            </summary>
+            <param name="motor">Motor type</param>
+            <returns>Motor level [float: 0.0 - 1.0]</returns>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.SetVibration(Rewired.Platforms.PS4.PS4GamepadMotorType,System.Single)">
+            <summary>
+            Sets vibration leves on an individual motor.
+            </summary>
+            <param name="motor">Motor type</param>
+            <param name="motorLevel">Motor level [float: 0.0 - 1.0]</param>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.SetVibration(Rewired.Platforms.PS4.PS4GamepadMotorType,System.Single,System.Boolean)">
+            <summary>
+            Sets vibration level on an individual motor.
+            </summary>
+            <param name="motor">Motor type</param>
+            <param name="motorLevel">Motor level [float: 0.0 - 1.0]</param>
+            <param name="stopOtherMotors">Stop other motors?</param>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.SetVibration(System.Single,System.Single)">
+            <summary>
+            Sets vibration level for left and right motors.
+            </summary>
+            <param name="leftMotorLevel">float: 0.0 - 1.0</param>
+            <param name="rightMotorLevel">float: 0.0 - 1.0</param>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.SetLightColor(UnityEngine.Color)">
+            <summary>
+            Sets the light color. Alpha can be used to set intensity.
+            </summary>
+            <param name="color">Light color</param>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.SetLightColor(System.Single,System.Single,System.Single)">
+            <summary>
+            Sets the light color.
+            </summary>
+            <param name="red">Red channel [0.0 - 1.0]</param>
+            <param name="green">Green channel [0.0 - 1.0]</param>
+            <param name="blue">Blue channel [0.0 - 1.0]</param>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.SetLightColor(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Sets the light color.
+            </summary>
+            <param name="red">Red channel [0.0 - 1.0]</param>
+            <param name="green">Green channel [0.0 - 1.0]</param>
+            <param name="blue">Blue channel [0.0 - 1.0]</param>
+            <param name="intensity">Intensity [0.0 - 1.0]</param>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.ResetLight">
+            <summary>
+            Resets the light to the default settings.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.GetAccelerometerValueRaw">
+            <summary>
+            Gets the raw value from the accelerometer as reported by the device.
+            Note: Device coordinate system does not match Unity's.
+            </summary>
+            <returns>Raw accelerometer data</returns>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.GetAccelerometerValue">
+            <summary>
+            Gets the value from the accelerometer converted to Unity's coordinate system.
+            </summary>
+            <returns>Accelerometer data</returns>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.GetGyroscopeValueRaw">
+            <summary>
+            Gets the raw value from the gyroscope as reported by the device.
+            Note: Device coordinate system does not match Unity's.
+            </summary>
+            <returns>Raw gyroscope data</returns>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.GetGyroscopeValue">
+            <summary>
+            Gets the value from the gyroscope converted to Unity's coordinate system.
+            </summary>
+            <returns>Gyroscope data</returns>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.GetOrientationRaw">
+            <summary>
+            Gets the raw orientation as reported by the device.
+            Note: Device coordinate system does not match Unity's.
+            </summary>
+            <returns>Raw orientation</returns>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.GetOrientation">
+            <summary>
+            Gets the orientation converted to Unity's coordinate system.
+            </summary>
+            <returns>Orientation</returns>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.ResetOrientation">
+            <summary>
+            Resets the orientation.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.GetTouchId(System.Int32)">
+            <summary>
+            Gets the touch id for the touch at the specified index.
+            </summary>
+            <param name="index">Index of the touch</param>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.GetTouchPosition(System.Int32,UnityEngine.Vector2@)">
+            <summary>
+            Gets the touch position for a particular index normalized to a 0 - 1 range. (Left = 0, Bottom = 0)
+            </summary>
+            <param name="index">The index of the touch for which to return position.</param>
+            <param name="position">X/Y position of the touch [0 - 1]</param>
+            <returns>True if the touch at index is currently touching. False if there is no touch at index.</returns>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.GetTouchPositionByTouchId(System.Int32,UnityEngine.Vector2@)">
+            <summary>
+            Gets the touch position for a particular touch id normalized to a 0 - 1 range. (Left = 0, Bottom = 0)
+            </summary>
+            <param name="touchId">The id of the touch for which to return position.</param>
+            <param name="position">X/Y position of the touch [0 - 1]</param>
+            <returns>True if the touch at touchId is currently touching. False if there is no touch at touchId.</returns>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.GetTouchPositionAbsolute(System.Int32,UnityEngine.Vector2@)">
+            <summary>
+            Gets the touch position for a particular index in absolute units as returned by the device. (Left = 0, Bottom = 0)
+            </summary>
+            <param name="index">The index of the touch for which to return position.</param>
+            <param name="position">X/Y position of the touch in absolute units.</param>
+            <returns>True if the touch at index is currently touching. False if there is no touch at index.</returns>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.GetTouchPositionAbsoluteByTouchId(System.Int32,UnityEngine.Vector2@)">
+            <summary>
+            Gets the touch position for a particular touch id in absolute units as returned by the device. (Left = 0, Bottom = 0)
+            </summary>
+            <param name="touchId">The id of the touch for which to return position.</param>
+            <param name="position">X/Y position of the touch in absolute units.</param>
+            <returns>True if the touch at touchId is currently touching. False if there is no touch at touchId.</returns>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.IsTouching(System.Int32)">
+            <summary>
+            Determines if the current touch id is valid for any currently active touch.
+            </summary>
+            <param name="index">The index of the touch</param>
+            <returns>True/False</returns>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.IsTouchingByTouchId(System.Int32)">
+            <summary>
+            Determines if the current touch id is valid for any currently active touch.
+            </summary>
+            <param name="touchId">The id of the touch</param>
+            <returns>True/False</returns>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.SetMotionSensorState(System.Boolean)">
+            <summary>
+            Sets the motion sensor state.
+            </summary>
+            <param name="enabled">The state</param>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.SetTiltCorrectionState(System.Boolean)">
+            <summary>
+            Sets the tilt correction state.
+            </summary>
+            <param name="enabled">The state</param>
+        </member>
+        <member name="M:Rewired.Platforms.PS4.PS4GamepadExtension.SetAngularVelocityDeadbandState(System.Boolean)">
+            <summary>
+            Sets the angular velocity deadband state.
+            </summary>
+            <param name="enabled">The state</param>
+        </member>
+        <member name="P:Rewired.Platforms.PS4.PS4GamepadExtension.userStatusCode">
+            <summary>
+            Gets the PS4 user status code.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.PS4.PS4GamepadExtension.userIsPrimary">
+            <summary>
+            Is this PS4 user the primary user?
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.PS4.PS4GamepadExtension.userId">
+            <summary>
+            Gets the PS4 user id.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.PS4.PS4GamepadExtension.userColor">
+            <summary>
+            Gets the PS4 user color.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.PS4.PS4GamepadExtension.userColorId">
+            <summary>
+            Gets the PS4 user color id.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.PS4.PS4GamepadExtension.userName">
+            <summary>
+            Gets the PS4 user name.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.PS4.PS4GamepadExtension.vibrationMotorCount">
+            <summary>
+            The number of vibration motors in this controller.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.PS4.PS4GamepadExtension.maxTouches">
+            <summary>
+            Number of simultaneous touches supported by this device.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.PS4.PS4GamepadExtension.touchpadPixelDensity">
+            <summary>
+            Gets the pixel density of the touchpad.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.PS4.PS4GamepadExtension.touchpadResolution">
+            <summary>
+            Gets the touchpad resolution in pixels.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.PS4.PS4GamepadExtension.touchpadResolutionX">
+            <summary>
+            Gets the touchpad X resolution in pixels.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.PS4.PS4GamepadExtension.touchpadResolutionY">
+            <summary>
+            Gets the touchpad Y resolution in pixels.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.PS4.PS4GamepadExtension.touchCount">
+            <summary>
+            The current touch count.
+            </summary>
+        </member>
+        <member name="T:Rewired.Platforms.PS4.PS4GamepadMotorType">
+            <summary>
+            PS4 game pad motors. Used for vibration.
+            </summary>
+        </member>
+        <member name="F:Rewired.Platforms.PS4.PS4GamepadMotorType.LeftMotor">
+            <summary>
+            Left motor (stronger motor)
+            </summary>
+        </member>
+        <member name="F:Rewired.Platforms.PS4.PS4GamepadMotorType.StrongMotor">
+            <summary>
+            Left motor (stronger motor)
+            </summary>
+        </member>
+        <member name="F:Rewired.Platforms.PS4.PS4GamepadMotorType.RightMotor">
+            <summary>
+            Right motor (weaker motor)
+            </summary>
+        </member>
+        <member name="F:Rewired.Platforms.PS4.PS4GamepadMotorType.WeakMotor">
+            <summary>
+            Right motor (weaker motor)
             </summary>
         </member>
         <member name="T:Rewired.ReInput">
