@@ -14,28 +14,17 @@ public class playerCamera : MonoBehaviour
         {
             playerCamera.SetActive(false);
         }
-
-        Player1Camera.SetActive(false);
-        Player2Camera.SetActive(false);
-        Player1Toggle.onValueChanged.AddListener(Player1Callback);
-        Player2Toggle.onValueChanged.AddListener(Player2Callback);
-
     }
 	
 	// Update is called once per frame
 	void Update ()
 	{
        // Debug.Log(playerToggle.isOn);
-       // gameObject.SetActive(playerToggle.isOn);
-	}
+       PlayerCameras[0].SetActive(PlayerToggles[0].isOn);
+        PlayerCameras[1].SetActive(PlayerToggles[1].isOn);
+        PlayerCameras[2].SetActive(PlayerToggles[2].isOn);
+        PlayerCameras[3].SetActive(PlayerToggles[3].isOn);
 
-    public void Player1Callback(bool b)
-    {
-        Player1Camera.SetActive(b);
     }
 
-    public void Player2Callback(bool b)
-    {
-        Player2Camera.SetActive(b);        
-    }
 }
