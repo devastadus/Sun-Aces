@@ -113,7 +113,18 @@ using System.Collections.Generic;
                 float distance = Vector2.Distance(transform.position, target.position);
                 if (distance > arenaRange)
                 {
-                    target.position = -target.position;
+					Vector3 temp;
+					temp = target.position;
+					//need to reduce the amount on one vector to be at a clamp without modifying the other. 
+					if(Mathf.Abs(target.position.x) > Mathf.Abs(target.position.y)){					
+						temp.x = -target.position.x;				
+					}
+					else{
+						temp.y = -target.position.y;				
+					}
+				//target.position = Vector3.ClampMagnitude(temp,arenaRange);
+				target.position = temp;
+				break; // may not be breaking out of the foreach????
                 }
             }
         }
