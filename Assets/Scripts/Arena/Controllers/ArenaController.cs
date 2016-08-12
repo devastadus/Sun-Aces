@@ -10,9 +10,9 @@ public class ArenaController : MonoBehaviour
     void Awake()
     {
         GameObject go = GameObject.Find("Menu Manager");
-        MenuController menuController = go.GetComponent<MenuController>();
-        player1 = menuController.player1.isOn;
-        player2 = menuController.player2.isOn;
+
+//        player1 = menuController.player1.isOn;
+//        player2 = menuController.player2.isOn;
 
 
         Destroy(go);
@@ -21,9 +21,9 @@ public class ArenaController : MonoBehaviour
 	// Use this for initialization
 	void Start () {
 		GameObject go = GameObject.Find("Menu Manager");
-		MenuController menuController = go.GetComponent<MenuController>();
-		Debug.Log(menuController.player1.isOn);
-		Debug.Log(menuController.player2.isOn);
+	//	MenuController menuController = go.GetComponent<MenuController>();
+	//	Debug.Log(menuController.player1.isOn);
+	//	Debug.Log(menuController.player2.isOn);
 		Destroy(go);
 
 	}

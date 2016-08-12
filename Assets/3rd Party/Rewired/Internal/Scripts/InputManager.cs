@@ -62,7 +62,11 @@ namespace Rewired {
             } else if(CheckDeviceName("Amazon AFT.*", deviceName, deviceModel)) {
                 platform = Platform.AmazonFireTV;
             } else if(CheckDeviceName("razer Forge", deviceName, deviceModel)) {
+#if REWIRED_OUYA && REWIRED_USE_OUYA_SDK_ON_FORGETV
+                platform = Platform.Ouya;
+#else
                 platform = Platform.RazerForgeTV;
+#endif
             }
 #endif
 #endif
@@ -119,12 +123,12 @@ namespace Rewired {
             platform = Platform.WindowsAppStore;
 #endif
 
-// Windows Phone overrides Windows Store -- this is not set when doing Universal 8.1 builds
+            // Windows Phone overrides Windows Store -- this is not set when doing Universal 8.1 builds
 #if UNITY_WP8 || UNITY_WP8_1 || UNITY_WP_8 || UNITY_WP_8_1 // documentation error on format of WP8 defines, so include both
             platform = Platform.WindowsPhone8;
 #endif
 
-// Windows 8.1 Universal
+            // Windows 8.1 Universal
 #if UNITY_WINRT_8_1 && !UNITY_WSA_8_1 // this seems to be the only way to detect this
             
 #endif

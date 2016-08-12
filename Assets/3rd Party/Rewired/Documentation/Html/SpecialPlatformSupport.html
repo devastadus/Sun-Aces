@@ -128,11 +128,9 @@
     <h3><a name="windows-app-store" id="windows-app-store"></a>Windows 8 Store</h3>
     <p>To build for the Windows 8 Store, you must install Windows 8 Store support. In order to build for this platform, you must be using the Windows Unity editor.</p>
     <p>Install Windows App Store platform support through the menu:<br />
-      <strong>Window -&gt; Rewired -&gt; Setup -&gt; Install Platform Support -&gt; Windows 8 Store</strong></p>
-    <p><strong>NOTE:</strong><br />
-      Rewired does not support Windows 8 Store in Unity 5.0.0 due to a new Unity bug. <a href="KnownIssues.html#windows-app-store-u5">See this page for details</a>. The bug was fixed in 5.0.1, so upgrade to Unity 5.0.1+ if you need Windows 8 Store Support.</p>
+      <strong>Window -&gt; Rewired -&gt; Setup -&gt; Install Platform Support -&gt; Windows 8 Store</strong>    </p>
     <p><strong>IMPORTANT NOTE FOR UNITY 5 USERS:</strong></p>
-    <p>Unity 5 requires that a Placeholder path be set in the Plugins/Metro/Rewired_Core.dll inpspector or you will get compilation errors when you try to compile. You must set this path to the current location of the main Rewired_Core.dll in your project. If you move the Rewired folder to another directory, this path will have to be changed manually because Unity stores a path here instead of a GUID.</p>
+<p>Unity 5 requires that a Placeholder path be set in the Plugins/Metro/Rewired_Core.dll inpspector or you will get compilation errors when you try to compile. You must set this path to the current location of the main Rewired_Core.dll in your project. If you move the Rewired folder to another directory, this path will have to be changed manually because Unity stores a path here instead of a GUID.</p>
     <p>Here are the steps:</p>
 	<ol>
     <li>Select Plugins/Metro/Rewired_Core.dll in the project view.</li>
@@ -148,7 +146,7 @@
   <li>Plugins/Metro/Rewired_Core.dll</li>
   <li>Plugins/Metro/Rewired_Windows8Store.dll</li>
   </ol>
-<p>If you do not the WSA SDK target to &quot;Any SDK&quot;, Windows 8.1 Universal builds will always fail.</p>
+<p>If you do not set the WSA SDK target to &quot;Any SDK&quot;, Windows 8.1 Universal builds will always fail.</p>
 <p>If you are also going to build to Windows 10 Universal (UWP), you must first set the above DLLs back to SDK81 or disable WSA on the DLLs entirely. If you do not, these Windows 8 DLLs will be included when building to Windows 10 Universal (UWP) and the build will fail.</p>
 <p>This bug was reported to Unity and fixed in 5.3.4p2. There is no automatic workaround at the present time.</p>
 <p>The major cause of concern for this bug is that Windows Phone 8 cannot use some of the libraries called in Rewired_Windows8Store.dll. This DLL contains calls to XInput, which will cause the Windows Phone 8 build to fail to pass validation. The only possible workaround for this in versions of Unity prior to 5.3.4p2 is to delete the REwired_Windows8Store.dll forcing Rewired to fall back to UnityEngine.Input. This is the only way to build a Windows 8.1 Universal build that will pass validation in versions of Unity prior to 5.3.4p2.</p>
@@ -191,56 +189,34 @@
 <ol>
   <li>Follow the <a href="https://github.com/ouya/docs/blob/master/unity.md" target="_blank">OUYA plugin documentation</a> to set up the Unity environment for Ouya support.</li>
   <li>Switch the Unity editor build target to Android.</li>
-  <li>Ensure that &quot;Build to Ouya&quot; is checked in the Rewired Global Options panel which can be found at:<br />
+  <li>Ensure that &quot;Build to Ouya&quot; is checked in the Rewired Global Options window which can be found at:<br />
     <strong>Window -&gt; Rewired -&gt; Global Options</strong></li>
   <li>Place OuyaGameObject prefab from the OUYA SDK in your scene as mentioned in the <a href="https://github.com/ouya/docs/blob/master/unity.md" target="_blank">OUYA plugin documentation</a>.</li>
   <li>Build through the standard Unity build panel.</li>
   </ol>
 <p>For questions about supported controllers on Ouya, <a href="SupportedControllers.html#ouya-controller-support">see here.</a></p>
+<p><strong>Using Razer Forge TV with Ouya Everywhere SDK</strong></p>
+<p>To enable Ouya Everywhere SDK  on the Razer Forge TV, follow the above steps and additionally check the &quot;Use Ouya SDK on Razer Forge TV&quot; option in the Rewired Global Options window.</p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="xbox-one" id="ouya2"></a>XBox One</h3>
 <p>Rewired includes special support for XBox One for better controller support and more accurate hot-plugging behavior. Rewired supports gamepad vibration on XBox One, however you must first install the prerequisite Xbox One native library provided by Unity.</p>
 <p>If you receive an error when switching to the Xbox One build target in Unity, make sure the <a href="Troubleshooting.html#compile-errors-ps4-xbone">Xbox One platform is checked on the Rewired_Core.dll import options</a>.</p>
 <p><strong>Dependencies</strong></p>
-<p>  Xbox One support requires that you install the following native library provided by Unity be installed into Plugins/XboxOne in your project:</p>
+<p>  Xbox One support requires that you install the following native library provided by Unity be installed into the Plugins/XboxOne folder in your project:</p>
 <ul>
   <li>Gamepad.dll</li>
   </ul>
 <p>To get the library files, go to:<br />
 Unity Xbox Forums &gt; Build Downloads (Sticky Topic) &gt; Under &quot;Latest Builds&quot;   is &quot;Unity's Xbox One Native Plugins&quot; </p>
+<p>The file Gamepad.dll can be found in Binaries\Native\Variations\Durango_Release in the plugins package.</p>
 <p>Without this dependiency installed correctly, XBox One builds will not function. You may only see black screen when launching the build on the Xbox One if the library is not installed.</p>
 <p><strong>Crashes on Start</strong></p>
 <p>This is <em>always</em> due to improper set up of the dependencies noted above. If Gamepad.dll is not found, not in the proper location, or does not have the proper inspector settings to enable it to be included with the XBox One build, all p/invoke calls to Gamepad.dll will fail, which crashes the XBox One rather than throwing an exception which can be caught and handled as happens on all other platforms. If the version of Gamepad.dll you are using does not have the exact method signature matches which Rewired expects, it will also crash. If you upgrade Unity versions but do not update the Gamepad.dll also, it may also crash if the gamepad.dll has been built to a different version of the Xbox One SDK.</p>
+<p>If for any reason you cannot get the Gamepad.dll, you can disable all calls to the DLL by adding REWIRED_XBOXONE_DISABLE_VIBRATION to the <a href="https://docs.unity3d.com/Manual/PlatformDependentCompilation.html" target="_blank">custom Scripting Define Symbols in the Unity Player settings</a> for the Xbox One Platform. This will disable support for gamepad vibration.</p>
 <p><strong>Accessing XBox One Controller Features</strong></p>
-<p>Special controller features of the XBox One gamepad such as vibration can be accessed via the <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/T_Rewired_Platforms_XboxOne_XboxOneGamepadExtension.htm">XboxOneGamepadExtension</a> class available in the Joystick class as seen in the example below:</p>
-<pre class="code">
-using Rewired;
-using Rewired.Platforms.XboxOne;
-
-class XBoxOneTest {
-    void MyMethod() {
-
-      <span class="comment">  // Set vibration in all controllers in player</span>
-        foreach(Joystick joystick in player.controllers.Joysticks) {
-
-#if UNITY_XBOXONE &amp;&amp; !UNITY_EDITOR
-            <span class="comment">// Get the ControllerExtension for Xbox One and set left gamepad motor to full value</span>
-<span class="comment">            // Note: Vibration can also be set in a more generic way through Joystick.SetVibration by using the motor index.</span>
-            XboxOneGamepadExtension extension = joystick.GetExtension&lt;XboxOneGamepadExtension&gt;();
-            if(extension != null) {
-                <span class="comment">// Set vibration using the XboxOneGamepadMotorType enum</span>
-                extension.SetVibration(XboxOneGamepadMotorType.LeftMotor, 1.0f);
-            } else {  <span class="comment">// extension was not found or not the right type</span>
-                <span class="comment">// Set first motor to full value</span>
-                joystick.SetVibration(0, 1.0f);
-            }
-#else
-            <span class="comment">// Set first motor to full value</span>
-            joystick.SetVibration(0, 1.0f);
-#endif<br />        }
-    }
-}</pre>
+<p>Special controller features of the XBox One gamepad such as vibration can be accessed via the <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/T_Rewired_Platforms_XboxOne_XboxOneGamepadExtension.htm">XboxOneGamepadExtension</a> class available in the Joystick class <a href="HowTo's.html#xbox-one-controller-special-features">as seen in this example</a>.</p>
+<p>&nbsp;</p>
 <div class="bottom-pager clearfix">
   <a class="back-button" href="Documentation.html" title="Documentation"><span class="button-img"></span>Documentation</a>
 </div>

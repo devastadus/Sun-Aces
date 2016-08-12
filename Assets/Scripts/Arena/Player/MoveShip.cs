@@ -5,7 +5,7 @@ namespace Arena.Player
 {
     public class MoveShip : MonoBehaviour {
 
-        public int PlayerId = 0; // The Rewired player id of this character
+        public int PlayerId; // The Rewired player id of this character
         public float Speed = 200f;
         public float RotateSpeed = 80f;
         public float MaxSpeed = 8;

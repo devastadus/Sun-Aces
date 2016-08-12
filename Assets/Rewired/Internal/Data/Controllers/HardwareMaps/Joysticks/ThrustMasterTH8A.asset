@@ -15,7 +15,8 @@ MonoBehaviour:
   editorControllerName: 
   description: TH8A, TH8RS, T500 RS Shifter
   controllerGuid: 7eca62aa-762d-4c58-bf20-f767320dc7bd
-  templateGuids: []
+  templateGuids:
+  - 104e31d8-9115-4dd5-a398-2e54d35e6c83
   hideInLists: 0
   elementIdentifiers:
   - _id: 0

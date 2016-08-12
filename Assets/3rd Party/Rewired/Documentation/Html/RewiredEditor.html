@@ -142,13 +142,13 @@
 <p>The Settings page allows you change the options for the current Input Manager. The options available are as follows:</p>
  <table width="100%" border="0" cellpadding="0" cellspacing="0">
   <tr>
-    <td width="22%" valign="top">Update Loop:</td>
+    <td width="22%" valign="top"><strong>Update Loop:</strong></td>
     <td width="78%" valign="top"><p>Updates input in one or more game loops.<br />
         Selecting Multiple will update input in each loop chosen. Each loop is updated and tracked independently so all input calls will work in either loop. Select multiple if you need to be able to get input, for example, from both Update and FixedUpdate.</p></td>
   </tr>
   <tr>
     <td valign="top">Update</td>
-    <td valign="top">Updates input only in the Update loop. If you try to get input from the FixedUpdate loop, you will miss some input data. Ex: GetButtonDown and GetKeyDown will not always return correctly.</td>
+    <td valign="top">Updates input only in the Update loop. If you try to get input from the FixedUpdate loop, you will miss some input data. Ex: GetButtonDown and GetKeyDown will not always return correctly. (Required)</td>
   </tr>
   <tr>
     <td valign="top">FixedUpdate</td>
@@ -164,59 +164,136 @@
     <td valign="top">&nbsp;</td>
   </tr>
   <tr>
-    <td valign="top">Input Options</td>
+    <td valign="top"><strong>Platform Settings:</strong></td>
+    <td valign="top">Certain build platforms have settings which you can set individually. Click the name of the platform, then options will appear below. For settings that affect all build platforms, click the &quot;All&quot; button.</td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>All:</strong></td>
     <td valign="top">&nbsp;</td>
   </tr>
   <tr>
     <td valign="top">Disable Native Input</td>
     <td valign="top"><p>Force Unity Input to be the input source. This will disable all external input sources such as Raw Input, Direct Input, XInput, and native OSX.</p>
       <p>WARNING:
-        Unity Input does not allow hot-plugging on most platforms. If you need hot-plugging, do not check this box.</p></td>
+        Unity Input does not allow hot-plugging on some platforms. If you need hot-plugging, do not check this box.</p></td>
   </tr>
   <tr>
-    <td valign="top">Windows Standalone Input Source</td>
+    <td valign="top">Disable Keyboard</td>
+    <td valign="top">Disable keyboard input on all platforms? Disabling this can improve performance slightly.</td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>Windows:</strong></td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top">Input Source</td>
     <td valign="top"><p>The primary input source for the Windows Standalone platform.</p>
       <p>Raw Input - Use Raw Input for the input source. Note: Raw Input carries significant advantages over Direct Input such as better Bluetooth controller support, support for more elements on certain controllers, better controller recognition, etc.  Does not require any extra libraries. Windows Control Panel joystick calibration does not affect joystick axes.</p>
       <p> Direct Input - Use Direct Input for the input source. Installation of DirectX end-user runtimes may be required for Direct Input support. Windows Control Panel joystick calibration settings affect joystick axes.</p>
 <p> SDL2 - Use SDL2 for the input source. This option requires the SDL2 runtime library to be installed. Note: SDL2 does not support as many devices as other native input sources.</p></td>
   </tr>
   <tr>
-    <td valign="top">Windows: Use XInput</td>
+    <td valign="top">Use XInput</td>
     <td valign="top">On Windows, use XInput for compatible devices. Otherwise fall back to Raw Input or Direct Input. Installation of DirectX end-user runtimes may be required for XInput support. (Windows Vista+ include XInput support without the need for additional drivers.) Required for XBox 360 vibration support.</td>
   </tr>
   <tr>
-    <td valign="top">Windows: Steam Raw Input Fix</td>
+    <td valign="top">Steam Raw Input Fix</td>
     <td valign="top"><p>Force Raw Input controllers to appear in list when using a Steam Controller along with other controllers. This is a workaround for an issue caused by Steam when a Steam Controller is used in conjunction with other Raw Input controllers that causes said Raw Input controllers to disappear once a Steam Controller is attached.</p>
       <p>Note: When using Steam Streaming, this workaround will cause all Raw Input controllers connected to the host machine to appear to the client.</p></td>
   </tr>
   <tr>
-    <td valign="top">OSX Standalone Input Source</td>
+    <td valign="top"> Native Mouse Handling</td>
+    <td valign="top"><p>Use native libraries to handle the mouse. Enabling this will eliminate certain bugs associated with Unity's mouse handling.</p></td>
+  </tr>
+  <tr>
+    <td valign="top">Enhanced Device Support</td>
+    <td valign="top">Enable low-level enhanced support for certain devices. If enhanced support is available for a particular device, this will enable device-specific features such as vibration / force feedback, lights, gyroscopes, accelerometers, touchpads, etc.</td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>OSX:</strong></td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top">Input Source</td>
     <td valign="top"><p>The primary input source for the OSX Standalone platform.</p>
       <p>Native - Use native input for the input source. This provides the best device support.</p>
       <p>SDL2 - Use SDL2 for the input source. This option requires the SDL2 runtime library to be installed.         Note: SDL2 does not support as many devices as other native input sources.</p>
-<p>Unity Input - Use Unity fallback input. </p></td>
+      <p>Unity Input - Use Unity fallback input. </p></td>
   </tr>
   <tr>
-    <td valign="top">Linux Standalone Input Source</td>
+    <td valign="top">Enhanced Device Support</td>
+    <td valign="top">Enable low-level enhanced support for certain devices. If enhanced support is available for a particular device, this will enable device-specific features such as vibration / force feedback, lights, gyroscopes, accelerometers, touchpads, etc.</td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>Linux:</strong></td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top">Input Source</td>
     <td valign="top"><p>The primary input source for the Linux Standalone platform.</p>
       <p>Native - Use native input for the input source. This provides the best device support.</p>
       <p> SDL2 - Use SDL2 for the input source. May be required for Steam Streaming support in Linux. This option requires the SDL2 runtime library to be installed. Note: SDL2 does not support as many devices as other native input sources.</p>
       <p>Unity Input - Use Unity fallback input. </p></td>
   </tr>
   <tr>
-    <td valign="top">Android: Support Unknown Gamepads</td>
+    <td valign="top"><strong>Windows UWP:</strong></td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top">Input Source</td>
+    <td valign="top"><p>The primary input source for the Windows 10 Universal platform.</p>
+      <p>Native - Use native input for the input source. This provides the best device support.</p>
+      <p>Unity Input - Use Unity fallback input.</p></td>
+  </tr>
+  <tr>
+    <td valign="top"><strong><a name="settings-android" id="settings-android"></a>Android:</strong></td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top">Support Unknown Gamepads</td>
     <td valign="top"><p>Treat all unrecognized controllers as gamepads using the standardized Android gamepad layout. All recognized controllers will be treated normally.</p>
       <p>Warning: While most Android gamepads conform to this layout, there are exceptions. Addtionally, with this option enabled, all unrecognized non-gamepad joystick devices used will be limited to only the set of elements available on a gamepad. If your game needs to support devices other than Android gamepads, disable this option.</p>
       <p>This option only applies to the Android platform.</p></td>
   </tr>
   <tr>
-    <td valign="top">Native Mouse Handling</td>
-    <td valign="top"><p>Use native libraries to handle the mouse if available on the current platform. Enabling this will eliminate certain bugs associated with Unity's mouse handling.</p>
-      <p>NOTE: This setting currently only affects the Windows Standalone platform.</p></td>
+    <td valign="top"><strong>Xbox One:</strong></td>
+    <td valign="top">&nbsp;</td>
   </tr>
   <tr>
-    <td valign="top">Enhanced Device Support</td>
-    <td valign="top">Enable low-level enhanced support for certain devices on certain platforms. If enhanced support is available for a particular device, this will enable device-specific features such as vibration / force feedback, lights, gyroscopes, accelerometers, touchpads, etc.</td>
+    <td valign="top">Input Source</td>
+    <td valign="top"><p>The primary input source for the Xbox One platform.</p>
+      <p>Native - Use native input for the input source. This provides the best device support.</p>
+      <p>Unity Input - Use Unity fallback input.</p></td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>PS4:</strong></td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top">Input Source</td>
+    <td valign="top"><p>The primary input source for the PS4 platform.</p>
+      <p>Native - Use native input for the input source. This provides the best device support.</p>
+      <p>Unity Input - Use Unity fallback input.</p></td>
+  </tr>
+  <tr>
+    <td valign="top">Assign Joysticks by PS4 Joy Id</td>
+    <td valign="top">If this option is enabled, joysticks will be assigned to Rewired Players based on the PS4 joystick id assigned by the system. This option ensures that the PS4 joystick id will match to the Rewired Player when auto-assigned. This option overrides some other joystick auto-assignment settings. Only one joystick will be assigned per Player.</td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>Each Platform:</strong></td>
+    <td valign="top">Options here appear in all individual platform pages.</td>
+  </tr>
+  <tr>
+    <td valign="top">Disable Keyboard</td>
+    <td valign="top">Disable keyboard input on this platform? Disabling this can improve performance slightly.</td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top"><strong>Global Settings:</strong></td>
+    <td valign="top">&nbsp;</td>
   </tr>
   <tr>
     <td valign="top">Default Joystick Dead Zone Type</td>
@@ -231,7 +308,7 @@
     <td valign="top">&nbsp;</td>
   </tr>
   <tr>
-    <td valign="top">Joystick Auto-Assignment:</td>
+    <td valign="top"><strong><a name="settings-joystick-auto-assignment" id="settings-joystick-auto-assignment"></a>Joystick Auto-Assignment:</strong></td>
     <td valign="top">NOTE: Joystick Auto-Assignment  applies to Joysticks only (controllers other than keyboard or mouse.) Joystick Auto-Assignment does not consider whether a Player has Keyboard Maps assigned, so it will not skip assigning joysticks to Players that are using the keyboard.</td>
   </tr>
   <tr>
@@ -449,6 +526,24 @@
   <tr>
     <td valign="top">Button Double Press Speed</td>
     <td valign="top">Time in seconds in which to register a button double-press or double-click.</td>
+  </tr>
+  <tr>
+    <td valign="top">Button Short Press Time</td>
+    <td valign="top">Time in seconds that a button or axis must be held to register a short press.</td>
+  </tr>
+  <tr>
+    <td valign="top">Button Short Press Expires In</td>
+    <td valign="top"><p>Time in seconds after a short press is registered after which it will expire and no longer return true for any button events. For example: If you want the press to expire 2 seconds after the press first registers true, set this value to 2. This is useful, for example, if you want short and long presses to be mutually exclusive.</p>
+      <p>[0 = Never expires]</p></td>
+  </tr>
+  <tr>
+    <td valign="top">Button Long Press Time</td>
+    <td valign="top">Time in seconds that a button or axis must be held to register a long press.</td>
+  </tr>
+  <tr>
+    <td valign="top">Button Long Press Expires In</td>
+    <td valign="top"><p>Time in seconds after a long press is registered after which it will expire and no longer return true for any button events. For example: If you want the press to expire 2 seconds after the press first registers true, set this value to 2.</p>
+      <p>[0 = Never expires]</p></td>
   </tr>
   <tr>
     <td valign="top">Button Dead Zone</td>

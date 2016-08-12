@@ -26,7 +26,7 @@ namespace Rewired.Utils {
         }
 #endif
 
-        // Xbox One Tools
+// Xbox One Tools
 
 #if UNITY_XBOXONE
 
@@ -46,21 +46,28 @@ namespace Rewired.Utils {
         public uint XboxOneInput_GetJoystickId(ulong xboxControllerId) { return XboxOneInput.GetJoystickId(xboxControllerId); }
 
         public void XboxOne_Gamepad_UpdatePlugin() {
+#if !REWIRED_XBOXONE_DISABLE_VIBRATION
             try {
                 Ext_Gamepad_UpdatePlugin();
             } catch {
             }
+#endif
         }
 
         public bool XboxOne_Gamepad_SetGamepadVibration(ulong xboxOneJoystickId, float leftMotor, float rightMotor, float leftTriggerLevel, float rightTriggerLevel) {
+#if !REWIRED_XBOXONE_DISABLE_VIBRATION
             try {
                 return Ext_Gamepad_SetGamepadVibration(xboxOneJoystickId, leftMotor, rightMotor, leftTriggerLevel, rightTriggerLevel);
             } catch {
                 return false;
             }
+#else
+            return false;
+#endif
         }
 
         public void XboxOne_Gamepad_PulseVibrateMotor(ulong xboxOneJoystickId, int motorInt, float startLevel, float endLevel, ulong durationMS) {
+#if !REWIRED_XBOXONE_DISABLE_VIBRATION
             Rewired.Platforms.XboxOne.XboxOneGamepadMotorType motor = (Rewired.Platforms.XboxOne.XboxOneGamepadMotorType)motorInt;
             try {
                 switch(motor) {
@@ -80,7 +87,10 @@ namespace Rewired.Utils {
                 }
             } catch {
             }
+#endif
         }
+
+#if !REWIRED_XBOXONE_DISABLE_VIBRATION
 
         [System.Runtime.InteropServices.DllImport("Gamepad", EntryPoint = "UpdatePlugin")]
         private static extern void Ext_Gamepad_UpdatePlugin();
@@ -100,6 +110,7 @@ namespace Rewired.Utils {
         [System.Runtime.InteropServices.DllImport("Gamepad", EntryPoint = "PulseGamepadsRightTrigger")]
         private static extern void Ext_Gamepad_PulseVibrateRightTrigger(ulong xboxOneJoystickId, float startLevel, float endLevel, ulong durationMS);
 
+#endif
 #else
         public event System.Action<uint, bool> XboxOneInput_OnGamepadStateChange;
 
@@ -190,6 +201,42 @@ namespace Rewired.Utils {
             };
         }
 
+		public Vector3 PS4Input_GetLastMoveAcceleration(int id, int index) {
+            return UnityEngine.PS4.PS4Input.GetLastMoveAcceleration(id, index);
+        }
+
+        public Vector3 PS4Input_GetLastMoveGyro(int id, int index) {
+            return UnityEngine.PS4.PS4Input.GetLastMoveGyro(id, index);
+        }
+
+        public int PS4Input_MoveGetButtons(int id, int index) {
+            return UnityEngine.PS4.PS4Input.MoveGetButtons(id, index);
+        }
+
+        public int PS4Input_MoveGetAnalogButton(int id, int index) {
+            return UnityEngine.PS4.PS4Input.MoveGetAnalogButton(id, index);
+        }
+
+        public bool PS4Input_MoveIsConnected(int id, int index) {
+            return UnityEngine.PS4.PS4Input.MoveIsConnected(id, index);
+        }
+
+        public int PS4Input_MoveGetUsersMoveHandles(int maxNumberControllers, int[] primaryHandles, int[] secondaryHandles) {
+            return UnityEngine.PS4.PS4Input.MoveGetUsersMoveHandles(maxNumberControllers, primaryHandles, secondaryHandles);
+        }
+
+		public int PS4Input_MoveGetUsersMoveHandles(int maxNumberControllers, int[] primaryHandles) {
+			return UnityEngine.PS4.PS4Input.MoveGetUsersMoveHandles(maxNumberControllers, primaryHandles);
+		}
+
+		public int PS4Input_MoveGetUsersMoveHandles(int maxNumberControllers) {
+			return UnityEngine.PS4.PS4Input.MoveGetUsersMoveHandles(maxNumberControllers);
+		}
+
+		public System.IntPtr PS4Input_MoveGetControllerInputForTracking() {
+            return UnityEngine.PS4.PS4Input.MoveGetControllerInputForTracking();
+        }
+
 #else
         public Vector3 PS4Input_GetLastAcceleration(int id) { return Vector3.zero; }
 
@@ -218,6 +265,24 @@ namespace Rewired.Utils {
         public bool PS4Input_PadIsConnected(int id) { return false; }
 
         public object PS4Input_PadGetUsersDetails(int slot) { return null; }
+
+        public Vector3 PS4Input_GetLastMoveAcceleration(int id, int index) { return Vector3.zero; }
+
+        public Vector3 PS4Input_GetLastMoveGyro(int id, int index) { return Vector3.zero; }
+
+        public int PS4Input_MoveGetButtons(int id, int index) { return 0; }
+
+        public int PS4Input_MoveGetAnalogButton(int id, int index) { return 0; }
+
+        public bool PS4Input_MoveIsConnected(int id, int index) { return false; }
+
+        public int PS4Input_MoveGetUsersMoveHandles(int maxNumberControllers, int[] primaryHandles, int[] secondaryHandles) { return 0; }
+
+        public int PS4Input_MoveGetUsersMoveHandles(int maxNumberControllers, int[] primaryHandles) { return 0; }
+
+        public int PS4Input_MoveGetUsersMoveHandles(int maxNumberControllers) { return 0; }
+
+        public System.IntPtr PS4Input_MoveGetControllerInputForTracking() { return System.IntPtr.Zero; }
 #endif
     }
 }

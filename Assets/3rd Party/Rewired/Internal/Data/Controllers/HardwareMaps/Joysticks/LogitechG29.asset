@@ -15,7 +15,8 @@ MonoBehaviour:
   editorControllerName: 
   description: 
   controllerGuid: 57379f00-0b2b-4f01-8bc5-5e9bef307350
-  templateGuids: []
+  templateGuids:
+  - 104e31d8-9115-4dd5-a398-2e54d35e6c83
   hideInLists: 0
   elementIdentifiers:
   - _id: 0

@@ -1930,7 +1930,7 @@ MonoBehaviour:
       buttons: []
     variants: []
   fallback_Android:
-    description: Unity 4.x
+    description: Unity 4.3
     matchingCriteria:
       axisCount: 0
       buttonCount: 0
@@ -1940,8 +1940,8 @@ MonoBehaviour:
       productName:
       - "\u5C0F\u7C73\u84DD\u7259\u624B\u67C4"
       matchUnityVersion: 1
-      matchUnityVersion_min: 4.x
-      matchUnityVersion_max: 4.x
+      matchUnityVersion_min: 4.3.0f4
+      matchUnityVersion_max: 4.3.4f1
     elements:
       compoundElements:
       - type: 0
@@ -2337,7 +2337,7 @@ MonoBehaviour:
         ignoreIfButtonsActive: 0
         ignoreIfButtonsActiveButtons: 
     variants:
-    - description: Unity 5.x
+    - description: Unity 4.5+
       matchingCriteria:
         axisCount: 0
         buttonCount: 0
@@ -2347,8 +2347,8 @@ MonoBehaviour:
         productName:
         - "\u5C0F\u7C73\u84DD\u7259\u624B\u67C4"
         matchUnityVersion: 1
-        matchUnityVersion_min: 5.x
-        matchUnityVersion_max: 5.x
+        matchUnityVersion_min: 4.5.0f6
+        matchUnityVersion_max: 
       elements:
         compoundElements:
         - type: 0
@@ -2743,7 +2743,6 @@ MonoBehaviour:
           requiredButtons: 
           ignoreIfButtonsActive: 0
           ignoreIfButtonsActiveButtons: 
-      variants: []
   fallback_iOS:
     description: 
     matchingCriteria:
@@ -2978,6 +2977,20 @@ MonoBehaviour:
       buttons: []
     variants: []
   xboxOne:
+    description: 
+    matchingCriteria:
+      axisCount: 0
+      buttonCount: 0
+      disabled: 0
+      alwaysMatch: 0
+      productName_useRegex: 0
+      productName: []
+    elements:
+      compoundElements: []
+      axes: []
+      buttons: []
+    variants: []
+  ps4:
     description: 
     matchingCriteria:
       axisCount: 0

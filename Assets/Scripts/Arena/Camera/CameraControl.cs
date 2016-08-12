@@ -7,6 +7,7 @@ using System.Collections.Generic;
         public float m_DampTime = 0.2f;                 // Approximate time for the camera to refocus.
         public float m_ScreenEdgeBuffer = 4f;           // Space between the top/bottom most target and the screen edge.
         public float m_MinSize = 6.5f;                  // The smallest orthographic size the camera can be.
+        public float arenaRange = 20f;
 		List<Transform> targets = new List<Transform>();
         
         private Camera m_Camera;                        // Used for referencing the camera.
@@ -29,6 +30,8 @@ using System.Collections.Generic;
 
             // Change the size of the camera based.
             Zoom ();
+
+            ArenaObjectAdjust();
         }
 
 		//need to add objects to the list and take them out dynamically
@@ -99,6 +102,20 @@ using System.Collections.Generic;
             float requiredSize = FindRequiredSize();
             m_Camera.orthographicSize = requiredSize;
             //m_Camera.orthographicSize = Mathf.SmoothDamp (m_Camera.orthographicSize, requiredSize, ref m_ZoomSpeed, m_DampTime);
+        }
+
+
+        //TODO: could be expensive if lots of objects may need to optimize in the future
+        private void ArenaObjectAdjust()
+        {
+            foreach (Transform target in targets)
+            {          
+                float distance = Vector2.Distance(transform.position, target.position);
+                if (distance > arenaRange)
+                {
+                    target.position = -target.position;
+                }
+            }
         }
 
 

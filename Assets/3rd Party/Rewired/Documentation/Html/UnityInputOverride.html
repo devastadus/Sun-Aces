@@ -154,8 +154,12 @@ UnityInputOverride.playerId = 2; <span class="comment">// change the Rewired Pla
       <li>The input script must make all calls by using the shortened form of &quot;Input.GetAxis&quot; instead of the fully-qualified form &quot;UnityEngine.Input.GetAxis&quot;. Scripts that use fully-qualified calls cannot be rerouted to Rewired because the compiler is explicitly instructed which Input class to use.</li>
       <li>Calls to Unity input from within DLL's cannot be rerouted.</li>
       <li>Calls to Input.GetKey or Input.GetKeyDown will not benefit from Rewired's Action-based system.</li>
-    </ol>
-    <p><strong><a name="installation" id="installation"></a>Installation</strong></p>
+      </ol>
+    <p><strong><a name="notes" id="notes"></a>Notes</strong></p>
+    <ul>
+      <li>Mouse Sensitivity: If the script you are using processes Mouse X/Y axis values such as a mouse-look script, be sure to <a href="RewiredEditor.html#InputBehaviors">set the Mouse XY Axis Sensitivity in the Input Behavior</a> assigned to the Actions to 0.1 instead of Rewired's default value of 1. Unity defaults to 0.1 sensitivity for mouse axes, so you should change this value to match if you want the scripts to behave the same way they would when using Unity input.</li>
+    </ul>
+<p><strong><a name="installation" id="installation"></a>Installation</strong></p>
     <p>Install the script from the menu:</p>
     <ul>
       <li>Window -&gt; Rewired -&gt; Extras -&gt; Unity Input Override -&gt; Install</li>
@@ -166,7 +170,7 @@ UnityInputOverride.playerId = 2; <span class="comment">// change the Rewired Pla
     </ul>
 <p><strong><a name="uninstallation" id="uninstallation"></a>Uninstallation</strong></p>
 <p>Delete the Plugins/Rewired/UnityInputOverride.cs file.</p>
-    <p>Or you can disable the script by commenting out the #define line at the top of the script.</p>
+    <p>Or you can disable the script for the current platform by adding REWIRED_DISABLE_UNITY_INPUT_OVERRIDE to the <a href="https://docs.unity3d.com/Manual/PlatformDependentCompilation.html" target="_blank">custom Scripting Define Symbols in the Unity Player settings</a>.</p>
     <div class="bottom-pager clearfix">
       <a class="back-button" href="Documentation.html" title="Actions"><span class="button-img"></span>Documentation</a></div>
 <!-- InstanceEndEditable -->

@@ -219,8 +219,19 @@
     <p><img src="files/images/controlmapper_userdatastore.png" width="554" height="97" /></p>
     <p>Saving and loading of user data is handled by the <a href="UserDataStore.html">UserDataStore</a> component on the Rewired Input Manager. By default, this component does not exist on the Rewired Input Manager. Without this component, data will never be saved or loaded and will not persist between game sessions.</p>
     <p>If you add a UserDataStore derived component to the Rewired Input Manager, it will be used to save and load data. Rewired includes a UserDataStore_PlayerPrefs component which will use PlayerPrefs to save the controller data. Simply add this component to your Rewired Input Manager and data will be loaded and saved as needed.</p>
+    <p>Control Mapper will save data when any of the following occur:</p>
+    <ul>
+      <li>The Control Mapper window is closed by the user.</li>
+      <li>A joystick is unplugged.</li>
+      </ul>
+    <p>Control Mapper will load saved data when any of the following occur:</p>
+    <ul>
+      <li>At runtime start if &quot;Load Data On Start&quot; is checked in the UserDataStore_PlayerPrefs component inspector.</li>
+      <li>A joystick is plugged in.</li>
+    </ul>
+    <p>If you are using multiple different Rewired Input Managers in different scenes, they all must have a UserDataStore_PlayerPrefs component and the &quot;Player Prefs Key Prefix&quot; must match in order for the same save data to be loaded by each Rewired Input Manager.</p>
     <p>If you don't want to use PlayerPrefs, you can create your own data storage system using UserDataStore. See <a href="UserDataStore.html">User Data Store</a> for more information.</p>
-    <h3 style="background-color:#FF6"><a name="clear-xml-data" id="clear-xml-data"></a>***IMPORTANT***:</h3>
+<h3 style="background-color:#FF6"><a name="clear-xml-data" id="clear-xml-data"></a>***IMPORTANT***:</h3>
     <p> When doing testing, if you open and close the Control Mapper screen or unplug a joystick while the Control Mapper screen is open, you are causing it to save XML data in the registry even if you didn't change any mappings or settings. The next time you start the game (provided the Rewired Input Manager with the UserDataStore_PlayerPrefs component is present in the scene), it will load that saved XML data from the registry, NOT the default settings stored in the Rewired Input Manager. While doing testing, you will most likely want to clear this saved data so the default settings in the Rewired Input Manager are loaded instead of the saved data. This can be done by clearing Player Prefs by opening the &quot;Debug Options&quot; foldout on the Rewired Input Manager inspector.</p>
     <p>If you are confused by your input configuration not matching what you defined in the Rewired Input Manager, or you are seeing different behaviors in the Unity Editor versus a game build, you most likely are loading XML data that you are unaware that you saved. Clear Player Prefs and everything will reset to the defaults.</p>
     <p>&nbsp;</p>
