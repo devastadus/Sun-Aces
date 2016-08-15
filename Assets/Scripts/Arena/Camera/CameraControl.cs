@@ -119,23 +119,23 @@ public class CameraControl : MonoBehaviour
 	{
 		foreach (Transform target in targets) {
 			float distance = Vector2.Distance (transform.position, target.position);
-            Debug.Log(distance);
 			if (distance > arenaRange) {
 				Vector3 temp;
 				temp = target.position;
-				//need to reduce the amount on one vector to be at a clamp without modifying the other.
 
-				if (Mathf.Abs (target.position.x) > Mathf.Abs (target.position.y)) {
+				//need to find if X or Y is bigger relative to the camera
+				if (Mathf.Abs (gameObject.transform.position.x - target.position.x) > 
+					Mathf.Abs (gameObject.transform.position.y - target.position.y)) {
 
-					if (temp.x >= 0)
-						temp.x = -target.position.x + .5f;
+					if (temp.x > gameObject.transform.position.x)
+						temp.x = target.position.x - (arenaRange*2) +.5f;
 					else
-						temp.x = -target.position.x - .5f;
+						temp.x = target.position.x + (arenaRange*2) -.5f;
 				} else {
-					if (temp.y >= 0)
-						temp.y = -target.position.y + .5f;
+					if (temp.y > gameObject.transform.position.y)
+						temp.y = target.position.y - (arenaRange*2) +.5f;
 					else
-						temp.y = -target.position.y - .5f;
+						temp.y = target.position.y + (arenaRange*2) -.5f;
 				}
 			//	Debug.Log (temp);
 				//target.position = Vector3.ClampMagnitude(temp,arenaRange-1);
