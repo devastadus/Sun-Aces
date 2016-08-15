@@ -119,6 +119,7 @@ public class CameraControl : MonoBehaviour
 	{
 		foreach (Transform target in targets) {
 			float distance = Vector2.Distance (transform.position, target.position);
+            Debug.Log(distance);
 			if (distance > arenaRange) {
 				Vector3 temp;
 				temp = target.position;
@@ -127,19 +128,19 @@ public class CameraControl : MonoBehaviour
 				if (Mathf.Abs (target.position.x) > Mathf.Abs (target.position.y)) {
 
 					if (temp.x >= 0)
-						temp.x = target.position.x - .5f;
+						temp.x = -target.position.x + .5f;
 					else
-						temp.x = target.position.x + .5f;
+						temp.x = -target.position.x - .5f;
 				} else {
 					if (temp.y >= 0)
-						temp.y = target.position.y - .5f;
+						temp.y = -target.position.y + .5f;
 					else
-						temp.y = target.position.y + .5f;
+						temp.y = -target.position.y - .5f;
 				}
-				Debug.Log (temp);
+			//	Debug.Log (temp);
 				//target.position = Vector3.ClampMagnitude(temp,arenaRange-1);
 				target.position = temp;
-				//return; // may not be breaking out of the foreach????
+				return; // may not be breaking out of the foreach????
 			}
 		}
 	}
