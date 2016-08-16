@@ -117,30 +117,40 @@ public class CameraControl : MonoBehaviour
 	//TODO: could be expensive if lots of objects may need to optimize in the future
 	private void ArenaObjectAdjust ()
 	{
-		foreach (Transform target in targets) {
-			float distance = Vector2.Distance (transform.position, target.position);
-			if (distance > arenaRange) {
-				Vector3 temp;
-				temp = target.position;
+		float amount = 40f;
+		bool go = true;
+		foreach (Transform target in targets) {	
+			if(go){
+				float distance = Vector2.Distance (transform.position, target.position);
+				Debug.Log("distance " + distance);
+				if (distance-1 >= arenaRange) {
+					Vector3 temp;
+					temp = target.position;
 
-				//need to find if X or Y is bigger relative to the camera
-				if (Mathf.Abs (gameObject.transform.position.x - target.position.x) > 
-					Mathf.Abs (gameObject.transform.position.y - target.position.y)) {
+					//need to find if X or Y is bigger relative to the camera
+					if (Mathf.Abs (gameObject.transform.position.x - target.position.x) > 
+						Mathf.Abs (gameObject.transform.position.y - target.position.y)) {
 
-					if (temp.x > gameObject.transform.position.x)
-						temp.x = target.position.x - (arenaRange*2) +.5f;
-					else
-						temp.x = target.position.x + (arenaRange*2) -.5f;
-				} else {
-					if (temp.y > gameObject.transform.position.y)
-						temp.y = target.position.y - (arenaRange*2) +.5f;
-					else
-						temp.y = target.position.y + (arenaRange*2) -.5f;
+						if (temp.x > gameObject.transform.position.x)
+							//temp.x = target.position.x - (arenaRange*3.5f);// +1f;
+							temp.x = target.position.x - (amount);// +1f;
+						else
+							//temp.x = target.position.x + (arenaRange*3.5f);// - 1f;
+							temp.x = target.position.x + (amount);// - 1f;
+					} else {
+						if (temp.y > gameObject.transform.position.y)
+							//temp.y = target.position.y - (arenaRange*3.5f);// +1f;
+							temp.y = target.position.y - (amount);// +1f;
+						else
+							//temp.y = target.position.y + (arenaRange*3.5f);// -1f;
+							temp.y = target.position.y + (amount);// -1f;
+					}
+					Debug.Log (temp);
+					//target.position = Vector3.ClampMagnitude(temp,arenaRange);
+					target.position = temp;
+					go = false;
+					//return; // may not be breaking out of the foreach????
 				}
-			//	Debug.Log (temp);
-				//target.position = Vector3.ClampMagnitude(temp,arenaRange-1);
-				target.position = temp;
-				return; // may not be breaking out of the foreach????
 			}
 		}
 	}

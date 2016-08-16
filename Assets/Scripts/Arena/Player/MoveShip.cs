@@ -29,8 +29,7 @@ namespace Arena.Player
         // Update is called once per frame
         void FixedUpdate () {
             Move();
-            Rotate();
-	
+            Rotate();				
         }
 
         void Move(){		
