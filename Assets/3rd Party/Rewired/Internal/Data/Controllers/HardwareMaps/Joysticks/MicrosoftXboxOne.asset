@@ -217,10 +217,10 @@ MonoBehaviour:
         sourceAxisRange: 1
         invert: 0
         axisDeadZone: .0500000007
-        calibrateAxis: 0
+        calibrateAxis: 1
         axisZero: 0
         axisMin: 0
-        axisMax: 0
+        axisMax: .995999992
         axisInfo:
           _dataFormat: 0
         sourceButton: 0
@@ -234,9 +234,9 @@ MonoBehaviour:
         sourceAxisRange: 2
         invert: 1
         axisDeadZone: .0500000007
-        calibrateAxis: 0
+        calibrateAxis: 1
         axisZero: 0
-        axisMin: 0
+        axisMin: -.995999992
         axisMax: 0
         axisInfo:
           _dataFormat: 0
@@ -534,10 +534,10 @@ MonoBehaviour:
           sourceAxisRange: 1
           invert: 0
           axisDeadZone: .0500000007
-          calibrateAxis: 0
+          calibrateAxis: 1
           axisZero: 0
           axisMin: 0
-          axisMax: 0
+          axisMax: .995999992
           axisInfo:
             _dataFormat: 0
           sourceButton: 0
@@ -551,9 +551,9 @@ MonoBehaviour:
           sourceAxisRange: 2
           invert: 1
           axisDeadZone: .0500000007
-          calibrateAxis: 0
+          calibrateAxis: 1
           axisZero: 0
-          axisMin: 0
+          axisMin: -.995999992
           axisMax: 0
           axisInfo:
             _dataFormat: 0
@@ -1171,10 +1171,10 @@ MonoBehaviour:
         sourceAxisRange: 1
         invert: 0
         axisDeadZone: .0500000007
-        calibrateAxis: 0
+        calibrateAxis: 1
         axisZero: 0
         axisMin: 0
-        axisMax: 0
+        axisMax: .995999992
         axisInfo:
           _dataFormat: 0
         sourceButton: 0
@@ -1189,9 +1189,9 @@ MonoBehaviour:
         sourceAxisRange: 2
         invert: 1
         axisDeadZone: .0500000007
-        calibrateAxis: 0
+        calibrateAxis: 1
         axisZero: 0
-        axisMin: 0
+        axisMin: -.995999992
         axisMax: 0
         axisInfo:
           _dataFormat: 0

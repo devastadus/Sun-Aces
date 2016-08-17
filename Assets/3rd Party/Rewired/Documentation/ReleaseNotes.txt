@@ -1,3 +1,26 @@
+1.0.0.96:
+
+  Changes:
+    - Windows Standalone Direct Input and XInput: Improved accuracy of button down detection when frame rate is extremely low and a button is pressed and released quickly.
+    - ReInput.ControllerHelper.GetLastActiveController is now based on controller element value changes instead of absolute element values to exclude uncalibrated non-zero-at-rest axes and always-on buttons.
+    - ReInput.ControllerHelper.GetLastActiveController() now returns Keyboard if no last active controller is found.
+    - Added Debug Information to Rewired Input Manager inspector. This shows a ton of useful information allowing you to visualize most objects in the system during runtime.
+    - Minor performance optimizations.
+  
+  API Changes:
+    - Added Controller.GetButtonChanged method.
+    - Added Controller.GetAnyButtonChanged method.
+    - Added Controller.GetLastTimeAnyButtonChanged method.
+    - Added Controller.GetLastTimeAnyElementChanged method.
+    - Added Controller.Button.lastTimeStateChanged property.
+    - Added Controller.Button.justChangedState property.
+    - Added Controller.Axis.lastTimeValueChanged property.
+    - Added Controller.Axis.lastTimeValueChangedRaw property.
+    - Added ControllerWithAxes.GetLastTimeAnyAxisChanged method.
+    - Added ReInput.ControllerHelper.GetAnyButtonChanged method.
+    - Added ReInput.ControllerHelper.GetLastActiveControllerType method.
+    - Removed obsolete ActionElementMap.actionCategoryId property.
+
 1.0.0.95:
   
   Changes:

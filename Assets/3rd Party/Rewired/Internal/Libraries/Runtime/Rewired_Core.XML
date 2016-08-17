@@ -1168,6 +1168,15 @@
             <param name="index">Button index</param>
             <returns>Button just released state</returns>
         </member>
+        <member name="M:Rewired.Controller.GetButtonChanged(System.Int32)">
+            <summary>
+            Returns true if the button has changed state from the previous frame to the current.
+            This does not take into acount any controller mapping or Actions -- this is the unmapped physical button value only.
+            Use the Player class to get button values mapped to Actions.
+            </summary>
+            <param name="index">Button index</param>
+            <returns>Button changed state</returns>
+        </member>
         <member name="M:Rewired.Controller.GetButtonPrev(System.Int32)">
             <summary>
             Gets the previous button held state of the hardware button at the specified index. This will return TRUE if the button was held in the previous frame.
@@ -1237,6 +1246,14 @@
             </summary>
             <returns>Previous button held state</returns>
         </member>
+        <member name="M:Rewired.Controller.GetAnyButtonChanged">
+            <summary>
+            Returns true if any button has changed state from the previous frame to the current.
+            This does not take into acount any controller mapping or Actions -- this is the unmapped physical button value only.
+            Use the Player class to get button values mapped to Actions.
+            </summary>
+            <returns>Button changed state</returns>
+        </member>
         <member name="M:Rewired.Controller.GetLastTimeActive">
             <summary>
             Gets the last timestamp any button was active.
@@ -1252,9 +1269,31 @@
             <param name="useRawValues">Use raw axis values</param>
             <returns>Timestamp</returns>
         </member>
+        <member name="M:Rewired.Controller.GetLastTimeAnyElementChanged">
+            <summary>
+            Gets the last timestamp any button changed state.
+            NOTE: If comparing time against current time, always compare to ReInput.time.unscaledTime.
+            </summary>
+            <returns>Timestamp</returns>
+        </member>
+        <member name="M:Rewired.Controller.GetLastTimeAnyElementChanged(System.Boolean)">
+            <summary>
+            Gets the last timestamp any button changed state.
+            NOTE: If comparing time against current time, always compare to ReInput.time.unscaledTime.
+            <param name="useRawValues">Use raw axis values</param>
+            </summary>
+            <returns>Timestamp</returns>
+        </member>
         <member name="M:Rewired.Controller.GetLastTimeAnyButtonPressed">
             <summary>
             Gets the last timestamp any button was active.
+            NOTE: If comparing time against current time, always compare to ReInput.time.unscaledTime.
+            </summary>
+            <returns>Timestamp</returns>
+        </member>
+        <member name="M:Rewired.Controller.GetLastTimeAnyButtonChanged">
+            <summary>
+            Gets the last timestamp any button's state changed.
             NOTE: If comparing time against current time, always compare to ReInput.time.unscaledTime.
             </summary>
             <returns>Timestamp</returns>
@@ -1355,6 +1394,18 @@
             NOTE: If comparing time against current time, always compare to ReInput.time.unscaledTime.
             </summary>
         </member>
+        <member name="P:Rewired.Controller.Axis.lastTimeValueChanged">
+            <summary>
+            Gets the last time the axis value changed.
+            NOTE: If comparing time against current time, always compare to ReInput.time.unscaledTime.
+            </summary>
+        </member>
+        <member name="P:Rewired.Controller.Axis.lastTimeValueChangedRaw">
+            <summary>
+            Gets the last time the axis value changed based on raw value.
+            NOTE: If comparing time against current time, always compare to ReInput.time.unscaledTime.
+            </summary>
+        </member>
         <member name="P:Rewired.Controller.Axis.timeActive">
             <summary>
             The time in seconds this axis has been active.
@@ -1429,6 +1480,11 @@
             Was this button just released this frame? Returns true for only one frame. Functions the same as GetButtonUp.
             </summary>
         </member>
+        <member name="P:Rewired.Controller.Button.justChangedState">
+            <summary>
+            Returns true if the button was just pressed or just released. Returns true for only one frame.
+            </summary>
+        </member>
         <member name="P:Rewired.Controller.Button.doublePressedAndHeld">
             <summary>
             Was this button double pressed and then held? Returns true until released.
@@ -1458,6 +1514,12 @@
         <member name="P:Rewired.Controller.Button.lastTimeUnpressed">
             <summary>
             Gets the last time the button was inactive.
+            NOTE: If comparing time against current time, always compare to ReInput.time.unscaledTime.
+            </summary>
+        </member>
+        <member name="P:Rewired.Controller.Button.lastTimeStateChanged">
+            <summary>
+            Gets the last time the button changed state.
             NOTE: If comparing time against current time, always compare to ReInput.time.unscaledTime.
             </summary>
         </member>
@@ -1668,6 +1730,21 @@
             <param name="useRawValues">Use raw axis values</param>
             <returns>Timestamp</returns>
         </member>
+        <member name="M:Rewired.ControllerWithAxes.GetLastTimeAnyElementChanged">
+            <summary>
+            Gets the last timestamp any axis changed state.
+            NOTE: If comparing time against current time, always compare to ReInput.time.unscaledTime.
+            </summary>
+            <returns>Timestamp</returns>
+        </member>
+        <member name="M:Rewired.ControllerWithAxes.GetLastTimeAnyElementChanged(System.Boolean)">
+            <summary>
+            Gets the last timestamp any axis changed state.
+            NOTE: If comparing time against current time, always compare to ReInput.time.unscaledTime.
+            <param name="useRawValues">Use raw axis values</param>
+            </summary>
+            <returns>Timestamp</returns>
+        </member>
         <member name="M:Rewired.ControllerWithAxes.GetLastTimeAnyAxisActive">
             <summary>
             Gets the last timestamp any axis was active.
@@ -1678,6 +1755,21 @@
         <member name="M:Rewired.ControllerWithAxes.GetLastTimeAnyAxisActive(System.Boolean)">
             <summary>
             Gets the last timestamp any axis was active.
+            NOTE: If comparing time against current time, always compare to ReInput.time.unscaledTime.
+            </summary>
+            <param name="useRawValues">Use raw axis values</param>
+            <returns>Timestamp</returns>
+        </member>
+        <member name="M:Rewired.ControllerWithAxes.GetLastTimeAnyAxisChanged">
+            <summary>
+            Gets the last timestamp any axis changed value.
+            NOTE: If comparing time against current time, always compare to ReInput.time.unscaledTime.
+            </summary>
+            <returns>Timestamp</returns>
+        </member>
+        <member name="M:Rewired.ControllerWithAxes.GetLastTimeAnyAxisChanged(System.Boolean)">
+            <summary>
+            Gets the last timestamp any axis changed value.
             NOTE: If comparing time against current time, always compare to ReInput.time.unscaledTime.
             </summary>
             <param name="useRawValues">Use raw axis values</param>
@@ -3449,11 +3541,6 @@
         <member name="P:Rewired.ActionElementMap.actionId">
             <summary>
             Gets the id of the Action to which the element is bound.
-            </summary>
-        </member>
-        <member name="P:Rewired.ActionElementMap.actionCategoryId">
-            <summary>
-            OBSOLETE: DO NOT USE. To get the actionCategoryId for an Action, obtain it from ReInput.mapping.GetAction(actionId).categoryId.
             </summary>
         </member>
         <member name="P:Rewired.ActionElementMap.elementType">
@@ -7302,6 +7389,11 @@
             Is the input system ready?
             </summary>
         </member>
+        <member name="P:Rewired.ReInput.absFrame">
+            <summary>
+            Total frame count of all update loops combined.
+            </summary>
+        </member>
         <member name="T:Rewired.ReInput.PlayerHelper">
             <summary>
             Provides access to all player-related members.
@@ -7684,12 +7776,14 @@
         <member name="M:Rewired.ReInput.ControllerHelper.GetLastActiveController">
             <summary>
             Get the last controller that produced input.
+            If there is no last active controller, the Keyboard will be returned.
             </summary>
-            <returns>Controller</returns>
+            <returns>Last active Controller</returns>
         </member>
         <member name="M:Rewired.ReInput.ControllerHelper.GetLastActiveController(Rewired.ControllerType)">
             <summary>
             Get the last controller that produced input.
+            If there is no last active controller of the specified type, the return value will be null.
             </summary>
             <param name="controllerType">The controller type.</param>
             <returns>Controller</returns>
@@ -7697,9 +7791,17 @@
         <member name="M:Rewired.ReInput.ControllerHelper.GetLastActiveController``1">
             <summary>
             Get the last controller that produced input.
+            If there is no last active controller of the specified type, the return value will be null.
             </summary>
             <typeparam name="T">Controller type</typeparam>
             <returns>Controller</returns>
+        </member>
+        <member name="M:Rewired.ReInput.ControllerHelper.GetLastActiveControllerType">
+            <summary>
+            Get the controller type of the last controllerthat produced input.
+            If there is no last active controller, ControllerType.Keyboard is returned.
+            </summary>
+            <returns>Last active Controller</returns>
         </member>
         <member name="M:Rewired.ReInput.ControllerHelper.GetAnyButton">
             <summary>
@@ -7745,6 +7847,21 @@
             </summary>
             <param name="controllerType">Controller type</param>
             <returns>Button just released state</returns>
+        </member>
+        <member name="M:Rewired.ReInput.ControllerHelper.GetAnyButtonChanged">
+            <summary>
+            Returns true if any button has changed state from the previous frame to the current.
+            This retrieves the value from the actual hardware buttons, not Actions as mapped by Controller Maps in Player.
+            </summary>
+            <returns>Button changed state</returns>
+        </member>
+        <member name="M:Rewired.ReInput.ControllerHelper.GetAnyButtonChanged(Rewired.ControllerType)">
+            <summary>
+            Returns true if any button has changed state from the previous frame to the current.
+            This retrieves the value from the actual hardware buttons, not Actions as mapped by Controller Maps in Player.
+            </summary>
+            <param name="controllerType">Controller type</param>
+            <returns>Button changed state</returns>
         </member>
         <member name="M:Rewired.ReInput.ControllerHelper.GetAnyButtonPrev">
             <summary>
@@ -8715,6 +8832,70 @@
             </summary>
             <returns>Number of bytes written</returns>
         </member>
+        <member name="T:Rewired.Utils.Classes.Data.NativeRingBuffer">
+            <summary>
+            Creates a byte ring buffer in native memory.
+            </summary>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Data.NativeRingBuffer.#ctor(System.Int32)">
+            <summary>
+            Creates a native ring buffer.
+            </summary>
+            <param name="capacity">Size of the buffer in bytes</param>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Data.NativeRingBuffer.Write(System.IntPtr,System.Int32,System.Int32,System.Int32@,System.UInt32@)">
+            <summary>
+            Write data to the buffer.
+            </summary>
+            <returns>Number of bytes written</returns>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Data.NativeRingBuffer.Write(System.Byte[],System.Int32,System.Int32@,System.UInt32@)">
+            <summary>
+            Write data to the buffer.
+            </summary>
+            <returns>Number of bytes written</returns>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Data.NativeRingBuffer.Write(System.IntPtr,System.Int32,System.Int32)">
+            <summary>
+            Write data to the buffer.
+            </summary>
+            <returns>Number of bytes written</returns>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Data.NativeRingBuffer.Write(System.Byte[],System.Int32)">
+            <summary>
+            Write data to the buffer.
+            </summary>
+            <returns>Number of bytes written</returns>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Data.NativeRingBuffer.Read(System.IntPtr,System.Int32,System.Int32)">
+            <summary>
+            Read data from the buffer from the end forward.
+            </summary>
+            <returns>Number of bytes read</returns>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Data.NativeRingBuffer.Read(System.Byte[],System.Int32)">
+            <summary>
+            Read data from the buffer from the end forward.
+            </summary>
+            <returns>Number of bytes read</returns>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Data.NativeRingBuffer.RandomRead(System.IntPtr,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Read data from the buffer at an index.
+            </summary>
+            <returns>Number of bytes read</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Rewired.Utils.Classes.Data.NativeRingBuffer.RandomRead(System.Byte[],System.Int32,System.Int32)" -->
+        <member name="M:Rewired.Utils.Classes.Data.NativeRingBuffer.AdvanceWritePosition(System.Int32)">
+            <summary>
+            Do not call this anywhere except within Write
+            </summary>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Data.NativeRingBuffer.AdvanceReadPosition(System.Int32)">
+            <summary>
+            Do not call this anywhere except within Read
+            </summary>
+        </member>
         <member name="T:Rewired.Utils.Classes.Data.PinnedGenericArrayBuffer">
             <summary>
             This buffer allows you to store an Array of any type to be used as a native buffer
@@ -8741,17 +8922,17 @@
             <param name="framesPerSecond">FPS. 0 = No thread sleep.</param>
             <returns>Success</returns>
         </member>
-        <member name="E:Rewired.Utils.Classes.Utility.ThreadHelper.ThreadUpdateEvent">
+        <member name="E:Rewired.Utils.Classes.Utility.ThreadHelper._ThreadUpdateEvent">
             <summary>
             Called from within the thread.
             </summary>
         </member>
-        <member name="E:Rewired.Utils.Classes.Utility.ThreadHelper.ThreadStartedEvent">
+        <member name="E:Rewired.Utils.Classes.Utility.ThreadHelper._ThreadStartedEvent">
             <summary>
             Called from within the thread.
             </summary>
         </member>
-        <member name="E:Rewired.Utils.Classes.Utility.ThreadHelper.ThreadPreStopEvent">
+        <member name="E:Rewired.Utils.Classes.Utility.ThreadHelper._ThreadPreStopEvent">
             <summary>
             Called from within the thread.
             </summary>
@@ -8792,10 +8973,128 @@
             <param name="threadBlockOnStartAndStop">Block the calling thread until the thread is started or stopped?</param>
             <param name="messageReceiverDelegate">Delegate to receive the message from the thread. Must be threadsafe!</param>
         </member>
+        <member name="T:Rewired.Utils.Classes.Utility.ThreadedRingReportBuffer">
+            <summary>
+            Creates a thread to retrieve data and store it in a ring buffer.
+            Data is stored in reports/pages of a fixed size.
+            The data can then be read from another thread.
+            </summary>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Utility.ThreadedRingReportBuffer.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean,System.Action{System.Byte[]})">
+            <summary>
+            Creates a threaded ring buffer.
+            </summary>
+            <param name="entryByteLength">Size in bytes of each data entry.</param>
+            <param name="entryCapacity">Number of data entries that the buffer can hold before overflowing.</param>
+            <param name="threadRefreshRateFPS">Update rate of the thread. 0 = Do not thread sleep.</param>
+            <param name="threadAutoKillTimeoutMS">Time in MS before the thread will auto-destruct if no messages are received. 0 = Do not auto-destruct.</param>
+            <param name="threadBlockOnStartAndStop">Block the calling thread until the thread is started or stopped?</param>
+            <param name="threadRetrieveDataDelegate">Delegate to retrieve data. This will be called by the thread.</param>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Utility.ThreadedRingReportBuffer.Read">
+            <summary>
+            Call StartRead before reading to fill the buffer with new data.
+            Read data into the ReadBuffer property.
+            </summary>
+            <returns>Number of bytes read</returns>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Utility.ThreadedRingReportBuffer.Read(System.Byte[])">
+            <summary>
+            Call StartRead before reading to fill the buffer with new data.
+            </summary>
+            <param name="buffer">Buffer to fill with data</param>
+            <returns>Number of bytes read</returns>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Utility.ThreadedRingReportBuffer.Read(System.IntPtr,System.Int32)">
+            <summary>
+            Call StartRead before reading to fill the buffer with new data.
+            </summary>
+            <param name="buffer">Buffer to fill with data</param>
+            <returns>Number of bytes read</returns>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Utility.ThreadedRingReportBuffer.StartRead">
+            <summary>
+            Call StartRead before reading to fill the buffer with new data.
+            </summary>
+            <returns>Number of bytes in the buffer</returns>
+        </member>
+        <member name="T:Rewired.Utils.Classes.Utility.DualRingReportBuffer">
+            <summary>
+            A pair of ring buffers, input and output. Writing can be done from another thread.
+            Data is stored in reports/pages of a fixed size.
+            </summary>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Utility.DualRingReportBuffer.#ctor(System.Int32,System.Int32)">
+            <summary>
+            </summary>
+            <param name="entryByteLength">Size in bytes of each data entry.</param>
+            <param name="entryCapacity">Number of data entries that the buffer can hold before overflowing.</param>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Utility.DualRingReportBuffer.StartRead">
+            <summary>
+            Call StartRead before reading to fill the buffer with new data.
+            </summary>
+            <returns>Number of bytes in the buffer</returns>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Utility.DualRingReportBuffer.Read">
+            <summary>
+            Read data into the ReadBuffer array.
+            Call StartRead before reading to fill the buffer with new data.
+            </summary>
+            <returns>Number of bytes read</returns>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Utility.DualRingReportBuffer.Read(System.Byte[],System.Int32)">
+            <summary>
+            Read data from the buffer into the incoming buffer array.
+            Call StartRead before reading to fill the buffer with new data.
+            </summary>
+            <param name="buffer">Buffer to fill with data</param>
+            <param name="numBytesToRead">Number of bytes to read into the buffer</param>
+            <returns>Number of bytes read</returns>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Utility.DualRingReportBuffer.Read(System.IntPtr,System.Int32,System.Int32)">
+            <summary>
+            Read data from the buffer into the incoming buffer pointer.
+            Call StartRead before reading to fill the buffer with new data.
+            </summary>
+            <param name="buffer">Buffer to fill with data</param>
+            <param name="numBytesToRead">Number of bytes to read into the buffer</param>
+            <returns>Number of bytes read</returns>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Utility.DualRingReportBuffer.Write(System.Byte[],System.Int32)">
+            <summary>
+            Write data to the buffer from the incoming buffer array.
+            This can be called by a separate thread.
+            </summary>
+            <param name="buffer">Buffer from which to write.</param>
+            <param name="numBytesToWrite">Number of bytes to write to the buffer.</param>
+            <returns>Number of bytes written</returns>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Utility.DualRingReportBuffer.Write(System.IntPtr,System.Int32,System.Int32)">
+            <summary>
+            Write data to the buffer from the incoming buffer array.
+            This can be called by a separate thread.
+            </summary>
+            <param name="buffer">Buffer from which to write.</param>
+            <param name="numBytesToWrite">Number of bytes to write to the buffer.</param>
+            <returns>Number of bytes written</returns>
+        </member>
         <member name="T:Rewired.Utils.Classes.Utility.Locker">
             <summary>
             Locks the target if and unlocks on dispose.
             Safe to use with a null target.
+            Use with using statment.
+            </summary>
+        </member>
+        <member name="T:Rewired.Utils.Classes.Utility.GCHandleHelper">
+            <summary>
+            Simple wrapper for GCHandle.
+            Use with using statment.
+            </summary>
+        </member>
+        <member name="T:Rewired.Utils.Classes.Utility.Pinner">
+            <summary>
+            Pins an object .
             Use with using statment.
             </summary>
         </member>
