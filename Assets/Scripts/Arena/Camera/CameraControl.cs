@@ -38,8 +38,14 @@ public class CameraControl : MonoBehaviour
 		// Change the size of the camera based.
 		Zoom ();
 
-		ArenaObjectAdjust ();
+		
 	}
+
+    private void Update()
+    {
+       // ArenaObjectAdjust();
+
+    }
 
 	//need to add objects to the list and take them out dynamically
 	public void AddFollowableObject (GameObject follow)
@@ -109,21 +115,21 @@ public class CameraControl : MonoBehaviour
 	{
 		// Find the required size based on the desired position and smoothly transition to that size.
 		float requiredSize = FindRequiredSize ();
-		m_Camera.orthographicSize = requiredSize;
-		//m_Camera.orthographicSize = Mathf.SmoothDamp (m_Camera.orthographicSize, requiredSize, ref m_ZoomSpeed, m_DampTime);
+		//m_Camera.orthographicSize = requiredSize;
+		m_Camera.orthographicSize = Mathf.SmoothDamp (m_Camera.orthographicSize, requiredSize, ref m_ZoomSpeed, m_DampTime);
 	}
 
 
 	//TODO: could be expensive if lots of objects may need to optimize in the future
 	private void ArenaObjectAdjust ()
 	{
-		float amount = 40f;
+		float amount = 35f;
 		bool go = true;
 		foreach (Transform target in targets) {	
 			if(go){
 				float distance = Vector2.Distance (transform.position, target.position);
-				Debug.Log("distance " + distance);
-				if (distance-1 >= arenaRange) {
+				
+				if (distance >= arenaRange) {
 					Vector3 temp;
 					temp = target.position;
 
@@ -145,9 +151,14 @@ public class CameraControl : MonoBehaviour
 							//temp.y = target.position.y + (arenaRange*3.5f);// -1f;
 							temp.y = target.position.y + (amount);// -1f;
 					}
-					Debug.Log (temp);
-					//target.position = Vector3.ClampMagnitude(temp,arenaRange);
+                    Debug.Log("distance " + distance);
+                    Debug.Log (temp);
+				    //adjust camera
+				    Vector3 vect = transform.position - target.position;
+				    vect = vect.normalized;
+				    vect *= (distance - arenaRange);
 					target.position = temp;
+				    target.position += vect;
 					go = false;
 					//return; // may not be breaking out of the foreach????
 				}
