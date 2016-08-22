@@ -1,26 +1,28 @@
-﻿using Rewired;
-using UnityEngine;
+﻿using UnityEngine;
+using Rewired;
 
-namespace Arena.Player
-{
-    public class MoveShip : MonoBehaviour {
-
-        public int PlayerId; // The Rewired player id of this character
+	public class RedShipController : MonoBehaviour {	        		
         public float Speed = 200f;
         public float RotateSpeed = 80f;
         public float MaxSpeed = 8;
-        private Rewired.Player _player; // The Rewired Player
-
+		public int PlayerId; // The Rewired player id of this character
         float _thrust;
         float _rotate;
+
+		private Rewired.Player _player; // The Rewired Player
         //bool isCurrentlyTrusting = false;
         Rigidbody2D _rigidBody2D;
 
-        void Awake()
-        {
-            _player = ReInput.players.GetPlayer(PlayerId);
-        }
-	
+		void Awake()
+		{
+			_player = ReInput.players.GetPlayer(PlayerId);
+		}
+
+		public Rewired.Player GetPlayer()
+		{
+			return _player;
+		}
+		        	
         // Use this for initialization
         void Start () {
             _rigidBody2D = gameObject.GetComponent<Rigidbody2D>();			
@@ -50,4 +52,4 @@ namespace Arena.Player
             _rigidBody2D.velocity = limit;	
         }
     }
-}
+
