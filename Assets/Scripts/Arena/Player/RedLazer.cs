@@ -7,14 +7,14 @@ public class RedLazer : MonoBehaviour {
 	public float timeToLive = 1f;
 
 	bool hasDeltDamage = false;
-	Vector2 speedOfShip;
+	public Vector2 speedOfShip;
 	float deathTime;
 	// Use this for initialization
 	void Start () {
 		rb = gameObject.GetComponent<Rigidbody2D>();
-		deathTime = Time.time + timeToLive;		
-		speedOfShip = rb.velocity;
+		deathTime = Time.time + timeToLive;			
 		rb.velocity  = transform.rotation * (Vector2.up * (speed));
+	    rb.velocity += speedOfShip;
 	}
 
 	void Update(){

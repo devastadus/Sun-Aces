@@ -26,7 +26,9 @@ public class ShootRedLazer : MonoBehaviour {
 		if(fire){
 			foreach(Transform gun in Guns){
 				GameObject bullet = Instantiate(projectile, gun.position, gun.rotation) as GameObject;
-				//Rigidbody2D bulletRb2d = bullet.GetComponent<Rigidbody2D>();
+				RedLazer lazer = bullet.GetComponent<RedLazer>();
+			    lazer.speedOfShip = gameObject.GetComponent<Rigidbody2D>().velocity;
+			    bullet.layer = gameObject.layer;
 			}
 		}			
 	}

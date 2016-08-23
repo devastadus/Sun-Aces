@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class WarpObjectController : MonoBehaviour {
 
 	private float timmer;
-	private float arenaRange = 10f;
+	public float arenaRange = 20f;
+    public List<GameObject> nonFollowableObjects;
 
 	// Use this for initialization
 	void Start () {
@@ -12,34 +14,53 @@ public class WarpObjectController : MonoBehaviour {
 	}
 
 	public void Warper(GameObject obj, Collider2D collider){
-		if (timmer+ .1f < Time.time)
+
+		if (collider.gameObject.GetComponent<TrackObject>() && (timmer+ .1f < Time.time))
 		{
-			Vector3 temp = Vector3.zero;
-			temp = collider.transform.position;
-			Vector2 velocity = collider.gameObject.GetComponent<Rigidbody2D>().velocity.normalized;
-			if (obj.name == "Top")
-			{
-		
-				temp.y = obj.transform.position.y;
-				temp.y = temp.y - (arenaRange * 4) + 1f;
-			}
-			else if (obj.name == "Bottom")
-			{
-				temp.y = obj.transform.position.y;
-				temp.y = temp.y + (arenaRange * 4) - 1f;
-			}
-			else if (obj.name == "Right")
-			{
-				temp.x = obj.transform.position.x;
-				temp.x = temp.x - (arenaRange * 4) + 1f;
-			}
-			else if (obj.name == "Left")
-			{
-				temp.x = obj.transform.position.x;
-				temp.x = temp.x + (arenaRange * 4) - 1f;
-			}
-			collider.transform.position = temp;
-			timmer = Time.time + .1f;
-		}
-	}		
+            WarpObject(obj,collider);
+		}		
+	}
+
+    private void WarpObject(GameObject obj, Collider2D collider)
+    {
+        Vector3 temp = Vector3.zero;
+        Vector2 objDistance = Vector2.zero;
+        temp = collider.transform.position;
+        if (obj.name == "Top")
+        {
+            temp.y = obj.transform.position.y;
+            temp.y = temp.y - (arenaRange * 4) + 1f;
+            foreach (GameObject nonFollowableObject in nonFollowableObjects)
+            {
+            //    objDistance = Vector2.Distance(transform.position, nonFollowableObject.transform.position);
+            }
+        }
+        else if (obj.name == "Bottom")
+        {
+            temp.y = obj.transform.position.y;
+            temp.y = temp.y + (arenaRange * 4) - 1f;
+        }
+        else if (obj.name == "Right")
+        {
+            temp.x = obj.transform.position.x;
+            temp.x = temp.x - (arenaRange * 4) + 1f;
+        }
+        else if (obj.name == "Left")
+        {
+            temp.x = obj.transform.position.x;
+            temp.x = temp.x + (arenaRange * 4) - 1f;
+        }
+        collider.transform.position = temp;
+        timmer = Time.time + .1f;
+    }
+
+    public void AddNonTrackableObject(GameObject obj)
+    {
+        nonFollowableObjects.Add(obj);
+    }
+
+    public void RemoveNonTrackableObject(GameObject obj)
+    {
+        nonFollowableObjects.Remove(obj);
+    }
 }
