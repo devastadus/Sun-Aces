@@ -30,10 +30,11 @@ public class WarpObjectController : MonoBehaviour {
         {
             temp.y = obj.transform.position.y;
             temp.y = temp.y - (arenaRange * 4) + 1f;
-            foreach (GameObject nonFollowableObject in nonFollowableObjects)
-            {
+//            foreach (GameObject nonFollowableObject in nonFollowableObjects)
+//            {
+//                transform.InverseTransformPoint()
             //    objDistance = Vector2.Distance(transform.position, nonFollowableObject.transform.position);
-            }
+//            }
         }
         else if (obj.name == "Bottom")
         {
