@@ -24,32 +24,52 @@ public class WarpObjectController : MonoBehaviour {
     private void WarpObject(GameObject obj, Collider2D collider)
     {
         Vector3 temp = Vector3.zero;
+        Vector3 temp2 = Vector3.zero;
         Vector2 objDistance = Vector2.zero;
         temp = collider.transform.position;
         if (obj.name == "Top")
         {
             temp.y = obj.transform.position.y;
             temp.y = temp.y - (arenaRange * 4) + 1f;
-//            foreach (GameObject nonFollowableObject in nonFollowableObjects)
-//            {
-//                transform.InverseTransformPoint()
-            //    objDistance = Vector2.Distance(transform.position, nonFollowableObject.transform.position);
-//            }
+            foreach (GameObject nonFollowableObject in nonFollowableObjects)
+            {
+                temp2.y = nonFollowableObject.transform.position.y;
+                temp2.y = temp2.y - (arenaRange*4);// + 1f;
+                nonFollowableObject.transform.position = temp2;
+            }
         }
         else if (obj.name == "Bottom")
         {
             temp.y = obj.transform.position.y;
             temp.y = temp.y + (arenaRange * 4) - 1f;
+            foreach (GameObject nonFollowableObject in nonFollowableObjects)
+            {
+                temp2.y = nonFollowableObject.transform.position.y;
+                temp2.y = temp2.y + (arenaRange * 4);// + 1f;
+                nonFollowableObject.transform.position = temp2;
+            }
         }
         else if (obj.name == "Right")
         {
             temp.x = obj.transform.position.x;
             temp.x = temp.x - (arenaRange * 4) + 1f;
+            foreach (GameObject nonFollowableObject in nonFollowableObjects)
+            {
+                temp2.x = nonFollowableObject.transform.position.x;
+                temp2.x = temp2.x - (arenaRange * 4);// + 1f;
+                nonFollowableObject.transform.position = temp2;
+            }
         }
         else if (obj.name == "Left")
         {
             temp.x = obj.transform.position.x;
             temp.x = temp.x + (arenaRange * 4) - 1f;
+            foreach (GameObject nonFollowableObject in nonFollowableObjects)
+            {
+                temp2.x = nonFollowableObject.transform.position.x;
+                temp2.x = temp2.x + (arenaRange * 4);// + 1f;
+                nonFollowableObject.transform.position = temp2;
+            } 
         }
         collider.transform.position = temp;
         timmer = Time.time + .1f;

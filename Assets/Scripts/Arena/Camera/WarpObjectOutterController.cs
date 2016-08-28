@@ -4,6 +4,7 @@ using System.Collections;
 public class WarpObjectOutterController : MonoBehaviour {
 
 	public float arenaRange = 20f;
+    public float offset = 10f;
 
 
 	public void Warper(GameObject obj, Collider2D collider){
@@ -18,22 +19,22 @@ public class WarpObjectOutterController : MonoBehaviour {
         {
 
             temp.y = obj.transform.position.y;
-            temp.y = temp.y - (arenaRange * 2) + 1f;
+            temp.y = temp.y - (arenaRange * 2) + offset;
         }
         else if (obj.name == "Bottom")
         {
             temp.y = obj.transform.position.y;
-            temp.y = temp.y + (arenaRange * 2) - 1f;
+            temp.y = temp.y + (arenaRange * 2) - offset;
         }
         else if (obj.name == "Right")
         {
             temp.x = obj.transform.position.x;
-            temp.x = temp.x - (arenaRange * 2) + 1f;
+            temp.x = temp.x - (arenaRange * 2) + offset;
         }
         else if (obj.name == "Left")
         {
             temp.x = obj.transform.position.x;
-            temp.x = temp.x + (arenaRange * 2) - 1f;
+            temp.x = temp.x + (arenaRange * 2) - offset;
         }
         collider.transform.position = temp;
     }		

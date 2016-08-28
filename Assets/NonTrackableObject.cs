@@ -10,7 +10,7 @@ public class NonTrackableObject : MonoBehaviour
 	void Start ()
 	{
 	    GameObject cameraRig = GameObject.Find("CameraRig");
-	    warpObjectController = cameraRig.GetComponentInParent<WarpObjectController>();
+	    warpObjectController = cameraRig.GetComponentInChildren<WarpObjectController>();
         warpObjectController.AddNonTrackableObject(gameObject);
 	}
 
