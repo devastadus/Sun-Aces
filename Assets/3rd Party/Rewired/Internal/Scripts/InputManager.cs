@@ -33,6 +33,10 @@ namespace Rewired {
             editorPlatform = EditorPlatform.Windows;
 #endif
 
+#if UNITY_EDITOR_LINUX
+            editorPlatform = EditorPlatform.Linux;
+#endif
+
 #if UNITY_EDITOR_OSX
             editorPlatform = EditorPlatform.OSX;
 #endif

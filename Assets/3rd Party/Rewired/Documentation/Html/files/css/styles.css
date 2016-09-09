@@ -303,3 +303,12 @@ a.forward-button .button-img {
 .supported-controllers-table .template-icon-racing-wheel {
     background-image: url("../images/icon-template-racing-wheel.png");
 }
+
+.question:before {
+	content: "Q: ";
+	font-weight: bold;
+}
+
+.question {
+	font-weight: bold;
+}

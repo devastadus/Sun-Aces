@@ -8815,6 +8815,21 @@
             <param name="maxCapacity">The maximum capacity of the list. 0 = unlimited. If non-zero, must be >= startingCapacity.</param>
             <param name="expansionIncrement">The number of elements added with each expansion. 0 = Use default expansion algorithm.</param>
         </member>
+        <member name="M:Rewired.Utils.Classes.Data.AList`1.AddToFirstOpenSpace(`0)">
+            <summary>
+            Adds to first space that equals default(T) or a new space if none found..
+            </summary>
+            <param name="item">Item to add</param>
+            <returns>Index where item added. -1 if not added.</returns>
+        </member>
+        <member name="M:Rewired.Utils.Classes.Data.AList`1.AddToFirstOpenSpace(`0,`0)">
+            <summary>
+            Adds to first space that equals openSpaceEquals or a new space if none found..
+            </summary>
+            <param name="item">Item to add</param>
+            <param name="openSpaceEquals">Definition of an open space</param>
+            <returns>Index where item added. -1 if not added.</returns>
+        </member>
         <member name="T:Rewired.Utils.Classes.Data.FixedLengthQueue`1">
             <summary>
             A fixed-length queue. Just a wrapper around a queue that enforces a maximum capacity.

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class WarpObjectController : MonoBehaviour {
@@ -25,7 +24,6 @@ public class WarpObjectController : MonoBehaviour {
     {
         Vector3 temp = Vector3.zero;
         Vector3 temp2 = Vector3.zero;
-        Vector2 objDistance = Vector2.zero;
         temp = collider.transform.position;
         if (obj.name == "Top")
         {

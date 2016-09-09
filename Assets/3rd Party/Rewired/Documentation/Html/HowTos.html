@@ -1036,9 +1036,11 @@ foreach(Joystick j in player.controllers.Joysticks) {
 }</pre>
 <p>This would set vibration on all <a href="Controllers.html#joysticks">Joysticks</a><a href="Controllers.html"></a> assigned to the <a href="Players.html">Player</a>.</p>
 <p>There are also these functions/properties in the <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/T_Rewired_Joystick.htm">Joystick</a> class:<br />
-  <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/M_Rewired_Joystick_SetVibration.htm">Joystick.SetVibration</a><br />
-  <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/M_Rewired_Joystick_StopVibration.htm">Joystick.StopVibration</a><br />
   <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/F_Rewired_Joystick_supportsVibration.htm">Joystick.supportsVibration</a><br />
+  <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/P_Rewired_Joystick_vibrationMotorCount.htm">Joystick.vibrationMotorCount</a><br />
+  <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/M_Rewired_Joystick_GetVibration.htm">Joystick.GetVibration</a><br />
+  <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/M_Rewired_Joystick_SetVibration.htm">Joystick.SetVibration</a><br />
+  <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/M_Rewired_Joystick_StopVibration.htm">Joystick.StopVibration</a><br/>
   <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/P_Rewired_Joystick_vibrationLeftMotor.htm">Joystick.vibrationLeftMotor</a><br />
   <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/P_Rewired_Joystick_vibrationRightMotor.htm">Joystick.vibrationRightMotor</a></p>
 <p>&nbsp;</p>
@@ -1078,7 +1080,7 @@ foreach(Joystick j in player.controllers.Joysticks) {
   <li><a href="http://guavaman.com/projects/rewired/docs/api-reference/html/Overload_Rewired_Player_GetButtonTimeUnpressed.htm">Player.GetButtonTimeUnpressed</a>: Gets the length of time in seconds that a button has not been pressed. Returns 0 if the button is currently pressed.</li>
   </ul>
 <p><strong>Negative Buttons:</strong></p>
-<p>Each of the methods above also has a corresponding Negative Button method which is named the same except with NegativeButton in place of Button. These serve to allow you to use axes as buttons and will trigger when the negative side of the axis is activated while the standard Button version will trigger only when the positive side of the axis is activated.</p>
+<p>Each of the methods above also has a corresponding Negative Button method which is named the same except with NegativeButton in place of Button. These serve to allow you to use axes as buttons and will trigger when the negative side of the axis is activated while the standard Button version will trigger only when the positive side of the axis is activated. However, it is usually easier to just map each pole of the axis to a seperate Action (split axis) so that each Action can just be queried with GetButton.</p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="button-combos" id="does-rewired-support-x-controller4"></a>Handling multi-button Actions</h3>
@@ -1109,7 +1111,7 @@ if(modifier &amp;&amp; primary) { <span class="comment">// modifier was held or 
 <p><strong>Unity Input Override (the easy way):</strong></p>
 <p> Rewired includes the <a href="UnityInputOverride.html">Unity Input Override</a> script to make converting most scripts from Unity input to Rewired effortless and automatic, requiring no code changes to work. It even works with most assets downloaded from the Unity Asset Store. <a href="UnityInputOverride.html">See Unity Input Override for more information</a>.</p>
 <p><strong>Modifying script code to use Rewired instead of Unity input (the harder way):</strong></p>
-<p>Converting a script from UnityEngine.Input is a very straightforward process for a single player game. For a quick conversion, simply do a two find and replace operations:</p>
+<p>Converting a script from UnityEngine.Input is a very straightforward process for a single player game. For a quick conversion, simply do  two find and replace operations:</p>
 <ul>
   <li> &quot;Input.GetButton&quot; -&gt; &quot;Rewired.ReInput.players.GetPlayer(0).GetButton&quot;</li>
   <li>&quot;Input.GetAxis&quot; -&gt; &quot;Rewired.ReInput.players.GetPlayer(0).GetAxis&quot;</li>
@@ -1141,7 +1143,7 @@ void Update() {
   <li>Create a public integer field in your script and add the ActionIdProperty attribute</li>
   </ol>
 <p><strong>Using the ActionIdProperty attribute</strong></p>
-<p>In your MonoBehaviour script, create an integer field (or array/list) and add the ActionIdProperty attribute above it. You must pass this attribute a class Type that contains a list public integer constants. Each constant will be displayed in the drop-down list.</p>
+<p>In your MonoBehaviour script, create an integer field (or array/list) and add the ActionIdProperty attribute above it. You must pass this attribute a class Type that contains a list of public integer constants. Each constant will be displayed in the drop-down list.</p>
 <p>Optional: You can also pass ActionIdProperty an integer Enum type and it will display each item in the enumeration. The drawback of using Enums is that you will have to cast the enum value to an int each time you want to use it in the Rewired API.</p>
 <pre class="code">using UnityEngine;
 using Rewired;
@@ -1167,7 +1169,7 @@ public class MyClass : MonoBehaviour {
 <hr />
 <h3><a name="press-start-to-join" id="press-start-to-join"></a>Implementing a &quot;Press Start to Join&quot; Joystick assignment system</h3>
 <p>Normally, Rewired will assign <a href="Controllers.html#joysticks">Joysticks</a><a href="Controllers.html"></a> to <a href="Players.html">Players</a> when each controller<a href="Controllers.html"></a> is detected based on settings in the Rewired Input Manager -&gt; Settings page. This will assign a <a href="Controllers.html#joysticks">Joystick</a><a href="Controllers.html"></a> to each <a href="Players.html">Player</a> in order as they become available so that the first <a href="Controllers.html#joysticks">Joystick</a> is assigned to Player 0, the second to Player 1, and so on. But the question has come up many times as to how to be able to let users just pick up any attached controller and press &quot;Start&quot;, then have that player join as the next available <a href="Players.html">Player</a> with that <a href="Controllers.html#joysticks">Joystick</a><a href="Controllers.html"></a> assigned. This kind of assignment method isn't as straightforward to implement.</p>
-<p>First you should understand a little bit how <a href="ControllerMaps.html">Controller Maps</a> work. <a href="ControllerMaps.html">Controller maps</a> are loaded by the <a href="Players.html">Player</a>, not the <a href="Controllers.html">Controller</a>, therefore there is no <a href="Actions.html">Action</a> named &quot;Start&quot; in that <a href="Controllers.html#joysticks">Joystick</a> from which to generate input unless you assign that <a href="Controllers.html#joysticks">Joystick</a><a href="Controllers.html"></a> to a <a href="Players.html">Player</a> first. Because if this, you cannot simply ask each unassigned <a href="Controllers.html#joysticks">Joystick</a><a href="Controllers.html"></a> for the value of &quot;Start&quot; to determine if a player wants to join because it doesn't have access to any <a href="ControllerMaps.html">Controller Maps</a>.<br />
+<p>First you should understand a little bit how <a href="ControllerMaps.html">Controller Maps</a> work. <a href="ControllerMaps.html">Controller maps</a> are loaded by the <a href="Players.html">Player</a>, not the <a href="Controllers.html">Controller</a>, therefore there is no <a href="Actions.html">Action</a> named &quot;Start&quot; in the <a href="Controllers.html#joysticks">Joystick</a> from which to generate input unless you assign that <a href="Controllers.html#joysticks">Joystick</a><a href="Controllers.html"></a> to a <a href="Players.html">Player</a> first. Because of this, you cannot simply ask each unassigned <a href="Controllers.html#joysticks">Joystick</a><a href="Controllers.html"></a> for the value of &quot;Start&quot; to determine if a player wants to join because it doesn't have access to any <a href="ControllerMaps.html">Controller Maps</a>.<br />
 </p>
 <p>There are various ways this assignment scheme can be achieved. Each method has its own advantages and disadvantages. Please read through them and decide which is most appropriate for your game.</p>
 <p><strong>Method 1: Using a variable Rewired.Player as an input source for your own Player object.</strong><br />

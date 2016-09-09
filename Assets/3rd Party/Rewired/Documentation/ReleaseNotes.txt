@@ -1,3 +1,17 @@
+1.0.0.101:
+
+  Changes:
+    - OSX Native: Handled exception caused by using old version of 360Controller driver with Xbox One Controller and calling Joystick.SetVibration. (Documented minimum supported 360Controller version is 0.16 for vibration support on Xbox One Controller.)
+
+1.0.0.100:
+  
+  Changes:
+    - Made changes to allow Rewired to work in the Linux Unity editor.
+    - Added workarounds for UDev issues on Slackware Linux.
+  
+  Bug Fixes:
+    - Fixed incorrect Right Stick Button mapping in Dual Analog Gamepad Template for Xiaomi Wireless Game Controller.
+
 1.0.0.99:
   
   Bug Fixes:

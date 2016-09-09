@@ -5649,11 +5649,6 @@ MonoBehaviour:
       joystickId2: 0
       splitAxis: 0
       sourceAxisPole: 0
-    - templateId: 18
-      joystickId: 14
-      joystickId2: 0
-      splitAxis: 0
-      sourceAxisPole: 0
     - templateId: 17
       joystickId: 15
       joystickId2: 0
