@@ -16,8 +16,6 @@ public class ShootRedLazer : WeaponBase {
 		int PlayerId = GetComponent<RedShipController>().PlayerId;
 		_player = ReInput.players.GetPlayer(PlayerId);
         base.energy = GetComponent<Energy>();
-
-
     }
 	
 	// Update is called once per frame
