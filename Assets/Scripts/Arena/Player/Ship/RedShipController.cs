@@ -2,7 +2,7 @@
 using Rewired;
 
 	public class RedShipController : MonoBehaviour {	        		
-        public float Speed = 200f;
+        public float Speed = 200f; 
         public float RotateSpeed = 80f;
         public float MaxSpeed = 8;
 		public int PlayerId; // The Rewired player id of this character

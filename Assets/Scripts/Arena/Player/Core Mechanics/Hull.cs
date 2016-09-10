@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Hull : MonoBehaviour {
 
     public int health = 10;
-    public GameObject Death;
-    public TrackObject TrackObject;
-    public CameraControl CameraControl;
+	public int maxHealth = 20;
+    public GameObject Death;    
+	public Slider slider;
+
+	private TrackObject TrackObject;
+	private CameraControl CameraControl;
 
     void Start()
     {
@@ -17,6 +21,10 @@ public class Hull : MonoBehaviour {
     public void modifyHealth(int _health)
     {
         health =+ _health;
+		if(health > maxHealth)
+			health = maxHealth;
+
+		slider.value = (float)health/maxHealth;
 
         if(health <= 0)
         {
