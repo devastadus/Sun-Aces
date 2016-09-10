@@ -1,34 +1,46 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Energy : MonoBehaviour {
 
-    public int MaxEnergy = 20;
+    public int maxEnergy = 20;
     public int StartingEnergy = 10;
     public int EnergyRegen = 1;
+    public Slider slider;
 
-    public int CurrentEnergy;
+    private int currentEnergy;
 
 	// Use this for initialization
 	void Start () {
-        CurrentEnergy = StartingEnergy;
+        currentEnergy = StartingEnergy;
         InvokeRepeating("Regen", 1f, 1f);
-	}
+
+        if (slider)
+            slider.value = (float)currentEnergy / maxEnergy;
+    }
 	
 	// Update is called once per frame
 
     void Regen()
     {
-        Debug.Log("Regen");
-        ModifyEnergy(EnergyRegen);
+        //Debug.Log("Regen");
+        modifyEnergy(EnergyRegen);
     }
 
-    void ModifyEnergy(int energy)
+    public void modifyEnergy(int energy)
     {
-        CurrentEnergy += energy;
-        if (CurrentEnergy > MaxEnergy)
-            CurrentEnergy = MaxEnergy;
-        if (CurrentEnergy < 0)
-            CurrentEnergy = 0;
+        currentEnergy += energy;
+        if (currentEnergy > maxEnergy)
+            currentEnergy = maxEnergy;
+        if (currentEnergy < 0)
+            currentEnergy = 0;
+        if (slider)
+            slider.value = (float)currentEnergy / maxEnergy;
+    }
+
+    public int getCurrentEnergy()
+    {
+        return currentEnergy;
     }
 }

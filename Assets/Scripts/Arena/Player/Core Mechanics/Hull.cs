@@ -16,15 +16,19 @@ public class Hull : MonoBehaviour {
     {
         TrackObject = GetComponent<TrackObject>();
         CameraControl = GameObject.Find("CameraRig").GetComponent<CameraControl>();
+
+        if (slider)
+            slider.value = (float)health / maxHealth;
     }
 
     public void modifyHealth(int _health)
     {
-        health =+ _health;
+        health += _health;
 		if(health > maxHealth)
 			health = maxHealth;
 
-		slider.value = (float)health/maxHealth;
+        if (slider)
+		    slider.value = (float)health/maxHealth;
 
         if(health <= 0)
         {
@@ -37,4 +41,5 @@ public class Hull : MonoBehaviour {
             Instantiate(Death, transform.position, Quaternion.identity);
         }
     }
+
 }

@@ -15,15 +15,17 @@ public class ShootRedLazer : WeaponBase {
 	void Start () {
 		int PlayerId = GetComponent<RedShipController>().PlayerId;
 		_player = ReInput.players.GetPlayer(PlayerId);
+        base.energy = GetComponent<Energy>();
 
 
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
 		fire = _player.GetButtonDown(Button);
 
-		if(fire){
+		if(fire && useEnergy(requriedEnergy)){
+
 			foreach(Transform gun in Guns){
 				GameObject bullet = Instantiate(projectile, gun.position, gun.rotation) as GameObject;
 				RedLazer lazer = bullet.GetComponent<RedLazer>();
