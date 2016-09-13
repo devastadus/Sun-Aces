@@ -12,7 +12,7 @@ public class RedShipController : PlayerController {
 	Rigidbody2D _rigidBody2D;
 
 	// Use this for initialization
-	void Start () {
+	new void Start () {
 		base.Start();
 		_rigidBody2D = gameObject.GetComponent<Rigidbody2D>();	
 
