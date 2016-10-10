@@ -41,7 +41,7 @@ public static class DTInspectorUtility {
     // ReSharper restore InconsistentNaming
      
 	 
-    public enum FunctionButtons { None, Add, Remove, ShiftUp, ShiftDown, Edit, DespawnAll, Rename, Copy, Save, Cancel, Visualize, Hide, ShowRelations }
+    public enum FunctionButtons { None, Add, Remove, ShiftUp, ShiftDown, Edit, DespawnAll, Rename, Copy, Save, Cancel, Visualize, Hide, ShowRelations, Fire }
 
     public static void FocusInProjectViewButton(string itemName, GameObject obj) {
         var settingsIcon = new GUIContent(CoreGameKitInspectorResources.PrefabTexture, "Click to select " + itemName + " in Project View");
@@ -205,7 +205,7 @@ public static class DTInspectorUtility {
         return button;
     }
 
-    public static FunctionButtons AddCustomEventIcons(bool showRename, bool showVisualize, bool showEdit = true, string itemName = "Custom Event") {
+    public static FunctionButtons AddCustomEventIcons(bool showRename, bool showVisualize, bool showEdit = true, bool showFire = false, string itemName = "Custom Event") {
         if (showRename) {
 			var buttonPressed = AddCancelSaveButtons(itemName);
 
@@ -238,10 +238,19 @@ public static class DTInspectorUtility {
 			}
 		}
 
-        GUI.backgroundColor = DeleteButtonColor;
-        GUI.contentColor = Color.white;
-        var shouldDelete = GUILayout.Button(new GUIContent("Delete", "Click to delete " + itemName), EditorStyles.miniButton, GUILayout.MaxWidth(45));
+		if (showFire && Application.isPlaying) {
+			GUI.backgroundColor = Color.white;
+			GUI.contentColor = DTInspectorUtility.BrightButtonColor;
+			if (GUILayout.Button("Fire!", EditorStyles.toolbarButton, GUILayout.Width(38), GUILayout.Height(16))) {
+				return FunctionButtons.Fire;
+			}
+		}
+
+		GUI.backgroundColor = DeleteButtonColor;
+		GUI.contentColor = Color.white;
+		var shouldDelete = GUILayout.Button(new GUIContent("Delete", "Click to delete " + itemName), EditorStyles.miniButton, GUILayout.MaxWidth(45));
         GUI.backgroundColor = Color.white;
+
 
         if (shouldDelete) {
             return FunctionButtons.Remove;
@@ -345,7 +354,7 @@ public static class DTInspectorUtility {
 #if UNITY_5
             return EditorStyles.helpBox;
 #else
-#if UNITY_3_5_7 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_4
+#if UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_4
             return EditorStyles.numberField;
 #else
             return EditorStyles.textArea;

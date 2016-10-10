@@ -340,6 +340,18 @@ public class LevelSettingsInspector : Editor {
             }
         }
 
+		GUI.contentColor = DTInspectorUtility.BrightButtonColor;
+		if (GUILayout.Button("Collapse All Sections", EditorStyles.toolbarButton, GUILayout.Width(140))) {
+			UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _settings, "toggle Collapse All Sections");
+			_settings.killerPoolingExpanded = false;
+			_settings.createPrefabPoolsExpanded = false;
+			_settings.spawnersExpanded = false;
+			_settings.gameStatsExpanded = false;
+			_settings.showLevelSettings = false;
+			_settings.showCustomEvents = false;
+		}
+		GUI.contentColor = Color.white;
+
         if (Application.isPlaying && PoolBoss.IsServer) {
             DTInspectorUtility.StartGroupHeader(1, false);
             EditorGUILayout.LabelField("Game Status Panel", EditorStyles.boldLabel);
@@ -385,13 +397,24 @@ public class LevelSettingsInspector : Editor {
 
             var hasNextWave = LevelSettings.HasNextWave;
 
-            if (!LevelSettings.WavesArePaused && hasNextWave) {
+            if (!LevelSettings.WavesArePaused && hasNextWave && !LevelSettings.IsGameOver) {
                 GUILayout.Space(4);
 
                 if (GUILayout.Button("Next Wave", EditorStyles.miniButton, GUILayout.Width(70))) {
                     LevelSettings.EndWave();
                 }
             }
+			if (LevelSettings.IsGameOver) {
+				GUILayout.Space(4);
+				if (GUILayout.Button("Continue game", EditorStyles.miniButton, GUILayout.Width(90))) {
+					LevelSettings.ContinueGame();        
+				}
+
+				GUILayout.Space(4);
+				if (GUILayout.Button("Restart game", EditorStyles.miniButton, GUILayout.Width(80))) {
+					LevelSettings.RestartGame();        
+				}
+			}
 
             EditorGUILayout.EndHorizontal();
 
@@ -417,14 +440,9 @@ public class LevelSettingsInspector : Editor {
 
         GUILayout.BeginHorizontal();
 
-#if UNITY_3_5_7
-        if (!state) {
-            text += " (Click to expand)";
-        }
-#else
         text = "<b><size=11>" + text + "</size></b>";
-#endif
-        if (state) {
+
+		if (state) {
             text = "\u25BC " + text;
         } else {
             text = "\u25BA " + text;
@@ -488,14 +506,9 @@ public class LevelSettingsInspector : Editor {
 
         GUILayout.BeginHorizontal();
 
-#if UNITY_3_5_7
-        if (!state) {
-            text += " (Click to expand)";
-        }
-#else
         text = "<b><size=11>" + text + "</size></b>";
-#endif
-        if (state) {
+
+		if (state) {
             text = "\u25BC " + text;
         } else {
             text = "\u25BA " + text;
@@ -606,14 +619,9 @@ public class LevelSettingsInspector : Editor {
 
         GUILayout.BeginHorizontal();
 
-#if UNITY_3_5_7
-        if (!state) {
-            text += " (Click to expand)";
-        }
-#else
         text = "<b><size=11>" + text + "</size></b>";
-#endif
-        if (state) {
+
+		if (state) {
             text = "\u25BC " + text;
         } else {
             text = "\u25BA " + text;
@@ -731,14 +739,9 @@ public class LevelSettingsInspector : Editor {
 
         GUILayout.BeginHorizontal();
 
-#if UNITY_3_5_7
-        if (!state) {
-            text += " (Click to expand)";
-        }
-#else
         text = "<b><size=11>" + text + "</size></b>";
-#endif
-        if (state) {
+
+		if (state) {
             text = "\u25BC " + text;
         } else {
             text = "\u25BA " + text;
@@ -814,7 +817,7 @@ public class LevelSettingsInspector : Editor {
         // level waves
         DTInspectorUtility.VerticalSpace(2);
         state = _settings.showLevelSettings;
-        text = "Level Waves";
+        text = "Levels & Waves";
 
         // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
         if (!state) {
@@ -825,14 +828,9 @@ public class LevelSettingsInspector : Editor {
 
         GUILayout.BeginHorizontal();
 
-#if UNITY_3_5_7
-        if (!state) {
-            text += " (Click to expand)";
-        }
-#else
         text = "<b><size=11>" + text + "</size></b>";
-#endif
-        if (state) {
+
+		if (state) {
             text = "\u25BC " + text;
         } else {
             text = "\u25BA " + text;
@@ -994,7 +992,12 @@ public class LevelSettingsInspector : Editor {
                     EditorGUILayout.BeginHorizontal();
                     // Display foldout with current state
                     EditorGUI.indentLevel = 1;
-                    state = DTInspectorUtility.Foldout(levelSetting.isExpanded, string.Format("Level {0} Waves & Settings", (l + 1)));
+					var levelDisplayName = string.Format("Level {0} Waves & Settings", (l + 1));
+					if (!levelSetting.isExpanded && !string.IsNullOrEmpty(levelSetting.levelName)) {
+						levelDisplayName += " (" + levelSetting.levelName + ")";
+					}
+
+					state = DTInspectorUtility.Foldout(levelSetting.isExpanded, levelDisplayName);
                     if (state != levelSetting.isExpanded) {
                         UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _settings, "toggle expand Level Waves & Settings");
                         levelSetting.isExpanded = state;
@@ -1009,7 +1012,13 @@ public class LevelSettingsInspector : Editor {
                     EditorGUI.indentLevel = 0;
 
                     if (levelSetting.isExpanded) {
-                        var newOrder = (LevelSettings.WaveOrder)EditorGUILayout.EnumPopup("Wave Sequence", levelSetting.waveOrder);
+						var newName = EditorGUILayout.TextField("Level Name", levelSetting.levelName);
+						if (newName != levelSetting.levelName) {
+							UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _settings, "change Level Name");
+							levelSetting.levelName = newName;
+						}
+
+						var newOrder = (LevelSettings.WaveOrder)EditorGUILayout.EnumPopup("Wave Sequence", levelSetting.waveOrder);
                         if (newOrder != levelSetting.waveOrder) {
                             UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _settings, "change Wave Sequence");
                             levelSetting.waveOrder = newOrder;
@@ -1023,8 +1032,13 @@ public class LevelSettingsInspector : Editor {
                             DTInspectorUtility.StartGroupHeader(1);
                             EditorGUILayout.BeginHorizontal();
                             EditorGUI.indentLevel = 1;
-                            // Display foldout with current state
-                            var innerExpanded = DTInspectorUtility.Foldout(waveSetting.isExpanded, "Wave " + (w + 1));
+                            
+							var waveDisplayName = "Wave " + (w + 1);
+							if (!waveSetting.isExpanded && !string.IsNullOrEmpty(waveSetting.waveName)) {
+								waveDisplayName += " (" + waveSetting.waveName + ")";
+							}
+							// Display foldout with current state
+                            var innerExpanded = DTInspectorUtility.Foldout(waveSetting.isExpanded, waveDisplayName);
                             if (innerExpanded != waveSetting.isExpanded) {
                                 UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _settings, "toggle expand Wave");
                                 waveSetting.isExpanded = innerExpanded;
@@ -1523,14 +1537,9 @@ public class LevelSettingsInspector : Editor {
 
         GUILayout.BeginHorizontal();
 
-#if UNITY_3_5_7
-        if (!state) {
-            text += " (Click to expand)";
-        }
-#else
         text = "<b><size=11>" + text + "</size></b>";
-#endif
-        if (state) {
+
+		if (state) {
             text = "\u25BC " + text;
         } else {
             text = "\u25BA " + text;

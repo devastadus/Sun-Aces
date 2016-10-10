@@ -73,7 +73,7 @@ public class TriggeredDespawnerInspector : Editor {
         EditorGUI.indentLevel = 0;
 
         var state = despawnSettings.eventEnabled;
-	    var text = toggleText;
+	    var text = " " + toggleText;
 
         // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
         if (!state) {
@@ -82,41 +82,25 @@ public class TriggeredDespawnerInspector : Editor {
             GUI.backgroundColor = DTInspectorUtility.ActiveHeaderColor;
         }
 
-        GUILayout.BeginHorizontal();
+		DTInspectorUtility.StartGroupHeader(0);
 
-#if UNITY_3_5_7
-        if (!state) {
-            text += " (Click to expand)";
-        }
-#else
-        text = "<b><size=11>" + text + "</size></b>";
-#endif
-        if (state) {
-            text = "\u25BC " + text;
-        } else {
-            text = "\u25BA " + text;
-        }
-        if (!GUILayout.Toggle(true, text, "dragtab", GUILayout.MinWidth(20f))) {
-            state = !state;
-        }
-
-        GUILayout.Space(2f);
-        
-		if (state != despawnSettings.eventEnabled) {
+		var newTog = EditorGUILayout.BeginToggleGroup(text, despawnSettings.eventEnabled);
+		if (newTog != despawnSettings.eventEnabled) {
 			UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _settings, "toggle " + toggleText + " enabled");
-			despawnSettings.eventEnabled = state;
+			despawnSettings.eventEnabled = newTog;
 		}
-        EditorGUILayout.EndHorizontal();
 
-	    if (!despawnSettings.eventEnabled)
-	    {
-	        return _isDirty;
+
+	    if (!despawnSettings.eventEnabled) {
+			EditorGUILayout.EndToggleGroup();
+			DTInspectorUtility.EndGroupHeader();
+			return _isDirty;
 	    }
 	    
         DTInspectorUtility.BeginGroupedControls();
 
         if (TriggeredSpawner.eventsWithTagLayerFilters.Contains(eventType)) {
-	        DTInspectorUtility.StartGroupHeader();
+	        DTInspectorUtility.StartGroupHeader(1);
             var newUseLayerFilter = EditorGUILayout.BeginToggleGroup(" Layer filters", despawnSettings.useLayerFilter);
 	        if (newUseLayerFilter != despawnSettings.useLayerFilter) {
 	            UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _settings, "toggle Layer filters");
@@ -156,7 +140,7 @@ public class TriggeredDespawnerInspector : Editor {
 
             DTInspectorUtility.AddSpaceForNonU5();
 
-            DTInspectorUtility.StartGroupHeader();
+            DTInspectorUtility.StartGroupHeader(1);
             despawnSettings.useTagFilter = EditorGUILayout.BeginToggleGroup(" Tag filter", despawnSettings.useTagFilter);
             DTInspectorUtility.EndGroupHeader();
             if (despawnSettings.useTagFilter) {
@@ -193,6 +177,9 @@ public class TriggeredDespawnerInspector : Editor {
 	    }
 
         DTInspectorUtility.EndGroupedControls();
+
+		EditorGUILayout.EndToggleGroup();
+		DTInspectorUtility.EndGroupHeader();
 
 	    return _isDirty;
 	}

@@ -94,9 +94,15 @@ namespace DarkTonic.CoreGameKit {
                 }
             }
 
-            // ReSharper disable once ConvertClosureToMethodGroup
-            // ReSharper disable once AccessToStaticMemberViaDerivedType
-            children.ForEach(child => GameObject.Destroy(child));
+			var failsafe = 0;
+			while (children.Count > 0 && failsafe < 200) {
+				var child = children[0];
+				GameObject.Destroy(child);
+				if (children[0] == child) {
+					children.RemoveAt(0);
+				}
+				failsafe++;
+			}
         }
 
 		public static int GetMaxVisualizeItems(KillerInt kInt) {

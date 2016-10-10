@@ -61,6 +61,13 @@ namespace DarkTonic.CoreGameKit {
             // your code here.
         }
 
+		/// <summary>
+		/// This method gets called when a Global Level starts.
+		/// </summary>
+		public virtual void LevelStarted(int levelNum) {
+			// your code here.
+		}
+
         /// <summary>
         /// This method gets called when a Global Level ends, just before the next one starts (if any more).
         /// </summary>
@@ -73,7 +80,7 @@ namespace DarkTonic.CoreGameKit {
         /// This method gets called when a Global Wave begins, before anything has spawned.
         /// </summary>
         public virtual void WaveStarted(LevelWave levelWaveInfo) {
-            // your code here.
+			// your code here.
         }
 
         /// <summary>

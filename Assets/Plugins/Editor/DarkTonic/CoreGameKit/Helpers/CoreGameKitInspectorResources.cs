@@ -15,6 +15,9 @@ public static class CoreGameKitInspectorResources {
     public static Texture SaveTexture = EditorGUIUtility.LoadRequired(string.Format("{0}/save.png", CoreGameKitFolderPath)) as Texture;
     public static Texture CancelTexture = EditorGUIUtility.LoadRequired(string.Format("{0}/cancel.png", CoreGameKitFolderPath)) as Texture;
 	public static Texture ShowRelationsTexture = EditorGUIUtility.LoadRequired(string.Format("{0}/showRelations.png", CoreGameKitFolderPath)) as Texture;
+	public static Texture KillTexture = EditorGUIUtility.LoadRequired(string.Format("{0}/kill.png", CoreGameKitFolderPath)) as Texture;
+	public static Texture DespawnTexture = EditorGUIUtility.LoadRequired(string.Format("{0}/despawn.png", CoreGameKitFolderPath)) as Texture;
+	public static Texture DamageTexture = EditorGUIUtility.LoadRequired(string.Format("{0}/damage.png", CoreGameKitFolderPath)) as Texture;
 
 	private static readonly string SkinColor = DTInspectorUtility.IsDarkSkin ? "Dark" : "Light";
 	public static Texture PrefabTexture = EditorGUIUtility.LoadRequired(string.Format("{0}/prefabIcon{1}.png", CoreGameKitFolderPath, SkinColor)) as Texture;

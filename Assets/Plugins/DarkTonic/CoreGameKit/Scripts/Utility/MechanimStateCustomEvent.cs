@@ -5,7 +5,7 @@ using UnityEngine;
 
 // ReSharper disable once CheckNamespace
 namespace DarkTonic.CoreGameKit {
-    public class MechanimStateCustomEvent : StateMachineBehaviour {
+	public class MechanimStateCoreCustomEvents : StateMachineBehaviour {
         [CoreCustomEvent]
         public string EnterCustomEvent;
 

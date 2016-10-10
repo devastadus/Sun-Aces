@@ -305,6 +305,52 @@ public class TriggeredSpawnerInspector : Editor {
             ActivateEvent(newEventindex, unusedEvents);
         }
 
+		GUI.contentColor = DTInspectorUtility.BrightButtonColor;
+		if (GUILayout.Button("Collapse All Events", EditorStyles.toolbarButton, GUILayout.Width(120))) {
+			UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _settings, "toggle Collapse All Sections");
+
+			_settings.enableWave.isExpanded = false;
+			_settings.disableWave.isExpanded = false;
+			_settings.visibleWave.isExpanded = false;
+			_settings.invisibleWave.isExpanded = false;
+			_settings.mouseOverWave.isExpanded = false;
+			_settings.mouseClickWave.isExpanded = false;
+			_settings.collisionWave.isExpanded = false;
+			_settings.triggerEnterWave.isExpanded = false;
+			_settings.triggerExitWave.isExpanded = false;
+			_settings.spawnedWave.isExpanded = false;
+			_settings.despawnedWave.isExpanded = false;
+			_settings.codeTriggeredWave1.isExpanded = false;
+			_settings.codeTriggeredWave2.isExpanded = false;
+			_settings.clickWave.isExpanded = false;
+			_settings.collision2dWave.isExpanded = false;
+			_settings.triggerEnter2dWave.isExpanded = false;
+			_settings.triggerExit2dWave.isExpanded = false;
+			_settings.unitySliderChangedWave.isExpanded = false;
+			_settings.unityButtonClickedWave.isExpanded = false;
+			_settings.unityPointerDownWave.isExpanded = false;
+			_settings.unityPointerUpWave.isExpanded = false;
+			_settings.unityPointerEnterWave.isExpanded = false;
+			_settings.unityPointerExitWave.isExpanded = false;
+			_settings.unityDragWave.isExpanded = false;
+			_settings.unityDropWave.isExpanded = false;
+			_settings.unityScrollWave.isExpanded = false;
+			_settings.unityUpdateSelectedWave.isExpanded = false;
+			_settings.unitySelectWave.isExpanded = false;
+			_settings.unityDeselectWave.isExpanded = false;
+			_settings.unityMoveWave.isExpanded = false;
+			_settings.unityInitializePotentialDragWave.isExpanded = false;
+			_settings.unityBeginDragWave.isExpanded = false;
+			_settings.unityEndDragWave.isExpanded = false;
+			_settings.unitySubmitWave.isExpanded = false;
+			_settings.unityCancelWave.isExpanded = false;
+
+			for (var i = 0; i < _settings.userDefinedEventWaves.Count; i++) {
+				_settings.userDefinedEventWaves[i].isExpanded = false;
+			}
+		}
+		GUI.contentColor = Color.white;
+
         DTInspectorUtility.VerticalSpace(3);
 
         _allWaves.Clear();
@@ -542,14 +588,9 @@ public class TriggeredSpawnerInspector : Editor {
 
             GUILayout.BeginHorizontal();
 
-#if UNITY_3_5_7
-        if (!state) {
-            text += " (Click to expand)";
-        }
-#else
             text = "<b><size=11>" + text + "</size></b>";
-#endif
-            if (state) {
+
+			if (state) {
                 text = "\u25BC " + text;
             } else {
                 text = "\u25BA " + text;
@@ -565,7 +606,7 @@ public class TriggeredSpawnerInspector : Editor {
                 waveSetting.isExpanded = state;
             }
 
-			var buttonPressed = DTInspectorUtility.AddCustomEventIcons(false, false, false);
+			var buttonPressed = DTInspectorUtility.AddCustomEventIcons(false, false, false, true);
 			 
             switch (buttonPressed) {
                 case DTInspectorUtility.FunctionButtons.Remove:
@@ -574,6 +615,9 @@ public class TriggeredSpawnerInspector : Editor {
                     _settings.userDefinedEventWaves.RemoveAt(itemIndex.Value);
                     waveSetting.customEventActive = false;
                     break;
+				case DTInspectorUtility.FunctionButtons.Fire:
+					_settings.ReceiveEvent(waveSetting.customEventName, _settings.transform.position);
+					break;
             }
             GUILayout.Space(4);
 
@@ -592,13 +636,7 @@ public class TriggeredSpawnerInspector : Editor {
 
             GUILayout.BeginHorizontal();
 
-#if UNITY_3_5_7
-        if (!state) {
-            text += " (Click to expand)";
-        }
-#else
             text = "<b><size=11>" + text + "</size></b>";
-#endif
             if (state) {
                 text = "\u25BC " + text;
             } else {
@@ -616,13 +654,16 @@ public class TriggeredSpawnerInspector : Editor {
                 waveSetting.isExpanded = state;
             }
 
-            var buttonPressed = DTInspectorUtility.AddCustomEventIcons(false, false, false);
+			var buttonPressed = DTInspectorUtility.AddCustomEventIcons(false, false, false, true);
 
             switch (buttonPressed) {
                 case DTInspectorUtility.FunctionButtons.Remove:
                     UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _settings, "delete " + eventType);
                     waveSetting.enableWave = false;
                     break;
+				case DTInspectorUtility.FunctionButtons.Fire:
+					_settings.PropagateEventTrigger(eventType, null, true);
+                	break;
             }
             GUILayout.Space(4);
 
@@ -1080,7 +1121,7 @@ public class TriggeredSpawnerInspector : Editor {
                 var btn = DTInspectorUtility.FunctionButtons.None;
 
                 if (!Application.isPlaying) {
-                    btn = DTInspectorUtility.AddCustomEventIcons(false, false, false, "Wave Offset");
+                    btn = DTInspectorUtility.AddCustomEventIcons(false, false, false, false, "Wave Offset");
                 }
 
                 EditorGUILayout.EndHorizontal();

@@ -133,15 +133,10 @@ public class WorldVariableTrackerInspector : Editor {
         }
 
         GUILayout.BeginHorizontal();
-
-#if UNITY_3_5_7
-        if (!state) {
-            text += " (Click to expand)";
-        }
-#else
+		 
         text = "<b><size=11>" + text + "</size></b>";
-#endif
-        if (state) {
+
+		if (state) {
             text = "\u25BC " + text;
         } else {
             text = "\u25BA " + text;

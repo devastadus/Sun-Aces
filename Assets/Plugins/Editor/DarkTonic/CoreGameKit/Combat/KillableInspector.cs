@@ -135,6 +135,22 @@ public class KillableInspector : Editor {
             }
         }
 
+		GUI.contentColor = DTInspectorUtility.BrightButtonColor;
+		if (GUILayout.Button("Collapse All Sections", EditorStyles.toolbarButton, GUILayout.Width(140))) {
+			UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "toggle Collapse All Sections");
+			_kill.invincibilityExpanded = false;
+			_kill.filtersExpanded = false;
+			_kill.dealDamagePrefabExpanded = false;
+			_kill.damagePrefabExpanded = false;
+			_kill.despawnStatDamageModifiersExpanded = false;
+			_kill.showVisibilitySettings = false;
+			_kill.deathPrefabSettingsExpanded = false;
+			_kill.despawnStatModifiersExpanded = false;
+			_kill.showRespawnSettings = false;
+			_kill.damageKnockBackExpanded = false;
+		}
+		GUI.contentColor = Color.white;
+
         DTInspectorUtility.VerticalSpace(4);
 
 
@@ -150,14 +166,9 @@ public class KillableInspector : Editor {
 
         GUILayout.BeginHorizontal();
 
-#if UNITY_3_5_7
-        if (!state) {
-            text += " (Click to expand)";
-        }
-#else
         text = "<b><size=11>" + text + "</size></b>";
-#endif
-        if (state) {
+
+		if (state) {
             text = "\u25BC " + text;
         } else {
             text = "\u25BA " + text;
@@ -371,14 +382,9 @@ public class KillableInspector : Editor {
 
         GUILayout.BeginHorizontal();
 
-#if UNITY_3_5_7
-        if (!state) {
-            text += " (Click to expand)";
-        }
-#else
         text = "<b><size=11>" + text + "</size></b>";
-#endif
-        if (state) {
+
+		if (state) {
             text = "\u25BC " + text;
         } else {
             text = "\u25BA " + text;
@@ -496,14 +502,9 @@ public class KillableInspector : Editor {
 
         GUILayout.BeginHorizontal();
 
-#if UNITY_3_5_7
-        if (!state) {
-            text += " (Click to expand)";
-        }
-#else
         text = "<b><size=11>" + text + "</size></b>";
-#endif
-        if (state) {
+
+		if (state) {
             text = "\u25BC " + text;
         } else {
             text = "\u25BA " + text;
@@ -656,14 +657,9 @@ public class KillableInspector : Editor {
 
         GUILayout.BeginHorizontal();
 
-#if UNITY_3_5_7
-        if (!state) {
-            text += " (Click to expand)";
-        }
-#else
         text = "<b><size=11>" + text + "</size></b>";
-#endif
-        if (state) {
+
+		if (state) {
             text = "\u25BC " + text;
         } else {
             text = "\u25BA " + text;
@@ -866,84 +862,79 @@ public class KillableInspector : Editor {
             DTInspectorUtility.EndGroupedControls();
         }
 
-        if (!_kill.IsGravBody) {
-            //
-        } else {
-            // knockback section
-            DTInspectorUtility.VerticalSpace(2);
-            EditorGUI.indentLevel = 0;
+	    // knockback section
+	    DTInspectorUtility.VerticalSpace(2);
+	    EditorGUI.indentLevel = 0;
 
-            state = _kill.damageKnockBackExpanded;
-            text = "Damage Knockback Settings";
+	    state = _kill.damageKnockBackExpanded;
+	    text = "Damage Knockback Settings";
 
-            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-            if (!state) {
-                GUI.backgroundColor = DTInspectorUtility.InactiveHeaderColor;
-            } else {
-                GUI.backgroundColor = DTInspectorUtility.ActiveHeaderColor;
-            }
+	    // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+	    if (!state) {
+	        GUI.backgroundColor = DTInspectorUtility.InactiveHeaderColor;
+	    } else {
+	        GUI.backgroundColor = DTInspectorUtility.ActiveHeaderColor;
+	    }
 
-            GUILayout.BeginHorizontal();
+	    GUILayout.BeginHorizontal();
 
-#if UNITY_3_5_7
-        if (!state) {
-            text += " (Click to expand)";
-        }
-#else
-            text = "<b><size=11>" + text + "</size></b>";
-#endif
-            if (state) {
-                text = "\u25BC " + text;
-            } else {
-                text = "\u25BA " + text;
-            }
-            if (!GUILayout.Toggle(true, text, "dragtab", GUILayout.MinWidth(20f))) {
-                state = !state;
-            }
+	    text = "<b><size=11>" + text + "</size></b>";
 
-            GUILayout.Space(2f);
+			if (state) {
+	        text = "\u25BC " + text;
+	    } else {
+	        text = "\u25BA " + text;
+	    }
+	    if (!GUILayout.Toggle(true, text, "dragtab", GUILayout.MinWidth(20f))) {
+	        state = !state;
+	    }
 
-            if (state != _kill.damageKnockBackExpanded) {
-                UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "toggle expand Damage Knockback Settings");
-                _kill.damageKnockBackExpanded = state;
-            }
-            EditorGUILayout.EndHorizontal();
-            EditorGUI.indentLevel = 0;
-            if (_kill.damageKnockBackExpanded) {
-                DTInspectorUtility.BeginGroupedControls();
-                DTInspectorUtility.StartGroupHeader();
-                var use = GUILayout.Toggle(_kill.sendDamageKnockback, " Send Knockback");
-                if (use != _kill.sendDamageKnockback) {
-                    UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "toggle Send Knockback");
-                    _kill.sendDamageKnockback = use;
-                }
-                EditorGUILayout.EndVertical();
+	    GUILayout.Space(2f);
 
-                if (_kill.sendDamageKnockback) {
-                    KillerVariablesHelper.DisplayKillerFloat(ref _isDirty, _kill.damageKnockBackFactor,
-                        "Knock Back Force",
-                        _kill);
-                    KillerVariablesHelper.DisplayKillerFloat(ref _isDirty, _kill.damageKnockUpMeters, "Knock Up Force",
-                        _kill);
-                }
-                EditorGUILayout.EndVertical();
+	    if (state != _kill.damageKnockBackExpanded) {
+	        UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "toggle expand Damage Knockback Settings");
+	        _kill.damageKnockBackExpanded = state;
+	    }
+	    EditorGUILayout.EndHorizontal();
+	    EditorGUI.indentLevel = 0;
+	    if (_kill.damageKnockBackExpanded) {
+	        DTInspectorUtility.BeginGroupedControls();
+	        DTInspectorUtility.StartGroupHeader();
+	        var use = GUILayout.Toggle(_kill.sendDamageKnockback, " Send Knockback");
+	        if (use != _kill.sendDamageKnockback) {
+	            UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "toggle Send Knockback");
+	            _kill.sendDamageKnockback = use;
+	        }
+	        EditorGUILayout.EndVertical();
 
-                DTInspectorUtility.VerticalSpace(3);
+	        if (_kill.sendDamageKnockback) {
+	            KillerVariablesHelper.DisplayKillerFloat(ref _isDirty, _kill.damageKnockBackFactor,
+	                "Knock Back Force",
+	                _kill);
+	            KillerVariablesHelper.DisplayKillerFloat(ref _isDirty, _kill.damageKnockUpMeters, "Knock Up Force",
+	                _kill);
+	        }
+	        EditorGUILayout.EndVertical();
 
-                use = GUILayout.Toggle(_kill.receiveKnockbackWhenDamaged, " Receive Knockback When Damaged");
-                if (use != _kill.receiveKnockbackWhenDamaged) {
-                    UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "toggle Receive Knockback When Damaged");
-                    _kill.receiveKnockbackWhenDamaged = use;
-                }
-                use = GUILayout.Toggle(_kill.receiveKnockbackWhenInvince, " Receive Knockback When Invincible");
-                if (use != _kill.receiveKnockbackWhenInvince) {
-                    UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "toggle Receive Knockback When Invincible");
-                    _kill.receiveKnockbackWhenInvince = use;
-                }
+			if (_kill.CanReceiveKnockback) {
+				DTInspectorUtility.VerticalSpace(3);
 
-                DTInspectorUtility.EndGroupedControls();
-            }
-        }
+				use = GUILayout.Toggle(_kill.receiveKnockbackWhenDamaged, " Receive Knockback When Damaged");
+		        if (use != _kill.receiveKnockbackWhenDamaged) {
+		            UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "toggle Receive Knockback When Damaged");
+		            _kill.receiveKnockbackWhenDamaged = use;
+		        }
+		        use = GUILayout.Toggle(_kill.receiveKnockbackWhenInvince, " Receive Knockback When Invincible");
+		        if (use != _kill.receiveKnockbackWhenInvince) {
+		            UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "toggle Receive Knockback When Invincible");
+		            _kill.receiveKnockbackWhenInvince = use;
+		        }
+			} else {
+				DTInspectorUtility.ShowColorWarningBox("Cannot receive knockback unless using a gravity Rigidbody or you have a CharacterController.");
+			}
+
+	        DTInspectorUtility.EndGroupedControls();
+	    }
 
 
         // player stat damage modifiers
@@ -962,14 +953,9 @@ public class KillableInspector : Editor {
 
         GUILayout.BeginHorizontal();
 
-#if UNITY_3_5_7
-        if (!state) {
-            text += " (Click to expand)";
-        }
-#else
         text = "<b><size=11>" + text + "</size></b>";
-#endif
-        if (state) {
+
+		if (state) {
             text = "\u25BC " + text;
         } else {
             text = "\u25BA " + text;
@@ -1054,14 +1040,9 @@ public class KillableInspector : Editor {
 
         GUILayout.BeginHorizontal();
 
-#if UNITY_3_5_7
-        if (!state) {
-            text += " (Click to expand)";
-        }
-#else
         text = "<b><size=11>" + text + "</size></b>";
-#endif
-        if (state) {
+
+		if (state) {
             text = "\u25BC " + text;
         } else {
             text = "\u25BA " + text;
@@ -1345,14 +1326,9 @@ public class KillableInspector : Editor {
 
         GUILayout.BeginHorizontal();
 
-#if UNITY_3_5_7
-        if (!state) {
-            text += " (Click to expand)";
-        }
-#else
         text = "<b><size=11>" + text + "</size></b>";
-#endif
-        if (state) {
+
+		if (state) {
             text = "\u25BC " + text;
         } else {
             text = "\u25BA " + text;
@@ -1378,6 +1354,8 @@ public class KillableInspector : Editor {
                 UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "change Death Prefab Type");
                 _kill.deathPrefabSource = newDeathSource;
             }
+
+			var hasDeathPrefab = true;
             switch (_kill.deathPrefabSource) {
                 case WaveSpecifics.SpawnOrigin.PrefabPool:
                     if (poolNames != null) {
@@ -1428,117 +1406,152 @@ public class KillableInspector : Editor {
 
                         if (noPrefabPools) {
                             DTInspectorUtility.ShowRedErrorBox("You have no Prefab Pools. Create one first.");
+							hasDeathPrefab = false;
                         } else if (noDeathPool) {
                             DTInspectorUtility.ShowRedErrorBox("No Death Prefab Pool selected.");
-                        } else if (illegalDeathPref) {
+							hasDeathPrefab = false;
+						} else if (illegalDeathPref) {
                             DTInspectorUtility.ShowRedErrorBox("Death Prefab Pool '" + _kill.deathPrefabPoolName + "' not found. Select one.");
-                        }
+							hasDeathPrefab = false;
+						}
                     } else {
                         DTInspectorUtility.ShowRedErrorBox(LevelSettings.NoPrefabPoolsContainerAlert);
                         DTInspectorUtility.ShowRedErrorBox(LevelSettings.RevertLevelSettingsAlert);
-                    }
+						hasDeathPrefab = false;
+					}
                     break;
                 case WaveSpecifics.SpawnOrigin.Specific:
                     PoolBossEditorUtility.DisplayPrefab(ref _isDirty, _kill, ref _kill.deathPrefabSpecific, ref _kill.deathPrefabCategoryName, "Death Prefab");
 
                     if (_kill.deathPrefabSpecific == null) {
                         DTInspectorUtility.ShowColorWarningBox("You have no Death prefab assigned. Nothing will spawn when this is destroyed.");
-                    }
+						hasDeathPrefab = false;
+					}
 
                     break;
             }
 
-            var newKeepParent = EditorGUILayout.Toggle("Keep Same Parent", _kill.deathPrefabKeepSameParent);
-            if (newKeepParent != _kill.deathPrefabKeepSameParent) {
-                UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "toggle Keep Same Parent");
-                _kill.deathPrefabKeepSameParent = newKeepParent;
-            }
+			if (hasDeathPrefab) {
+	            var newKeepParent = EditorGUILayout.Toggle("Keep Same Parent", _kill.deathPrefabKeepSameParent);
+	            if (newKeepParent != _kill.deathPrefabKeepSameParent) {
+	                UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "toggle Keep Same Parent");
+	                _kill.deathPrefabKeepSameParent = newKeepParent;
+	            }
 
-            KillerVariablesHelper.DisplayKillerInt(ref _isDirty, _kill.deathPrefabSpawnPercent, "Spawn % Chance", _kill);
+	            KillerVariablesHelper.DisplayKillerInt(ref _isDirty, _kill.deathPrefabSpawnPercent, "Spawn % Chance", _kill);
 
-            KillerVariablesHelper.DisplayKillerInt(ref _isDirty, _kill.deathPrefabQty, "Spawn Quantity", _kill);
+	            KillerVariablesHelper.DisplayKillerInt(ref _isDirty, _kill.deathPrefabQty, "Spawn Quantity", _kill);
 
-            var newDeathOffset = EditorGUILayout.Vector3Field("Spawn Offset", _kill.deathPrefabOffset);
-            if (newDeathOffset != _kill.deathPrefabOffset) {
-                UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "change Spawn Offset");
-                _kill.deathPrefabOffset = newDeathOffset;
-            }
+				var newSpawnPosition = (Killable.DeathPrefabSpawnLocation) EditorGUILayout.EnumPopup("Spawn Position", _kill.deathPrefabSpawnLocation);
+				if (newSpawnPosition != _kill.deathPrefabSpawnLocation) {
+					UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "change Spawn Position");
+					_kill.deathPrefabSpawnLocation = newSpawnPosition;
+				}
 
-            var newOffset = EditorGUILayout.Vector3Field("Incremental Offset", _kill.deathPrefabIncrementalOffset);
-            if (newOffset != _kill.deathPrefabIncrementalOffset) {
-                UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "change Incremental Offset");
-                _kill.deathPrefabIncrementalOffset = newOffset;
-            }
+	            var newDeathOffset = EditorGUILayout.Vector3Field("Spawn Offset", _kill.deathPrefabOffset);
+	            if (newDeathOffset != _kill.deathPrefabOffset) {
+	                UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "change Spawn Offset");
+	                _kill.deathPrefabOffset = newDeathOffset;
+	            }
 
-            if (!_kill.IsGravBody) {
-                DTInspectorUtility.ShowColorWarningBox("Inherit Velocity can only be used on gravity rigidbodies");
-            } else {
-                var newKeep = EditorGUILayout.Toggle("Inherit Velocity", _kill.deathPrefabKeepVelocity);
-                if (newKeep != _kill.deathPrefabKeepVelocity) {
-                    UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "toggle Inherit Velocity");
-                    _kill.deathPrefabKeepVelocity = newKeep;
-                }
-            }
+	            var newOffset = EditorGUILayout.Vector3Field("Incremental Offset", _kill.deathPrefabIncrementalOffset);
+	            if (newOffset != _kill.deathPrefabIncrementalOffset) {
+	                UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "change Incremental Offset");
+	                _kill.deathPrefabIncrementalOffset = newOffset;
+	            }
 
-            var newMode = (Killable.RotationMode)EditorGUILayout.EnumPopup("Rotation Mode", _kill.rotationMode);
-            if (newMode != _kill.rotationMode) {
-                UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "change Rotation Mode");
-                _kill.rotationMode = newMode;
-            }
-            if (_kill.rotationMode == Killable.RotationMode.CustomRotation) {
-                var newCustomRot = EditorGUILayout.Vector3Field("Custom Rotation Euler", _kill.deathPrefabCustomRotation);
-                if (newCustomRot != _kill.deathPrefabCustomRotation) {
-                    UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "change Custom Rotation Euler");
-                    _kill.deathPrefabCustomRotation = newCustomRot;
-                }
-            }
+	            if (!_kill.IsGravBody) {
+	                DTInspectorUtility.ShowColorWarningBox("Inherit Velocity can only be used on gravity rigidbodies");
+	            } else {
+	                var newKeep = EditorGUILayout.Toggle("Inherit Velocity", _kill.deathPrefabKeepVelocity);
+	                if (newKeep != _kill.deathPrefabKeepVelocity) {
+	                    UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "toggle Inherit Velocity");
+	                    _kill.deathPrefabKeepVelocity = newKeep;
+	                }
+	            }
 
-            DTInspectorUtility.StartGroupHeader(0, false);
-            var newExp = EditorGUILayout.Toggle("Death Cust. Events", _kill.deathFireEvents);
-            if (newExp != _kill.deathFireEvents) {
-                UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "toggle Death Cust. Events");
-                _kill.deathFireEvents = newExp;
-            }
+	            var newMode = (Killable.RotationMode)EditorGUILayout.EnumPopup("Rotation Mode", _kill.rotationMode);
+	            if (newMode != _kill.rotationMode) {
+	                UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "change Rotation Mode");
+	                _kill.rotationMode = newMode;
+	            }
+	            if (_kill.rotationMode == Killable.RotationMode.CustomRotation) {
+	                var newCustomRot = EditorGUILayout.Vector3Field("Custom Rotation Euler", _kill.deathPrefabCustomRotation);
+	                if (newCustomRot != _kill.deathPrefabCustomRotation) {
+	                    UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "change Custom Rotation Euler");
+	                    _kill.deathPrefabCustomRotation = newCustomRot;
+	                }
+	            }
 
-            if (_kill.deathFireEvents) {
-                DTInspectorUtility.ShowColorWarningBox("When destroyed, fire the Custom Events below");
+				EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(100));
+				EditorGUILayout.LabelField("Random Rotation");
+				
+				var newRandomX = GUILayout.Toggle(_kill.deathPrefabRandomizeXRotation, "X");
+				if (newRandomX != _kill.deathPrefabRandomizeXRotation) {
+					UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "toggle Random X Rotation");
+					_kill.deathPrefabRandomizeXRotation = newRandomX;
+				}
+				GUILayout.Space(10);
+				var newRandomY = GUILayout.Toggle(_kill.deathPrefabRandomizeYRotation, "Y");
+				if (newRandomY != _kill.deathPrefabRandomizeYRotation) {
+					UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "toggle Random Y Rotation");
+					_kill.deathPrefabRandomizeYRotation = newRandomY;
+				}
+				GUILayout.Space(10);
+				var newRandomZ = GUILayout.Toggle(_kill.deathPrefabRandomizeZRotation, "Z");
+				if (newRandomZ != _kill.deathPrefabRandomizeZRotation) {
+					UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "toggle Random Z Rotation");
+					_kill.deathPrefabRandomizeZRotation = newRandomZ;
+				}
+				EditorGUILayout.EndHorizontal();
 
-                EditorGUILayout.BeginHorizontal();
-                GUI.contentColor = DTInspectorUtility.AddButtonColor;
-                GUILayout.Space(10);
-                if (GUILayout.Button(new GUIContent("Add", "Click to add a Custom Event"), EditorStyles.toolbarButton, GUILayout.Width(50))) {
-                    UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "Add Death Custom Event");
-                    _kill.deathCustomEvents.Add(new CGKCustomEventToFire());
-                }
-                GUILayout.Space(10);
-                if (GUILayout.Button(new GUIContent("Remove", "Click to remove the last Custom Event"), EditorStyles.toolbarButton, GUILayout.Width(50))) {
-                    UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "Remove last Death Custom Event");
-                    _kill.deathCustomEvents.RemoveAt(_kill.deathCustomEvents.Count - 1);
-                }
-                GUI.contentColor = Color.white;
+	            DTInspectorUtility.StartGroupHeader(0, false);
+	            var newExp = EditorGUILayout.Toggle("Death Cust. Events", _kill.deathFireEvents);
+	            if (newExp != _kill.deathFireEvents) {
+	                UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "toggle Death Cust. Events");
+	                _kill.deathFireEvents = newExp;
+	            }
 
-                EditorGUILayout.EndHorizontal();
+	            if (_kill.deathFireEvents) {
+	                DTInspectorUtility.ShowColorWarningBox("When destroyed, fire the Custom Events below");
 
-                if (_kill.deathCustomEvents.Count == 0) {
-                    DTInspectorUtility.ShowColorWarningBox("You have no Custom Events selected to fire.");
-                }
+	                EditorGUILayout.BeginHorizontal();
+	                GUI.contentColor = DTInspectorUtility.AddButtonColor;
+	                GUILayout.Space(10);
+	                if (GUILayout.Button(new GUIContent("Add", "Click to add a Custom Event"), EditorStyles.toolbarButton, GUILayout.Width(50))) {
+	                    UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "Add Death Custom Event");
+	                    _kill.deathCustomEvents.Add(new CGKCustomEventToFire());
+	                }
+	                GUILayout.Space(10);
+	                if (GUILayout.Button(new GUIContent("Remove", "Click to remove the last Custom Event"), EditorStyles.toolbarButton, GUILayout.Width(50))) {
+	                    UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _kill, "Remove last Death Custom Event");
+	                    _kill.deathCustomEvents.RemoveAt(_kill.deathCustomEvents.Count - 1);
+	                }
+	                GUI.contentColor = Color.white;
 
-                DTInspectorUtility.VerticalSpace(2);
+	                EditorGUILayout.EndHorizontal();
 
-                // ReSharper disable once ForCanBeConvertedToForeach
-                for (var i = 0; i < _kill.deathCustomEvents.Count; i++) {
-                    var anEvent = _kill.deathCustomEvents[i].CustomEventName;
+	                if (_kill.deathCustomEvents.Count == 0) {
+	                    DTInspectorUtility.ShowColorWarningBox("You have no Custom Events selected to fire.");
+	                }
 
-                    anEvent = DTInspectorUtility.SelectCustomEventForVariable(ref _isDirty, anEvent, _kill, "Custom Event");
+	                DTInspectorUtility.VerticalSpace(2);
 
-                    if (anEvent == _kill.deathCustomEvents[i].CustomEventName) {
-                        continue;
-                    }
+	                // ReSharper disable once ForCanBeConvertedToForeach
+	                for (var i = 0; i < _kill.deathCustomEvents.Count; i++) {
+	                    var anEvent = _kill.deathCustomEvents[i].CustomEventName;
 
-                    _kill.deathCustomEvents[i].CustomEventName = anEvent;
-                }
-            }
-            EditorGUILayout.EndVertical();
+	                    anEvent = DTInspectorUtility.SelectCustomEventForVariable(ref _isDirty, anEvent, _kill, "Custom Event");
+
+	                    if (anEvent == _kill.deathCustomEvents[i].CustomEventName) {
+	                        continue;
+	                    }
+
+	                    _kill.deathCustomEvents[i].CustomEventName = anEvent;
+	                }
+	            }
+	            EditorGUILayout.EndVertical();
+			}
 
             DTInspectorUtility.EndGroupedControls();
         }
@@ -1560,14 +1573,9 @@ public class KillableInspector : Editor {
 
         GUILayout.BeginHorizontal();
 
-#if UNITY_3_5_7
-        if (!state) {
-            text += " (Click to expand)";
-        }
-#else
         text = "<b><size=11>" + text + "</size></b>";
-#endif
-        if (state) {
+
+		if (state) {
             text = "\u25BC " + text;
         } else {
             text = "\u25BA " + text;
@@ -1749,14 +1757,9 @@ public class KillableInspector : Editor {
 
         GUILayout.BeginHorizontal();
 
-#if UNITY_3_5_7
-        if (!state) {
-            text += " (Click to expand)";
-        }
-#else
         text = "<b><size=11>" + text + "</size></b>";
-#endif
-        if (state) {
+
+		if (state) {
             text = "\u25BC " + text;
         } else {
             text = "\u25BA " + text;

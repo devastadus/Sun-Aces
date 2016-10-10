@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 // ReSharper disable once CheckNamespace
 namespace DarkTonic.CoreGameKit {
@@ -32,6 +31,9 @@ namespace DarkTonic.CoreGameKit {
         // ReSharper disable InconsistentNaming
         public List<PoolBossItem> poolItems = new List<PoolBossItem>();
         public bool logMessages = false;
+        public bool useTextFilter = false;
+        public bool showLegend = true;
+        public string textFilter = string.Empty;
         public bool autoAddMissingPoolItems = false;
         public string newCategoryName = "New Category";
         public string addToCategoryName = "New Category";
@@ -45,7 +47,7 @@ namespace DarkTonic.CoreGameKit {
         /*! \endcond */
 
         private static readonly Dictionary<string, PoolItemInstanceList> PoolItemsByName =
-            new Dictionary<string, PoolItemInstanceList>();
+            new Dictionary<string, PoolItemInstanceList>(StringComparer.OrdinalIgnoreCase);
 
         private static Transform _trans;
         private static PoolBoss _instance;
@@ -397,8 +399,7 @@ namespace DarkTonic.CoreGameKit {
             }
 
             if (cloneToSpawn == null) {
-                var randomIndex = Random.Range(0, itemSettings.DespawnedClones.Count);
-                cloneToSpawn = itemSettings.DespawnedClones[randomIndex];
+                cloneToSpawn = itemSettings.DespawnedClones[0];
             } else {
                 // recycling
                 cloneToSpawn.BroadcastMessage(DespawnedMessageName, SendMessageOptions.DontRequireReceiver);
@@ -678,8 +679,7 @@ namespace DarkTonic.CoreGameKit {
             }
 
             if (cloneToSpawn == null) {
-                var randomIndex = Random.Range(0, itemSettings.DespawnedClones.Count);
-                cloneToSpawn = itemSettings.DespawnedClones[randomIndex];
+                cloneToSpawn = itemSettings.DespawnedClones[0];
             } else {
                 // recycling
                 cloneToSpawn.BroadcastMessage(DespawnedMessageName, SendMessageOptions.DontRequireReceiver);
@@ -757,6 +757,34 @@ namespace DarkTonic.CoreGameKit {
 
             return itemCount;
         }
+
+		/// <summary>
+		/// This method returns a list of active items in a category.
+		/// </summary>
+		/// <returns>The active items.</returns>
+		/// <param name="category">Category name</param>
+		public static List<Transform> CategoryActiveItems(string category) {
+			var activeItems = new List<Transform> ();
+
+			if (Instance == null) {
+				// Scene changing, do nothing.
+				return activeItems;
+			}
+			
+			var items = PoolItemsByName.Values.GetEnumerator();
+			while (items.MoveNext()) {
+				// ReSharper disable once PossibleNullReferenceException
+				if (items.Current.CategoryName != category) {
+					continue;
+				}
+				
+				if (items.Current.SpawnedClones.Count > 0) {
+					activeItems.AddRange(items.Current.SpawnedClones);
+				}
+			}
+			
+			return activeItems;
+		}
 
         /// <summary>
         /// This method returns the number of items in a category that are currently spawned.
@@ -865,6 +893,23 @@ namespace DarkTonic.CoreGameKit {
             // ReSharper restore HeuristicUnreachableCode
         }
 
+		/// <summary>
+		/// This method will damage all spawned instances of prefabs.
+		/// </summary>
+		/// <param name="damagePoints">How many points of damage to deal to each</param>
+		public static void DamageAllPrefabs(int damagePoints) {
+			if (Instance == null) {
+				// Scene changing, do nothing.
+				return;
+			}
+			
+			var items = PoolItemsByName.Values.GetEnumerator();
+			while (items.MoveNext()) {
+				// ReSharper disable once PossibleNullReferenceException
+				DamageAllOfPrefab(items.Current.SourceTrans, damagePoints);
+			}
+		}
+
         /// <summary>
         /// This method will despawn all spawned instances of prefabs.
         /// </summary>
@@ -900,8 +945,8 @@ namespace DarkTonic.CoreGameKit {
         /// <summary>
         /// This method will Despawn all spawned instances of all prefabs in a single category.
         /// </summary>
-        /// <param name="category">category name</param>
-        public static void DespawnAllPrefabsInCategory(string category) {
+		/// <param name="category">Category name to affect</param>
+		public static void DespawnAllPrefabsInCategory(string category) {
             if (Instance == null) {
                 // Scene changing, do nothing.
                 return;
@@ -918,11 +963,33 @@ namespace DarkTonic.CoreGameKit {
             }
         }
 
+		/// <summary>
+		/// This method will damage all spawned instances of all prefabs in a single category.
+		/// </summary>
+		/// <param name="category">Category name to affect</param>
+		/// <param name="damagePoints">How many points of damage to deal to each</param>
+		public static void DamageAllPrefabsInCategory(string category, int damagePoints) {
+			if (Instance == null) {
+				// Scene changing, do nothing.
+				return;
+			}
+			
+			var items = PoolItemsByName.Values.GetEnumerator();
+			while (items.MoveNext()) {
+				// ReSharper disable once PossibleNullReferenceException
+				if (items.Current.CategoryName != category) {
+					continue;
+				}
+				
+				DamageAllOfPrefab(items.Current.SourceTrans, damagePoints);
+			}
+		}
+
         /// <summary>
         /// This method will "Kill" all spawned instances of all prefabs in a single category.
         /// </summary>
-        /// <param name="category">category name</param>
-        public static void KillAllPrefabsInCategory(string category) {
+		/// <param name="category">Category name to affect</param>
+		public static void KillAllPrefabsInCategory(string category) {
             if (Instance == null) {
                 // Scene changing, do nothing.
                 return;
@@ -938,6 +1005,42 @@ namespace DarkTonic.CoreGameKit {
                 KillAllOfPrefab(items.Current.SourceTrans);
             }
         }
+
+		/// <summary>
+		/// This method will damage all spawned instances of the prefab you pass in.
+		/// </summary>
+		/// <param name="transToDespawn">Transform component of a prefab</param>
+		/// <param name="damagePoints">How many points of damage to deal to each</param>
+		public static void DamageAllOfPrefab(Transform transToDespawn, int damagePoints) {
+			if (Instance == null) {
+				// Scene changing, do nothing.
+				return;
+			}
+			
+			if (transToDespawn == null) {
+				LevelSettings.LogIfNew("No Transform passed to DamageAllOfPrefab method.");
+				return;
+			}
+			
+			var itemName = GetPrefabName(transToDespawn);
+			
+			if (!PoolItemsByName.ContainsKey(itemName)) {
+				LevelSettings.LogIfNew("The Transform '" + itemName + "' passed to DamageAllOfPrefab is not in Pool Boss. Not despawning.");
+				return;
+			}
+			
+			var spawned = PoolItemsByName[itemName].SpawnedClones;
+			
+			var count = spawned.Count;
+			for (var i = 0; i < spawned.Count && count > 0; i++) {
+				var kill = spawned[i].GetComponent<Killable>();
+				if (kill != null) {
+					kill.TakeDamage(damagePoints);
+				}
+				
+				count--;
+			}
+		}
 
         /// <summary>
         /// This method will despawn all spawned instances of the prefab you pass in.
@@ -1005,6 +1108,38 @@ namespace DarkTonic.CoreGameKit {
 
                 count--;
             }
+        }
+
+        /// <summary>
+        /// Call this get the next available item to spawn for a pool item.
+        /// </summary>
+        /// <param name="trans">Transform you want to get the next item to spawn for.</param>
+        /// <returns>Transform</returns>
+        public static Transform NextPoolItemToSpawn(Transform trans) {
+            return NextPoolItemToSpawn(trans.name);
+        }
+
+        /// <summary>
+        /// Call this get the next available item to spawn for a pool item.
+        /// </summary>
+        /// <param name="itemName">Name of item you want to get the next item to spawn for.</param>
+        /// <returns>Transform</returns>
+        public static Transform NextPoolItemToSpawn(string itemName) {
+            if (!_isReady) {
+                LevelSettings.LogIfNew(NotInitError);
+            }
+
+            if (!PoolItemsByName.ContainsKey(itemName)) {
+                return null;
+            }
+
+            var itemSettings = PoolItemsByName[itemName];
+
+            if (itemSettings.DespawnedClones.Count == 0) {
+                return null;
+            }
+
+            return itemSettings.DespawnedClones[0];
         }
 
         /// <summary>
@@ -1145,7 +1280,7 @@ namespace DarkTonic.CoreGameKit {
 
 
         /// <summary>
-        /// This method will tell you how many different items are set up in Pool Boss.
+        /// This property will tell you how many different items are set up in Pool Boss.
         /// </summary>
         public static int PrefabCount {
             get {
@@ -1157,26 +1292,31 @@ namespace DarkTonic.CoreGameKit {
             }
         }
 
+		/// <summary>
+		/// Gets the name of the prefab. Chops off "(clone X)" text.
+		/// </summary>
+		/// <returns>The prefab name.</returns>
+		/// <param name="trans">Trans.</param>
+		public static string GetPrefabName(Transform trans) {
+			if (trans == null) {
+				return null;
+			}
+			
+			var itemName = trans.name;
+			var iParen = itemName.IndexOf(" (", StringComparison.Ordinal);
+			if (iParen > -1) {
+				itemName = itemName.Substring(0, iParen);
+			}
+			
+			return itemName;
+		}
+
         private static int NumberOfClones(PoolItemInstanceList instList) {
             if (_isReady) {
                 return instList.DespawnedClones.Count + instList.SpawnedClones.Count;
             }
             LevelSettings.LogIfNew(NotInitError);
             return -1;
-        }
-
-        private static string GetPrefabName(Transform trans) {
-            if (trans == null) {
-                return null;
-            }
-
-            var itemName = trans.name;
-            var iParen = itemName.IndexOf(" (", StringComparison.Ordinal);
-            if (iParen > -1) {
-                itemName = itemName.Substring(0, iParen);
-            }
-
-            return itemName;
         }
 
 		/*! \cond PRIVATE */

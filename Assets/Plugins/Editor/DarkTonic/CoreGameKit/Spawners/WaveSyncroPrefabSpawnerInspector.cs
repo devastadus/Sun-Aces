@@ -256,14 +256,9 @@ public class WaveSyncroPrefabSpawnerInspector : Editor {
 
         GUILayout.BeginHorizontal();
 
-#if UNITY_3_5_7
-        if (!newExpanded) {
-            text += " (Click to expand)";
-        }
-#else
         text = "<b><size=11>" + text + "</size></b>";
-#endif
-        if (newExpanded) {
+
+		if (newExpanded) {
             text = "\u25BC " + text;
         } else {
             text = "\u25BA " + text;
@@ -705,7 +700,7 @@ public class WaveSyncroPrefabSpawnerInspector : Editor {
                             var btn = DTInspectorUtility.FunctionButtons.None;
 
                             if (!Application.isPlaying) {
-                                btn = DTInspectorUtility.AddCustomEventIcons(false, false, false, "Wave Offset");
+                                btn = DTInspectorUtility.AddCustomEventIcons(false, false, false, false, "Wave Offset");
                             }
 
                             EditorGUILayout.EndHorizontal();

@@ -1,6 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
+#if UNITY_5_4_OR_NEWER
+using UnityEngine.SceneManagement;
+#endif 
 
 // ReSharper disable once CheckNamespace
 namespace DarkTonic.CoreGameKit {
@@ -94,15 +99,16 @@ namespace DarkTonic.CoreGameKit {
         private static readonly Dictionary<int, WaveSyncroPrefabSpawner> EliminationSpawnersUnkilled =
             new Dictionary<int, WaveSyncroPrefabSpawner>();
 
+		private static bool _skippingWaveForRestart;
         private static bool _skipCurrentWave;
         private static readonly List<Transform> SpawnedItemsRemaining = new List<Transform>();
         private static int _waveTimeRemaining;
-        private static readonly Dictionary<string, float> RecentErrorsByTime = new Dictionary<string, float>();
+        private static readonly Dictionary<string, float> RecentErrorsByTime = new Dictionary<string, float>(StringComparer.OrdinalIgnoreCase);
         private static readonly List<RespawnTimer> PrefabsToRespawn = new List<RespawnTimer>();
         private static readonly List<CustomEventCandidate> ValidReceivers = new List<CustomEventCandidate>(10);
 
         private static readonly Dictionary<string, Dictionary<ICgkEventReceiver, Transform>> ReceiversByEventName =
-            new Dictionary<string, Dictionary<ICgkEventReceiver, Transform>>();
+            new Dictionary<string, Dictionary<ICgkEventReceiver, Transform>>(StringComparer.OrdinalIgnoreCase);
 
         private static Transform _trans;
 
@@ -246,10 +252,15 @@ namespace DarkTonic.CoreGameKit {
             _currentLevelWave = 0;
             _previousWave = null;
             _skipCurrentWave = false;
+			_skippingWaveForRestart = false;
 
             if (persistBetweenScenes) {
                 DontDestroyOnLoad(gameObject);
             }
+
+#if UNITY_5_4_OR_NEWER
+            SceneManager.sceneLoaded += LevelWasLoaded;
+#endif
 
             if (useWaves) {
                 if (LevelTimes.Count == 0) {
@@ -388,11 +399,17 @@ namespace DarkTonic.CoreGameKit {
             WorldVariableTracker.FlushAll();
         }
 
+#if UNITY_5_4_OR_NEWER
+        private static void LevelWasLoaded(Scene scene, LoadSceneMode mode) {
+            WorldVariableTracker.FlushAll();
+        }
+#else
         // ReSharper disable once UnusedMember.Local
         // ReSharper disable once UnusedParameter.Local
         private void OnLevelWasLoaded(int level) {
-            WorldVariableTracker.FlushAll();
+            WorldVariableTracker.FlushAll(); 
         }
+#endif
 
         // ReSharper disable once UnusedMember.Local
         private void OnDisable() {
@@ -414,9 +431,9 @@ namespace DarkTonic.CoreGameKit {
             }
         }
 
-        #endregion
+#endregion
 
-        #region Helper Methods
+#region Helper Methods
 
         private bool CheckForValidVariables() {
             if (!useWaves) {
@@ -633,7 +650,8 @@ namespace DarkTonic.CoreGameKit {
 
         private IEnumerator CoUpdate() {
             while (true) {
-                yield return _loopDelay;
+                
+				yield return _loopDelay;
 
                 // Global waves and respawns should only be launched from the server.
                 if (!PoolBoss.IsServer) {
@@ -676,11 +694,11 @@ namespace DarkTonic.CoreGameKit {
                     }
                 }
 
-                if (_gameIsOver || _wavesArePaused || !useWaves) {
+                if ((_gameIsOver && !_skippingWaveForRestart) || _wavesArePaused || !useWaves) {
                     continue;
                 }
 
-                //check if level or wave is done.
+				//check if level or wave is done.
                 if (_hasFirstWaveBeenStarted && !_skipCurrentWave) {
                     var timeToCompare = ActiveWaveInfo.WaveDuration;
                     var waveType = ActiveWaveInfo.waveType;
@@ -713,19 +731,27 @@ namespace DarkTonic.CoreGameKit {
                     }
                 }
 
-                if (_skipCurrentWave && listener != null) {
-                    listener.WaveEndedEarly(CurrentWaveInfo);
+                if (_skipCurrentWave) {
+					if (_skippingWaveForRestart) {
+						IsGameOver = false;
+						_skippingWaveForRestart = false;
+					}
+
+					if (listener != null) {
+                    	listener.WaveEndedEarly(PreviousWaveInfo);
+					}
                 }
 
                 bool waveSkipped;
 
-                do {
-                    var waveInfo = CurrentWaveInfo;
 
-                    if (!disableSyncroSpawners) {
-                        // notify all synchro spawners
+				do {
+					var waveInfo = CurrentWaveInfo;
+
+					if (!disableSyncroSpawners) {
+						// notify all synchro spawners
                         waveSkipped = SpawnOrSkipNewWave(waveInfo);
-                        if (waveSkipped) {
+						if (waveSkipped) {
                             if (isLoggingOn) {
                                 Debug.Log("Wave skipped - wave# is: " + (_currentLevelWave + 1) + " on Level: " +
                                           (_currentLevel + 1));
@@ -837,7 +863,7 @@ namespace DarkTonic.CoreGameKit {
             }
 
             if (listener != null) {
-                listener.WaveEnded(CurrentWaveInfo);
+                listener.WaveEnded(PreviousWaveInfo);
             }
 
             if (ActiveWaveInfo.pauseGlobalWavesWhenCompleted) {
@@ -905,7 +931,7 @@ namespace DarkTonic.CoreGameKit {
 
 			if (waveInfo.spawnerUseMode == WaveSpawnerUseMode.RandomSubset) {
 				for (var i = 0; i < _syncroSpawners.Count; i++) {
-						_syncroSpawners [i].randomSortKey = Random.Range (int.MinValue, int.MaxValue);
+					_syncroSpawners [i].randomSortKey = Random.Range (int.MinValue, int.MaxValue);
 				}
 
 				spawnersToActivate = Random.Range(waveInfo.spawnersToUseMin, waveInfo.spawnersToUseMax);
@@ -915,7 +941,7 @@ namespace DarkTonic.CoreGameKit {
 				}
 			}
 
-			_syncroSpawners.Sort (delegate(DarkTonic.CoreGameKit.WaveSyncroPrefabSpawner x, DarkTonic.CoreGameKit.WaveSyncroPrefabSpawner y) {
+			_syncroSpawners.Sort (delegate(WaveSyncroPrefabSpawner x, WaveSyncroPrefabSpawner y) {
 				return x.randomSortKey.CompareTo(y.randomSortKey);
 			});
 
@@ -944,7 +970,22 @@ namespace DarkTonic.CoreGameKit {
             }
 
             if (listener != null) {
-                listener.WaveStarted(CurrentWaveInfo);
+				var waveOrder = LevelTimes[CurrentLevel].waveOrder;
+	
+				switch (waveOrder) {
+					case WaveOrder.SpecifiedOrder:
+						if (CurrentWaveInfo.sequencedWaveNumber == 0) {
+							listener.LevelStarted(CurrentLevel);
+						}
+						break;
+					case WaveOrder.RandomOrder:
+						if (CurrentWaveInfo.randomWaveNumber == 0) {
+							listener.LevelStarted(CurrentLevel);
+						}
+						break;
+				}
+
+				listener.WaveStarted(CurrentWaveInfo);
             }
         }
 
@@ -1003,9 +1044,9 @@ namespace DarkTonic.CoreGameKit {
             HasPlayerWon = true;
         }
 
-        #endregion
+#endregion
 
-        #region Public Static Methods
+#region Public Static Methods
 
         /*! \cond PRIVATE */
         public static void AddWaveSpawnedItem(Transform spawnedTrans) {
@@ -1039,6 +1080,33 @@ namespace DarkTonic.CoreGameKit {
         }
         /*! \endcond */
 
+		/// <summary>
+		/// Call this method to continue the game when the game has ended. Continues from the same global wave the player died on. If the player already won, you should not call this.
+		/// </summary>
+		public static void ContinueGame() {
+			if (HasPlayerWon) {
+				LogIfNew("The player has already won, so there are no more waves to continue from. You may wish to call RestartGame instead. Aborting.");
+				return;
+			}
+
+			WorldVariableTracker.ForceReInit();
+			IsGameOver = false;
+		}
+
+		/// <summary>
+		/// Call this method to restart the game when the game has ended. Goes back to level #1, wave #1 for Syncro Spawners.
+		/// </summary>
+		public static void RestartGame() {
+		    if (!Instance.useWaves) {
+		        return;
+		    }
+
+		    WorldVariableTracker.ForceReInit();
+
+			_skippingWaveForRestart = true;
+			GotoWave(1, 1);
+		}
+
         /// <summary>
         /// Call this method to immediately finish the current wave for Syncro Spawners.
         /// </summary>
@@ -1051,8 +1119,18 @@ namespace DarkTonic.CoreGameKit {
         /// </summary>
         /// <param name="levelNum">The level number to skip to.</param>
         /// <param name="waveNum">The wave number to skip to.</param>
-        public static void GotoWave(int levelNum, int waveNum) {
-            _skipCurrentWave = true;
+		public static void GotoWave(int levelNum, int waveNum) {
+            if (levelNum < 1 || waveNum < 1) {
+				LogIfNew("GotoWave cannot take a levelNum or waveNum less than 1. Aborting.");
+				return;
+			}
+
+			if (IsGameOver && !_skippingWaveForRestart) {
+				LogIfNew("The game is over, so you cannot GotoWave. You can want to call RestartGame() instead. Aborting", true);
+				return;
+			}
+
+			_skipCurrentWave = true;
             _currentLevel = levelNum - 1;
             _currentLevelWave = waveNum - 1;
         }
@@ -1212,9 +1290,9 @@ namespace DarkTonic.CoreGameKit {
             Instance.startWaveNumber.Value = waveNumber - 1;
         }
 
-        #endregion
+#endregion
 
-        #region Private Static Methods
+#region Private Static Methods
 
         private static void PlayMusicIfSet(LevelWaveMusicSettings musicSpec) {
             if (Instance.useMusicSettings && Instance.useWaves && musicSpec != null) {
@@ -1228,9 +1306,9 @@ namespace DarkTonic.CoreGameKit {
             }
         }
 
-        #endregion
+#endregion
 
-        #region Public Properties
+#region Public Properties
 
         /*! \cond PRIVATE */
         public static bool AppIsShuttingDown { get; set; }
@@ -1364,7 +1442,7 @@ namespace DarkTonic.CoreGameKit {
         public static bool IsGameOver {
             get { return _gameIsOver; }
             set {
-                var wasGameOver = _gameIsOver;
+				var wasGameOver = _gameIsOver;
                 _gameIsOver = value;
 
                 if (!_gameIsOver) {
@@ -1515,9 +1593,9 @@ namespace DarkTonic.CoreGameKit {
             get { return _wavesArePaused; }
         }
 
-        #endregion
+#endregion
 
-        #region Private properties
+#region Private properties
 
         /*! \cond PRIVATE */
         private static Transform GetPoolsHolder {
@@ -1550,9 +1628,9 @@ namespace DarkTonic.CoreGameKit {
             get { return SpawnedItemsRemaining.Count; }
         }
 
-        #endregion
+#endregion
 
-        #region Custom Events
+#region Custom Events
 
         /// <summary>
         /// This method is used to keep track of enabled CustomEventReceivers automatically. This is called when then CustomEventReceiver prefab is enabled. Only call this if you write classes that inherit from ICgkEventReceiver.
@@ -1822,6 +1900,6 @@ namespace DarkTonic.CoreGameKit {
             }
         }
 
-        #endregion
+#endregion
     }
 }

@@ -8,7 +8,16 @@ namespace DarkTonic.CoreGameKit {
     /// </summary>
     // ReSharper disable once CheckNamespace
     public static class SpawnUtility {
-        /// <summary>
+		/// <summary>
+		/// Call this method to damage all instances of a prefab using Pool Boss. 
+		/// </summary>
+		/// <param name="transToDamage">Transform to damage</param>
+		/// <param name="damagePoints">How many points of damage to deal to each</param>
+		public static void DamageAllOfPrefab(Transform transToDamage, int damagePoints) {
+			PoolBoss.DamageAllOfPrefab(transToDamage, damagePoints);
+		}
+
+		/// <summary>
         /// Call this method to despawn all instances of a prefab using Pool Boss. 
         /// </summary>
         /// <param name="transToDespawn">Transform to despawn</param>
@@ -31,6 +40,14 @@ namespace DarkTonic.CoreGameKit {
             PoolBoss.DespawnAllPrefabs();
         }
 
+		/// <summary>
+		/// Call this method to damage all instances of a prefab using Pool Boss. 
+		/// </summary>
+		/// <param name="damagePoints">How many points of damage to deal to each</param>
+		public static void DamageAllPrefabs(int damagePoints) {
+			PoolBoss.DamageAllPrefabs(damagePoints);
+		}
+
         /// <summary>
         /// Call this method to kill all instances of all prefabs that use Pool Boss. Only prefabs with a Killable component can be killed.  
         /// </summary>
@@ -41,14 +58,25 @@ namespace DarkTonic.CoreGameKit {
         /// <summary>
         /// Call this method to despawn all instances of all prefabs in a certain Pool Boss category. 
         /// </summary>
-        public static void DespawnAllPrefabsInCategory(string category) {
+		/// <param name="category">Category to affect</param>
+		public static void DespawnAllPrefabsInCategory(string category) {
             PoolBoss.DespawnAllPrefabsInCategory(category);
         }
+
+		/// <summary>
+		/// Call this method to damage all instances of all prefabs in a certain Pool Boss category. Only prefabs with a Killable component can be damaged.  
+		/// </summary>
+		/// <param name="category">Category to affect</param>
+		/// <param name="category">Amount of damage to deal to each</param>
+		public static void DamageAllPrefabsInCategory(string category, int damagePoints) {
+			PoolBoss.DamageAllPrefabsInCategory(category, damagePoints);
+		}
 
         /// <summary>
         /// Call this method to kill all instances of all prefabs in a certain Pool Boss category. Only prefabs with a Killable component can be killed.  
         /// </summary>
-        public static void KillAllPrefabsInCategory(string category) {
+		/// <param name="category">Category to affect</param>
+		public static void KillAllPrefabsInCategory(string category) {
             PoolBoss.KillAllPrefabsInCategory(category);
         }
 

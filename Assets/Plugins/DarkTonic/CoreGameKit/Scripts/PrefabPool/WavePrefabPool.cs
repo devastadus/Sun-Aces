@@ -204,6 +204,14 @@ namespace DarkTonic.CoreGameKit {
             return spawnable;
         }
 
+		/// <summary>
+		/// Calling this method will clear and refill the pool, taking into account any World Variables you or other weights you may have changed since the last fill.
+		/// </summary>
+		public void ResetPool() {
+			_poolItemIndexes.Clear();
+			FillPool();
+		}
+
         /*! \cond PRIVATE */
         public int PoolInstancesOfIndex(int index) {
             return _poolItemIndexes.FindAll(delegate(int obj) {

@@ -463,8 +463,8 @@ namespace DarkTonic.CoreGameKit {
         }
 
         /*! \cond PRIVATE */
-        public void PropagateEventTrigger(EventType eType, Transform transmitterTrans) {
-            if (listener != null) {
+        public void PropagateEventTrigger(EventType eType, Transform transmitterTrans, bool calledFromInspector = false) {
+            if (!calledFromInspector && listener != null) {
                 listener.PropagatedEventReceived(eType, transmitterTrans);
             }
 

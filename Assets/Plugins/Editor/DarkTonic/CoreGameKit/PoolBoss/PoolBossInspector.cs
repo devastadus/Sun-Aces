@@ -90,9 +90,11 @@ public class PoolBossInspector : Editor {
         int? indexToShiftUp = null;
         int? indexToShiftDown = null;
 
+        var visiblePoolItems = _pool.poolItems;
+
         // ReSharper disable once ForCanBeConvertedToForeach
-        for (var i = 0; i < _pool.poolItems.Count; i++) {
-            var item = _pool.poolItems[i];
+        for (var i = 0; i < visiblePoolItems.Count; i++) {
+            var item = visiblePoolItems[i];
             if (catNames.Contains(item.categoryName)) {
                 continue;
             }
@@ -113,6 +115,86 @@ public class PoolBossInspector : Editor {
             _pool.logMessages = newLog;
         }
 
+        var newFilter = EditorGUILayout.Toggle("Use Text Item Filter", _pool.useTextFilter);
+        if (newFilter != _pool.useTextFilter) {
+            UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _pool, "toggle Use Text Item Filter");
+            _pool.useTextFilter = newFilter;
+        }
+
+        bool hasFiltered = false;
+
+        if (_pool.useTextFilter) {
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Space(10);
+            GUILayout.Label("Text Group Filter", GUILayout.Width(140));
+            var newTextFilter = GUILayout.TextField(_pool.textFilter, GUILayout.Width(180));
+            if (newTextFilter != _pool.textFilter) {
+                UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _pool, "change Text Item Filter");
+                _pool.textFilter = newTextFilter;
+            }
+            GUILayout.Space(10);
+            GUI.contentColor = DTInspectorUtility.BrightButtonColor;
+            if (GUILayout.Button("Clear", EditorStyles.toolbarButton, GUILayout.Width(70))) {
+                _pool.textFilter = string.Empty;
+            }
+            GUI.contentColor = Color.white;
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.Separator();
+
+            var unfilteredCount = visiblePoolItems.Count;
+
+            if (!string.IsNullOrEmpty(_pool.textFilter)) {
+                visiblePoolItems = visiblePoolItems.FindAll(delegate (PoolBossItem x) {
+                    return x.prefabTransform != null && x.prefabTransform.name.IndexOf(_pool.textFilter, StringComparison.OrdinalIgnoreCase) >= 0;
+                });
+            }
+
+            var hiddenCount = unfilteredCount - visiblePoolItems.Count;
+            if (hiddenCount > 0) {
+                DTInspectorUtility.ShowLargeBarAlertBox(string.Format("{0}/{1} item(s) filtered out.", hiddenCount, unfilteredCount));
+                hasFiltered = true;
+            }
+        }
+
+        var newShow = EditorGUILayout.Toggle("Show Legend", _pool.showLegend);
+        if (newShow != _pool.showLegend) {
+            UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _pool, "toggle Show Legend");
+            _pool.showLegend = newShow;
+        }
+
+        if (_pool.showLegend) {
+            GUI.contentColor = DTInspectorUtility.BrightButtonColor;
+			DTInspectorUtility.BeginGroupedControls();
+
+			GUILayout.Label("Legend", EditorStyles.boldLabel);
+
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Space(6);
+            GUILayout.Button(
+                new GUIContent(CoreGameKitInspectorResources.DamageTexture,
+                    "Click to deal 1 damage to all Killables"), EditorStyles.toolbarButton, GUILayout.Width(24));
+            GUILayout.Label("Deal 1 Damage To All");
+
+            GUILayout.Space(6);
+            GUILayout.Button(
+                new GUIContent(CoreGameKitInspectorResources.KillTexture, "Click to kill all Killables"),
+                EditorStyles.toolbarButton, GUILayout.Width(24));
+            GUILayout.Label("Kill All");
+
+            GUILayout.Space(6);
+            GUILayout.Button(
+                new GUIContent(CoreGameKitInspectorResources.DespawnTexture, "Click to despawn prefabs"),
+                EditorStyles.toolbarButton, GUILayout.Width(24));
+            GUILayout.Label("Despawn All");
+
+            GUILayout.FlexibleSpace();
+            EditorGUILayout.EndHorizontal();
+			DTInspectorUtility.EndGroupedControls();
+			EditorGUILayout.Separator();
+        }
+
+        EditorGUI.indentLevel = 0;
         EditorGUILayout.BeginHorizontal();
         GUILayout.Label("Actions", GUILayout.Width(100));
         GUI.contentColor = DTInspectorUtility.BrightButtonColor;
@@ -130,8 +212,8 @@ public class PoolBossInspector : Editor {
         }
 
         // ReSharper disable once ForCanBeConvertedToForeach
-        for (var i = 0; i < _pool.poolItems.Count; i++) {
-            if (_pool.poolItems[i].isExpanded) {
+        for (var i = 0; i < visiblePoolItems.Count; i++) {
+            if (visiblePoolItems[i].isExpanded) {
                 continue;
             }
             allExpanded = false;
@@ -145,17 +227,21 @@ public class PoolBossInspector : Editor {
         }
 
         if (Application.isPlaying) {
-            GUILayout.Space(6);
-            if (GUILayout.Button(new GUIContent("Kill All", "Click to kill all prefabs (only Killables can be killed)"), EditorStyles.toolbarButton, GUILayout.Width(50))) {
+            if (GUILayout.Button(new GUIContent(CoreGameKitInspectorResources.DamageTexture, "Click to deal 1 damage to all Killables"), EditorStyles.toolbarButton, GUILayout.Width(24))) {
+                SpawnUtility.DamageAllPrefabs(1);
+                _isDirty = true;
+            }
+
+            if (GUILayout.Button(new GUIContent(CoreGameKitInspectorResources.KillTexture, "Click to kill all Killables"), EditorStyles.toolbarButton, GUILayout.Width(24))) {
                 SpawnUtility.KillAllPrefabs();
                 _isDirty = true;
             }
 
-            GUILayout.Space(6);
-            if (GUILayout.Button(new GUIContent("Despawn All", "Click to despawn prefabs"), EditorStyles.toolbarButton, GUILayout.Width(80))) {
+            if (GUILayout.Button(new GUIContent(CoreGameKitInspectorResources.DespawnTexture, "Click to despawn prefabs"), EditorStyles.toolbarButton, GUILayout.Width(24))) {
                 SpawnUtility.DespawnAllPrefabs();
                 _isDirty = true;
             }
+            GUILayout.Space(6);
         }
 
         EditorGUILayout.EndHorizontal();
@@ -210,7 +296,7 @@ public class PoolBossInspector : Editor {
             EditorGUI.indentLevel = 0;
 
             var matchingItems = new List<PoolBossItem>();
-            matchingItems.AddRange(_pool.poolItems);
+            matchingItems.AddRange(visiblePoolItems);
             matchingItems.RemoveAll(delegate (PoolBossItem x) {
                 return x.categoryName != cat.CatName;
             });
@@ -222,9 +308,7 @@ public class PoolBossInspector : Editor {
             if (!cat.IsEditing || Application.isPlaying) {
                 var catName = cat.CatName;
 
-                if (!cat.IsExpanded) {
-                    catName += ": " + matchingItems.Count + " item" + ((matchingItems.Count != 1) ? "s" : "");
-                }
+                catName += ": " + matchingItems.Count + " item" + ((matchingItems.Count != 1) ? "s" : "");
 
                 var state = cat.IsExpanded;
                 var text = catName;
@@ -256,8 +340,8 @@ public class PoolBossInspector : Editor {
 
                 var catItemsCollapsed = true;
 
-                for (var i = 0; i < _pool.poolItems.Count; i++) {
-                    var item = _pool.poolItems[i];
+                for (var i = 0; i < visiblePoolItems.Count; i++) {
+                    var item = visiblePoolItems[i];
                     if (item.categoryName != cat.CatName) {
                         continue;
                     }
@@ -320,11 +404,15 @@ public class PoolBossInspector : Editor {
                 } else {
                     GUI.contentColor = DTInspectorUtility.BrightButtonColor;
 
-                    if (GUILayout.Button(new GUIContent("Kill All", "Click to kill all prefabs in this Category (only Killables can be killed)"), EditorStyles.toolbarButton, GUILayout.Width(50))) {
+                    if (GUILayout.Button(new GUIContent(CoreGameKitInspectorResources.DamageTexture, "Click to damage all Killables in this Category"), EditorStyles.toolbarButton, GUILayout.Width(24))) {
+                        SpawnUtility.DamageAllPrefabsInCategory(cat.CatName, 1);
+                        _isDirty = true;
+                    }
+                    if (GUILayout.Button(new GUIContent(CoreGameKitInspectorResources.KillTexture, "Click to kill all Killables in this Category"), EditorStyles.toolbarButton, GUILayout.Width(24))) {
                         SpawnUtility.KillAllPrefabsInCategory(cat.CatName);
                         _isDirty = true;
                     }
-                    if (GUILayout.Button(new GUIContent("Despawn All", "Click to despawn all prefabs in this Category"), EditorStyles.toolbarButton, GUILayout.Width(80))) {
+                    if (GUILayout.Button(new GUIContent(CoreGameKitInspectorResources.DespawnTexture, "Click to despawn all prefabs in this Category"), EditorStyles.toolbarButton, GUILayout.Width(24))) {
                         SpawnUtility.DespawnAllPrefabsInCategory(cat.CatName);
                         _isDirty = true;
                     }
@@ -339,7 +427,18 @@ public class PoolBossInspector : Editor {
                     if (theBtnText.Length > 3) {
                         btnWidth = 11 * theBtnText.Length;
                     }
-                    GUILayout.Button(theBtnText, EditorStyles.miniButtonRight, GUILayout.MaxWidth(btnWidth));
+                    if (GUILayout.Button(theBtnText, EditorStyles.miniButtonRight, GUILayout.MaxWidth(btnWidth)) && categoryHasItemsSpawned) {
+                        var catItems = PoolBoss.CategoryActiveItems(cat.CatName);
+
+                        if (catItems.Count > 0) {
+                            var gos = new List<GameObject>(catItems.Count);
+                            for (var i = 0; i < catItems.Count; i++) {
+                                gos.Add(catItems[i].gameObject);
+                            }
+
+                            Selection.objects = gos.ToArray();
+                        }
+                    }
 
                     GUI.backgroundColor = Color.white;
                     GUI.contentColor = Color.white;
@@ -392,14 +491,29 @@ public class PoolBossInspector : Editor {
                 // ReSharper restore PossibleNullReferenceException
             });
 
-            if (!hasItems) {
+            var catItemsFiltered = 0;
+            if (hasFiltered) {
+                var totalCount = _pool.poolItems.FindAll(delegate (PoolBossItem x) {
+                    return cat.CatName == x.categoryName;
+                }).Count;
+
+                catItemsFiltered = totalCount - matchingItems.Count;
+            }
+
+            bool hasOpenBox = false;
+
+            if (catItemsFiltered > 0) {
+                DTInspectorUtility.BeginGroupedControls();
+                DTInspectorUtility.ShowLargeBarAlertBox(string.Format("This Category has {0} items filtered out.", catItemsFiltered));
+                hasOpenBox = true;
+            } else if (!hasItems) {
                 DTInspectorUtility.BeginGroupedControls();
                 DTInspectorUtility.ShowLargeBarAlertBox("This Category is empty. Add / move some items or you may delete it.");
                 DTInspectorUtility.EndGroupedControls();
             }
 
             if (cat.IsExpanded) {
-                if (matchingItems.Count > 0) {
+                if (matchingItems.Count > 0 && !hasOpenBox) {
                     DTInspectorUtility.BeginGroupedControls();
                 }
 
@@ -414,11 +528,15 @@ public class PoolBossInspector : Editor {
                             DTInspectorUtility.ShowRedErrorBox(
                                 "This prefab contains a Trail Renderer with auto-destruct enabled. " + DoNotDestroyPoolItem);
                         } else {
+#if UNITY_5_4_OR_NEWER
+                            // nothing to check
+#else
                             var partAnim = poolItem.prefabTransform.GetComponent<ParticleAnimator>();
                             if (partAnim != null && partAnim.autodestruct) {
                                 DTInspectorUtility.ShowRedErrorBox(
                                     "This prefab contains a Particle Animator with auto-destruct enabled. " + DoNotDestroyPoolItem);
                             }
+#endif
                         }
                     }
 
@@ -434,21 +552,29 @@ public class PoolBossInspector : Editor {
                     if (Application.isPlaying) {
                         GUILayout.FlexibleSpace();
 
-                        GUI.contentColor = DTInspectorUtility.BrightTextColor;
                         if (poolItem.prefabTransform != null) {
-                            if (poolItem.prefabTransform.GetComponent<Killable>() != null) {
-                                if (GUILayout.Button(new GUIContent("Kill All", "Click to kill all of this prefab (Killables only can be killed)"), EditorStyles.toolbarButton, GUILayout.Width(50))) {
-                                    SpawnUtility.KillAllOfPrefab(poolItem.prefabTransform);
-                                    _isDirty = true;
-                                }
-                            }
-                            if (GUILayout.Button(new GUIContent("Despawn All", "Click to despawn all of this prefab"),
-                                EditorStyles.toolbarButton, GUILayout.Width(80))) {
-                                SpawnUtility.DespawnAllOfPrefab(poolItem.prefabTransform);
-                                _isDirty = true;
-                            }
+							var itemInfo = PoolBoss.PoolItemInfoByName(itemName);
+							GUI.contentColor = DTInspectorUtility.BrightButtonColor;
+                            
+							if (itemInfo != null && itemInfo.SpawnedClones.Count > 0) {
+								if (poolItem.prefabTransform.GetComponent<Killable>() != null) {
+	                                if (GUILayout.Button(new GUIContent(CoreGameKitInspectorResources.DamageTexture, "Click to damage all of this prefab"), EditorStyles.toolbarButton, GUILayout.Width(24))) {
+	                                    SpawnUtility.DamageAllOfPrefab(poolItem.prefabTransform, 1);
+	                                    _isDirty = true;
+	                                }
+	                                if (GUILayout.Button(new GUIContent(CoreGameKitInspectorResources.KillTexture, "Click to kill all of this prefab"), EditorStyles.toolbarButton, GUILayout.Width(24))) {
+	                                    SpawnUtility.KillAllOfPrefab(poolItem.prefabTransform);
+	                                    _isDirty = true;
+	                                }
+	                            }
+	                            if (GUILayout.Button(new GUIContent(CoreGameKitInspectorResources.DespawnTexture, "Click to despawn all of this prefab"),
+	                                EditorStyles.toolbarButton, GUILayout.Width(24))) {
+	                                SpawnUtility.DespawnAllOfPrefab(poolItem.prefabTransform);
+	                                _isDirty = true;
+	                            }
+							}
 
-                            var itemInfo = PoolBoss.PoolItemInfoByName(itemName);
+                            GUI.contentColor = DTInspectorUtility.BrightTextColor;
                             if (itemInfo != null) {
                                 var spawnedCount = itemInfo.SpawnedClones.Count;
                                 var despawnedCount = itemInfo.DespawnedClones.Count;
@@ -569,10 +695,14 @@ public class PoolBossInspector : Editor {
                     DTInspectorUtility.AddSpaceForNonU5();
                 }
 
-                if (matchingItems.Count > 0) {
+                if (matchingItems.Count > 0 && !hasOpenBox) {
                     DTInspectorUtility.EndGroupedControls();
                     DTInspectorUtility.VerticalSpace(2);
                 }
+            }
+
+            if (hasOpenBox) {
+                DTInspectorUtility.EndGroupedControls();
             }
 
             DTInspectorUtility.VerticalSpace(2);
@@ -701,13 +831,6 @@ public class PoolBossInspector : Editor {
 
     private void ExpandCollapseCategory(string category, bool isExpand) {
         UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _pool, "toggle expand / collapse all items in Category");
-
-        foreach (var cat in _pool._categories) {
-            if (cat.CatName != category) {
-                continue;
-            }
-            cat.IsExpanded = isExpand;
-        }
 
         foreach (var item in _pool.poolItems) {
             if (item.categoryName != category) {

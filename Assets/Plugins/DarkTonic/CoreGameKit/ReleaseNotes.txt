@@ -2,6 +2,37 @@ CORE GAMEKIT PLUGIN - By Dark Tonic, Inc. (c) 2012-2016
 
 -Code by Brian Hunsaker
 
+-V 3.2.6.8  - Added ChangeTimerDelay method to TimedDespawner.
+			- Can now see Global Wave name when the wave is collapsed in the Inspector.
+			- Added Level name field for Global Waves. You can see it even when the level is collapsed.
+			- Renamed "Level Waves" to "Levels & Waves" in the LevelSettings Inspector.
+			- Killables can now send Knockback Damage regardless of gravity setting on their Rigidbody. They only can't receive Knockback damage if not gravity.
+			- Killables with a CharacterController now can receive Knockback Damage. It's an instant knockback though since there's no physics force to apply.
+			- Added PoolBoss.NextPoolItemToSpawn method to get you the next item that will spawn for a Pool Item.
+		    - Documentation fix for Knockback on Killables.
+			- Refactored Knockback code to be more understandable.
+			- Fixed UI of Inspector for Triggered Despawner. It now shows a checkbox for each trigger you enable instead of making you "expand" them to denote active, which was really inintuitive.
+			- Added new API method: LevelSettings.RestartGame() - it will set IsGameOver to false and go to level 1, wave 1 if you have Global Waves enabled.
+			- Added new API method: LevelSettings.ContinueGame() - it will set IsGameOver to false and continue from where you died.
+			- Added button to "Restart Game" to Level Settings Inspector when game is over. Will also reset any World Variables marked as "Reset To Starting Value" back to that value.
+			- Added button to "Continue Game" to Level Settings Inspector when game is over. Will also reset any World Variables marked as "Reset To Starting Value" back to that value.
+			- Renamed MechanimCustomEvent to MechanimStateCoreCustomEvents so it wasn't so close to the Master Audio script of MechanimCustomEvents. Please delete the old named file before upgrading.
+			- Added "Collapse All Sections" button to LevelSettings.
+			- Added "Collapse All Sections" button to Killable.
+			- Added "Collapse All Events" button to Triggered Spawner.
+			- Added "Fire!" button to Triggered Spawner Inspector during runtime, to activate the preconfigured wave for any event so you don't have to wait for it to happen.
+			- Added "Spawn Position" dropdown for Death Prefabs in Killables. Choices are Death Position (default) and Respawn position. If you never set Respawn position via code, then it is the original spawn position, which lets you spawn death prefabs from the original spawn position if you choose.
+			- Added LevelStarted method to LevelSettingsListener!
+			- Fixed compilation errors for Windows Phone 8 platform.
+			- Fixed bug where WaveEnded and WaveEndedEarly methods on LevelSettingsListener passed out the wrong wave info.
+			- Added random rotation options to Killable's Death Prefab.
+			- Category active item counts in PoolBoss are now clickable to select all items in the category that are active.
+			- Added Text Item Filter textbox for filtering out what you see in Pool Boss. Helps a ton when you have a lot of prefabs pooled.
+			- Added RefillPool method to WavePrefabPool class, so you can refill the pool at any time, taking into account any weights or World Variable values that have changed since the last fill.
+			- Added "Deal 1 Damage To All" buttons to Pool Boss item, category and "all" so you can deal damage to test things at any time (runtime only).
+			- Changed Damage / Despawn / Kill buttons in Pool Boss to icons.
+	 		- Now only show Damage / Despawn / Kill icons in Pool Boss for the item if there is at least 1 of it spawned. Otherwise they wouldn't do anything.
+
 -V 3.2.6.7  - Fixed bug: selecting a prefab with Triggered Spawner visualization turned on in ProjectView would spam the Console window and create top-level visualization objects.
 		    - Added RelationsInspector integration. Can view Killable chains and what global waves spawn what prefab. Both are launchable with context from the CGK Inspectors.
 			- Moved icons in Gizmos folder into a new subfolder "CoreGameKit" so it's more obvious what they are for.

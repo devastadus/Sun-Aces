@@ -134,10 +134,14 @@ namespace DarkTonic.CoreGameKit {
 		public string deathPrefabCategoryName;
 		public bool deathPrefabKeepSameParent = true;
 		public KillerInt deathPrefabSpawnPercent = new KillerInt(100, 0, 100);
+		public DeathPrefabSpawnLocation deathPrefabSpawnLocation = DeathPrefabSpawnLocation.DeathPosition;
 		public KillerInt deathPrefabQty = new KillerInt(1, 0, 100);
 		public Vector3 deathPrefabOffset = Vector3.zero;
 		public Vector3 deathPrefabIncrementalOffset = Vector3.zero;
 		public RotationMode rotationMode = RotationMode.UseDeathPrefabRotation;
+		public bool deathPrefabRandomizeXRotation = false;
+		public bool deathPrefabRandomizeYRotation = false;
+		public bool deathPrefabRandomizeZRotation = false;
 		public bool deathPrefabKeepVelocity = true;
 		public Vector3 deathPrefabCustomRotation = Vector3.zero;
 		public KillerFloat deathDelay = new KillerFloat(0, 0, 100);
@@ -216,6 +220,11 @@ namespace DarkTonic.CoreGameKit {
 		
 		#region enums
 		/*! \cond PRIVATE */
+		public enum DeathPrefabSpawnLocation {
+			DeathPosition,
+			RespawnPosition
+		}
+
 		public enum DeathDespawnBehavior {
 			ReturnToPool,
 			Disable
@@ -266,8 +275,6 @@ namespace DarkTonic.CoreGameKit {
 		
 		// ReSharper disable once UnusedMember.Local
 		private void Awake() {
-			_charCtrl = GetComponent<CharacterController>();
-			
 			_timesRespawned = 0;
 			ResetSpawnerInfo();
 		}
@@ -460,7 +467,7 @@ namespace DarkTonic.CoreGameKit {
 		/// <param name="hit">The game object being hit.</param>
 		/// <param name="calledFromOtherKillable">The object calling this method</param>
 		public virtual void ControllerColliderHit(GameObject hit, bool calledFromOtherKillable = false) {
-			if (calledFromOtherKillable && _charCtrl != null) {
+			if (calledFromOtherKillable && CharController != null) {
 				// we don't need to be called from a Char Controller if we are one. Abort to exit potential endless loop.
 				return;
 			}
@@ -880,6 +887,7 @@ namespace DarkTonic.CoreGameKit {
 			}
 		}
 		
+		/*! \cond PRIVATE */
 		protected void PerformDeath(string scenarioName, bool skipDespawn = false) {
 			scenarioName = DetermineScenario(scenarioName);
 			
@@ -925,7 +933,8 @@ namespace DarkTonic.CoreGameKit {
 				Despawn(TriggeredSpawner.EventType.LostHitPoints);
 			}
 		}
-		
+		/*! \endcond */
+
 		private void ResetVelocity() {
 			if (!IsGravBody) {
 				return;
@@ -1078,8 +1087,8 @@ namespace DarkTonic.CoreGameKit {
 			if (UnityEngine.Random.Range(0, 100) >= deathPrefabSpawnPercent.Value) {
 				return;
 			}
-			
-			var spawnPos = Trans.position;
+
+			var spawnPos = DeathPrefabSpawnPosition;
 			spawnPos += deathPrefabOffset;
 			
 			for (var i = 0; i < deathPrefabQty.Value; i++) {
@@ -1095,14 +1104,29 @@ namespace DarkTonic.CoreGameKit {
 				
 				var spawnRotation = deathPre.transform.rotation;
 				switch (rotationMode) {
-				case RotationMode.InheritExistingRotation:
-					spawnRotation = Trans.rotation;
-					break;
-				case RotationMode.CustomRotation:
-					spawnRotation = Quaternion.Euler(deathPrefabCustomRotation);
-					break;
+					case RotationMode.InheritExistingRotation:
+						spawnRotation = Trans.rotation;
+						break;
+					case RotationMode.CustomRotation:
+						spawnRotation = Quaternion.Euler(deathPrefabCustomRotation);
+						break;
 				}
+
+
+				var euler = spawnRotation.eulerAngles;
 				
+				if (deathPrefabRandomizeXRotation) {
+					euler.x = UnityEngine.Random.Range(0f, 360f);
+				}
+				if (deathPrefabRandomizeYRotation) {
+					euler.y = UnityEngine.Random.Range(0f, 360f);
+				}
+				if (deathPrefabRandomizeZRotation) {
+					euler.z = UnityEngine.Random.Range(0f, 360f);
+				}
+
+				spawnRotation = Quaternion.Euler(euler);
+
 				var theParent = deathPrefabKeepSameParent ? Trans.parent : null;
 				var spawnedDeathPrefab = SpawnDeathPrefab(deathPre, spawnPos, spawnRotation, theParent);
 				
@@ -1470,55 +1494,56 @@ namespace DarkTonic.CoreGameKit {
 		public virtual bool IsTemporarilyInvincible() {
 			return _isTemporarilyInvincible;
 		}
-		
-		/// <summary>
-		/// This will knock back (and up) any combatents fighting with this Killable.
-		/// </summary>
-		/// <param name="enemy">The enemy knocking this Killable back.</param>
-		public virtual void Knockback(Killable enemy) {
-			if (atckPoints.Value <= 0 || !sendDamageKnockback || enemy == null) {
+
+        /// <summary>
+        /// This will knock back (and up) this Killable based on the Knockback settings of Enemy passed in.
+        /// </summary>
+        /// <param name="enemy">The enemy knocking back this Killable.</param>
+        public virtual void Knockback(Killable enemy) {
+			if (enemy == null) {
 				return;
 			}
-			
-			if (enemy.IsInvincible()) {
-				if (!enemy.ReceiveKnockbackWhenInvince) {
+
+			if (!enemy.sendDamageKnockback || enemy.atckPoints.Value <= 0) { 
+				return; // negative damage (health increase) should not knockback.
+            }
+
+			if (IsInvincible()) {
+				if (!ReceiveKnockbackWhenInvince) {
 					return;
 				}
-			} else {
-				if (!enemy.ReceiveKnockbackWhenDamaged) {
+			} else { // was damaged
+				if (!ReceiveKnockbackWhenDamaged) {
 					return;
 				}
 			}
-			
-			if (!IsGravBody) {
-				return;
-			}
-			
-			var pushHeight = damageKnockUpMeters.Value;
-			var pushForce = damageKnockBackFactor.Value;
-			
-			var pushDir = (enemy.transform.position - transform.position);
+
+			var pushHeight = enemy.damageKnockUpMeters.Value;
+			var pushForce = enemy.damageKnockBackFactor.Value;
+
+			var pushDir = (Trans.position - enemy.Trans.position);
 			pushDir.y = 0f;
-			
+
 			if (Body != null) {
-				var enemyBody = enemy.GetComponent<Rigidbody>();
-				
-				enemyBody.velocity = new Vector3(0, 0, 0);
-				enemyBody.AddForce(pushDir.normalized * pushForce, ForceMode.VelocityChange);
-				enemyBody.AddForce(Vector3.up * pushHeight, ForceMode.VelocityChange);
-			} else {
+				Body.velocity = new Vector3(0, 0, 0);
+				Body.AddForce(pushDir.normalized * pushForce, ForceMode.VelocityChange);
+				Body.AddForce(Vector3.up * pushHeight, ForceMode.VelocityChange);
+			} else if (Body2D != null) {
 				// Rigidbody 2D
-				var enemyBody2D = enemy.GetComponent<Rigidbody2D>();
-				
-				enemyBody2D.velocity = new Vector2(0, 0);
+				Body2D.velocity = new Vector2(0, 0);
 				var knockback = Vector2.right * pushForce; // knock right
-				
-				if (enemy.transform.position.x < Trans.position.x) {
+
+				if (enemy.Trans.position.x > Trans.position.x) {
 					knockback *= -1; // knock left
 				}
-				
-				enemyBody2D.AddForce(knockback, ForceMode2D.Impulse);
-				enemyBody2D.AddForce(Vector3.up * pushHeight, ForceMode2D.Impulse);
+
+				Body2D.AddForce(knockback, ForceMode2D.Impulse);
+				Body2D.AddForce(Vector3.up * pushHeight, ForceMode2D.Impulse);
+			} else if (CharController != null) {
+			    var move = pushDir.normalized * pushForce;
+                move.y = (Vector3.up * pushHeight).y;
+
+                CharController.Move(move);
 			}
 		}
 		
@@ -1592,7 +1617,7 @@ namespace DarkTonic.CoreGameKit {
 			_isTemporarilyInvincible = false;
 			_spawnPoint = Trans.position;
 			
-			if (respawnType != RespawnType.None && !_spawnLocationSet) {
+			if (!_spawnLocationSet) {
 				_respawnLocation = Trans.position;
 				_spawnLocationSet = true;
 			}
@@ -1675,11 +1700,6 @@ namespace DarkTonic.CoreGameKit {
 			if (invincibleOnSpawn) {
 				TemporaryInvincibility(invincibleTimeSpawn.Value);
 			}
-			
-			if (spawned) {
-				// only need to check this when spawned each time, unless ownership gets transferred...
-				IsMyMultiplayerPrefab = PoolBoss.IsMyMultiplayerPrefab(this);
-			}
 		}
 		
 		/// <summary>
@@ -1711,7 +1731,8 @@ namespace DarkTonic.CoreGameKit {
 			var eventsFired = false;
 			
 			var knockBackSent = false;
-			
+		    var enemySendsKnockback = enemy != null && enemy.sendDamageKnockback;
+
 			if (IsInvincible()) {
 				SpawnInvinceHitPrefab();
 				
@@ -1724,6 +1745,7 @@ namespace DarkTonic.CoreGameKit {
 				}
 				
 				if (despawnMode == DespawnMode.CollisionOrTrigger) {
+					LogIfEnabled("Destroyed anyway because 'HP Death Mode' set to on Collision Or Trigger!");
 					DestroyKillable();
 				}
 				
@@ -1748,7 +1770,7 @@ namespace DarkTonic.CoreGameKit {
 				dmgPrefabsSpawned = SpawnDamagePrefabsIfPerHit(damagePoints);
 				// end mod variables and spawn dmg prefabs
 				
-				if (sendDamageKnockback) {
+				if (enemySendsKnockback) {
 					knockBackSent = true;
 					Knockback(enemy);
 				}
@@ -1761,7 +1783,7 @@ namespace DarkTonic.CoreGameKit {
 			
 			TakingDamage(damagePoints, enemy);
 			
-			if (sendDamageKnockback && !knockBackSent) {
+			if (enemySendsKnockback && !knockBackSent) {
 				Knockback(enemy);
 			}
 			
@@ -1967,13 +1989,17 @@ namespace DarkTonic.CoreGameKit {
 				return _instanceId;
 			}
 		}
-		
+
+	    public bool CanReceiveKnockback {
+	        get { return IsGravBody || IsCharController; }
+        }
+
 		public bool ReceiveKnockbackWhenInvince {
-			get { return IsGravBody && receiveKnockbackWhenInvince; }
+			get { return CanReceiveKnockback && receiveKnockbackWhenInvince; }
 		}
 		
 		public bool ReceiveKnockbackWhenDamaged {
-			get { return IsGravBody && receiveKnockbackWhenDamaged; }
+			get { return CanReceiveKnockback && receiveKnockbackWhenDamaged; }
 		}
 		
 		/*! \endcond */
@@ -2103,13 +2129,24 @@ namespace DarkTonic.CoreGameKit {
 		public bool IsGravBody {
 			get { return (Body != null && Body.useGravity) || (Body2D != null && Body2D.gravityScale > 0); }
 		}
-		
-		public bool IsMyMultiplayerPrefab { get; private set; }
-		
-		/// <summary>
-		/// This property will return a reference to the Killable that dealt lethal damage to this one.
-		/// </summary>
-		public Killable KilledBy { get; private set; }
+
+        /*! \cond PRIVATE */
+
+	    public bool IsCharController {
+	        get { return CharController != null; }
+	    }
+
+        public bool IsMyMultiplayerPrefab { 
+			get {
+				return PoolBoss.IsMyMultiplayerPrefab(this); 
+			}
+		}
+		/*! \endcond */
+
+        /// <summary>
+        /// This property will return a reference to the Killable that dealt lethal damage to this one.
+        /// </summary>
+        public Killable KilledBy { get; private set; }
 		
 		/// <summary>
 		/// Gets or sets the respawn position. Defaults to the location last spawned.
@@ -2119,7 +2156,7 @@ namespace DarkTonic.CoreGameKit {
 			get { return _respawnLocation; }
 			set { _respawnLocation = value; }
 		}
-		
+
 		/// <summary>
 		/// The game object this Killable was spawned from, if any.
 		/// </summary>
@@ -2163,6 +2200,18 @@ namespace DarkTonic.CoreGameKit {
 		}
 		
 		/*! \cond PRIVATE */
+		private Vector3 DeathPrefabSpawnPosition {
+			get {
+				switch (deathPrefabSpawnLocation) {
+					case DeathPrefabSpawnLocation.DeathPosition:
+					default:
+						return Trans.position;
+					case DeathPrefabSpawnLocation.RespawnPosition:
+						return RespawnPosition;
+				}
+			}
+		}
+
 		private Collider2D Colidr2D {
 			get {
 				// ReSharper disable once ConvertIfStatementToNullCoalescingExpression
@@ -2173,6 +2222,18 @@ namespace DarkTonic.CoreGameKit {
 				return _collider2D;
 			}
 		}
+
+	    private CharacterController CharController {
+	        get {
+	            if (_charCtrl != null) {
+	                return _charCtrl;
+	            }
+
+                _charCtrl = GetComponent<CharacterController>();
+	            return _charCtrl;
+	        }
+        }
+
 		/*! \endcond */
 		#endif
 		

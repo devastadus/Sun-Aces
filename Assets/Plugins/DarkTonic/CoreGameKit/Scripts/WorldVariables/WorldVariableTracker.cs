@@ -77,7 +77,7 @@ namespace DarkTonic.CoreGameKit {
 
             _doneInitializing = false;
 
-            _inGamePlayerStats = new Dictionary<string, InGameWorldVariable>();
+            _inGamePlayerStats = new Dictionary<string, InGameWorldVariable>(StringComparer.OrdinalIgnoreCase);
 
             if (TrackerTransform == null) {
                 return;
@@ -148,6 +148,14 @@ namespace DarkTonic.CoreGameKit {
             return LevelSettings.IllegalVariableNames.Contains(statName);
         }
         /*! \endcond */
+
+		/// <summary>
+		/// Will re-initialize all World Variables to their starting value (only for those marked as "Reset To Starting Value"). Called when using LevelSettings.RestartGame and LevelSettings.ContinueGame();
+		/// </summary>
+		public static void ForceReInit() {
+			_inGamePlayerStats = null;
+			Init();
+		}
 
         /// <summary>
         /// Modifies a World Variable by name. You can set, add, multiply or subtract the value.
