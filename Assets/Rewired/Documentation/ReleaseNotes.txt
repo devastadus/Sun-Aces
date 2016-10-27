@@ -1,3 +1,108 @@
+1.0.0.104:
+
+  Changes:
+    - Added option to to disable Input.location property in UnityInputOverride.cs in Global Options window.
+    - Added option to to disable Xbox gamepad vibration support in Global Options window.
+    - Added options to Control Mapper to allow disabling of full-axis and/or split-axis input assignment fields for axis-type Actions.
+  
+  Integration Changes:
+    - PlayMaker:
+      New Actions:
+      RewiredGetPlayerIds
+      RewiredGetAllPlayerIds
+      RewiredGetJoystickIds
+      RewiredGetCustomControllerIds
+      RewiredIsControllerAssigned
+      RewiredIsControllerAssignedToPlayer
+      RewiredRemoveControllerFromAllPlayers
+      RewiredAutoAssignJoystick
+      RewiredAutoAssignJoysticks
+      RewiredControllerPreDisconnectEvent
+      RewiredPlayerGetJoystickIds
+      RewiredPlayerGetCustomControllerIds
+      RewiredPlayerAddController
+      RewiredPlayerRemoveController
+      RewiredPlayerContainsController
+      RewiredPlayerClearControllerMaps
+      RewiredPlayerLoadDefaultMaps
+      RewiredPlayerLoadControllerMap
+      RewiredPlayerRemoveControllerMap
+      RewiredPlayerGetExcludeFromControllerAutoAssignment
+      RewiredPlayerSetExcludeFromControllerAutoAssignment
+      RewiredControllerGetId
+      RewiredControllerGetName
+      RewiredControllerGetTag
+      RewiredControllerSetTag
+      RewiredControllerGetHardwareName
+      RewiredControllerGetType
+      RewiredControllerGetIsConnected
+      RewiredControllerGetButtonCount
+      RewiredControllerGetHardwareIdentifier
+      RewiredControllerGetMapTypeString
+      RewiredControllerGetAxisCount
+      RewiredControllerGetAxis2DCount
+      RewiredJoystickGetUnityId
+      RewiredJoystickGetHardwareTypeGuidString
+      RewiredJoystickGetSupportsVibration
+      RewiredJoystickGetVibrationMotorCount
+
+      *** BREAKING CHANGES ****
+      Changed the following Actions to use FSMEnum instead of FSMInt for controllerType property:
+      RewiredGetLastActiveControllerType
+      RewiredControllerConnectedEvent
+      RewiredControllerDisconnectedEvent
+      RewiredPlayerRemoveControllers
+      RewiredPlayerGetLastActiveControllerType
+
+    - Behavior Designer:
+      New Tasks:
+      RewiredGetPlayers
+      RewiredGetAllPlayers
+      RewiredGetJoysticks
+      RewiredGetCustomControllers
+      RewiredIsControllerAssigned
+      RewiredIsControllerAssignedToPlayer
+      RewiredRemoveControllerFromAllPlayers
+      RewiredAutoAssignJoystick
+      RewiredAutoAssignJoysticks
+      RewiredControllerPreDisconnectEvent
+      RewiredPlayerGetJoysticks
+      RewiredPlayerGetCustomControllers
+      RewiredPlayerAddController
+      RewiredPlayerRemoveController
+      RewiredPlayerContainsController
+      RewiredPlayerClearControllerMaps
+      RewiredPlayerLoadDefaultMaps
+      RewiredPlayerLoadControllerMap
+      RewiredPlayerRemoveControllerMap
+      RewiredPlayerGetExcludeFromControllerAutoAssignment
+      RewiredPlayerSetExcludeFromControllerAutoAssignment
+      RewiredControllerGetId
+      RewiredControllerGetName
+      RewiredControllerGetTag
+      RewiredControllerSetTag
+      RewiredControllerGetHardwareName
+      RewiredControllerGetType
+      RewiredControllerGetIsConnected
+      RewiredControllerGetButtonCount
+      RewiredControllerGetHardwareIdentifier
+      RewiredControllerGetMapTypeString
+      RewiredControllerGetAxisCount
+      RewiredControllerGetAxis2DCount
+      RewiredJoystickGetUnityId
+      RewiredJoystickGetHardwareTypeGuidString
+      RewiredJoystickGetSupportsVibration
+      RewiredJoystickGetVibrationMotorCount
+      RewiredObjectListGetCount
+      RewiredObjectListGetItemAtIndex
+      RewiredObjectListForEach
+
+      *** BREAKING CHANGES ****
+      Changed the all Tasks to use ControllerType Enum instead of int for controllerType property.
+
+  Bug Fixes:
+    - When the keyboard is disabled on Android, special keyboard keys are no longer skipped when evaluating Keyboard Maps.
+
 1.0.0.103:
 
   Modified Controller Definitions:

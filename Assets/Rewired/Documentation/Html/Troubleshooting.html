@@ -142,6 +142,8 @@
       <li><a href="#steam-controller-not-detected-windows">Steam Controller is not detected (Windows)</a></li>
       <li><a href="#steam-streaming-linux">Steam Streaming controller support on Linux/SteamOS</a></li>
       <li><a href="#steam-controller-breaks-rawinput-controllers">Steam Controller doesn't work with other controllers at the same time in Windows</a></li>
+      <li><a href="#windows-xinput-multiple-devices">Windows, XInput: XInput-compatible device shows up as multiple controllers</a></li>
+      <li><a href="#windows-xinput-device-always-connected">Windows, XInput: XInput-compatible device is always connected even after disconnecting the controller and no connect or disconnect events are sent</a></li>
       <li><a href="#osx-xbox-one-controller-vibration">OSX: XBox One Controller vibration doesn't work</a></li>
       <li><a href="#rewired-standalone-input-module-issues">RewiredStandaloneInputModue issues</a></li>
       <li><a href="#xbox-one-crash-on-start">XBox One: Crash/blank screen on start in game build</a></li>
@@ -486,6 +488,25 @@ void CacheRewiredPlayer() {
 <hr />
 <h3><a name="steam-controller-breaks-rawinput-controllers" id="steam-controller-breaks-rawinput-controllers"></a>Steam Controller doesn't work with other controllers at the same time in Windows</h3>
 <p>On Windows, Steam takes control over all input systems at the OS level. When using a Steam Controller in conjunction with other Raw Input controllers, Steam will prevent all Raw Input controllers from being seen by the system. This is an intentional behavior by Steam because they want to be able to determine what controllers are seen on both the host and client systems when using Steam Streaming, hiding all controllers on the host system and showing the application only those controllers detected on the client device and emulated on the host by Steam. What Steam did not account for is that this breaks compatibility with all non-XInput controllers when using a Steam Controller at the same time. Rewired implements a unique workaround that allows non-XInput controllers to work along side a Steam Controller. Enable this option in the <a href="RewiredEditor.html#Settings">Rewired Input Manager -&gt; Settings</a> page. See the notes on that page for caveats of this workaround.</p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="windows-xinput-multiple-devices" id="windows-xinput-multiple-devices"></a>Windows, XInput: XInput-compatible device shows up as multiple controllers</h3>
+<p>If Use XInput is enabled and you are seeing multiple XInput devices in Rewired when only one controller is plugged in:</p>
+<p><strong>If you are seeing multiple devices named &quot;XInput Gamepad 1&quot;, &quot;XInput Gamepad 2&quot;, etc:</strong><br />
+  Multiple XInput devices showing up can only be caused at the Windows driver 
+  level. Rewired queries XInput.dll directly to get the list of connected 
+  XInput devices 0-3. There is no intermediary step involved. Therefore, your <br />
+  XInput device is showing up as 2 devices in XInput itself, not Rewired. This is almost always caused by a driver creating multiple devices. Check Windows Device manager for multiple XInput devices under HID and Xbox Peripherals and elsewhere. Uninstall one or all of these drivers, reboot, and try agiain. Another possible cause is if you have a 3rd party tool that 
+  creates emulated XInput devices such as DS4Win, PS3 SCP driver, or 
+other tools that emulate XInput devices. Uninstall these tools/drivers and try again.</p>
+<p><strong>If you are seeing multiple devices, one named &quot;XInput Gamepad 1&quot; and one named something else like &quot;Controller (XBOX One For Windows)&quot;:</strong><br />
+  This error can only happen if the XInput-compatible device does not conform to Microsoft's documented standards for how XInput devices identify themselves. If the device deviates from these standards, Rewired will be unable to filter out XInput devices when it populates its Raw Input or Direct Input device list. This causes it to create both a Raw Input / Direct Input device and an XInput device. The only way to fix these problem devices is to add special case code to manually filter them out individually. <a href="http://guavaman.com/rewired#support" target="_blank">Report this device via the support form on the website</a> and include all relevant controller information shown by the Rewired/DevTools/JoystickElementIdentifier tool. (Create a new scene, add the JoystickElementIdentifier tool to the scene at 0, 0, 0, add an empty Rewired Input Manager, and press Play.) To include a screenshot, please include a link to the image on a filesharing service such as Dropbox.</p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="windows-xinput-device-always-connected" id="windows-xinput-multiple-devices2"></a>Windows, XInput: XInput-compatible device is always connected even after disconnecting the controller and no connect or disconnect events are sent</h3>
+<p>The most common cause is that you have a 3rd party tool that 
+  creates emulated XInput devices such as the PS3 SCP driver or 
+other tools that emulate XInput devices. Uninstall these tools/drivers and try again. This issue  occurs at the driver level and is not related to Rewired.</p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="osx-xbox-one-controller-vibration" id="osx-xbox-one-controller-vibration"></a>OSX: XBox One Controller vibration doesn't work</h3>

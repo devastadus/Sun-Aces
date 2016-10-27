@@ -178,7 +178,7 @@
       <li>GameObject -&gt; Create Other -&gt; Rewired -&gt; UI -&gt; Rewired Event System</li>
       <li>Window -&gt; Rewired -&gt; Create -&gt; UI -&gt; Rewired Event System</li>
       </ul>
-    <p><img src="files/images/controlmapper_rewiredstandaloneinputmodule.png" width="572" height="379" class="right" />Four Actions must be set up in the Rewired Input Manager and the RewiredStandaloneInputModule in order to control the UI. <strong>These four Actions must have names that match exactly in both the Rewired Input Manager and the RewiredStandaloneInputModule</strong>.</p>
+    <p><img src="files/images/controlmapper_rewiredstandaloneinputmodule.png" width="469" height="275" class="right" />Four Actions must be set up in the Rewired Input Manager and the RewiredStandaloneInputModule in order to control the UI. <strong>These four Actions must have names that match exactly in both the Rewired Input Manager and the RewiredStandaloneInputModule</strong>.</p>
     <ol>
       <li>Horizontal Axis - The Action that will control Left/Right movement in the UI.</li>
       <li>Vertical Axis - The Action that will control Up/Down movement in the UI.</li>
@@ -291,11 +291,7 @@
     <p>&nbsp;</p>
     <hr />
     <h2><a name="faq" id="faq"></a>Frequently Asked Questions</h2>
-    <p class="question">How can I disable the display of the full-axis field (&quot;Move Vertical&quot;, for example). I only want to show &quot;Move Up&quot; and &quot;Move Down&quot;</p>
-<p>You cannot disable the full-axis assignment field. It is integral to the design of Control Mapper and allows the user to assign any joystick axis to an Action. It also provides a means to invert the axis.</p>
-<p class="question">How can I disable the display of the split-axis fields (&quot;Move Up&quot; and &quot;Move Down&quot;, for example). I only want to show &quot;Move Vertical&quot;</p>
-<p>You cannot disable the split-axis assignment fields. They are integral to the design of Control Mapper and allow the user to assign buttons and certain types of axes such as analog gamepad triggers to Actions. For example, without these fields users could not assign axis-type actions to D-Pads or hats, which are handled as buttons in Rewired.</p>
-<p class="question">How do I center the Control Mapper window?</p>
+    <p class="question">How do I center the Control Mapper window?</p>
 <p>ControlMapper -&gt; Canvas -&gt; MainPageGroup</p>
 <p>Set equal paddings on Left, Top, Right, and Bottom and the window will be centered.</p>
 <p class="question">Is it possible to visually edit the Control Mapper layout in real-time?</p>
@@ -431,6 +427,24 @@ Even if your game doesn't use analog input, your players may still use physical 
         <td width="78%" valign="top"><p>If checked, mouse Y-axis movement will always be ignored during input assignment. Check this if you don't want the vertical mouse axis to be user-assignable to any Actions.</p></td>
       </tr>
     </table>
+    <p>&nbsp;</p>
+<hr />
+    <p><strong><a name="inspector-input-field-options" id="inspector-map-categories-and-actions2"></a>Input Field Options</strong></p>
+    <p><img src="files/images/controlmapper_inspector_input-field-options.png" alt="" width="674" height="88" /></p>
+    <p>Various options for the input field grid.</p>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="22%" valign="top">Show Full Axis Input Fields</td>
+        <td width="78%" valign="top"><p>Display a full-axis input assignment field for every axis-type Action in the input field grid. Also displays an invert toggle for the user  to invert the full-axis assignment direction.</p>
+          <p>IMPORTANT: This field is required if you have made any full-axis assignments in the Rewired Input Manager or in saved XML user data. Disabling this field when you have full-axis assignments will result in the inability for the user to view, remove, or modify these full-axis assignments. In addition, these assignments may cause conflicts when trying to remap the same axes to Actions.</p></td>
+      </tr>
+      <tr>
+        <td valign="top">Show Split Axis Input Fields</td>
+        <td valign="top"><p>Display a positive and negative input assignment field for every axis-type Action in the input field grid.</p>
+          <p>IMPORTANT: These fields are required to assign buttons, keyboard keys, and hat or D-Pad directions to axis-type Actions. If you have made any split-axis assignments or button/key/D-pad assignments to axis-type Actions in the Rewired Input Manager or in saved XML user data, disabling these fields will result in the inability for the user to view, remove, or modify these assignments. In addition, these assignments may cause conflicts when trying to remap the same elements to Actions.</p></td>
+      </tr>
+    </table>
+    <p></p>
     <p>&nbsp;</p>
     <hr />
     <p><strong><a name="inspector-map-categories-and-actions" id="inspector-map-categories-and-actions"></a>Map Categories and Actions</strong></p>

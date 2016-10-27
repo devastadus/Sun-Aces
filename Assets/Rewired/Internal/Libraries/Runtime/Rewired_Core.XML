@@ -53,6 +53,21 @@
             Event data returned by an Input Action update event. Use this to get information about the input event.
             </summary>
         </member>
+        <member name="F:Rewired.InputActionEventData.playerId">
+            <summary>
+            The Player Id of the Player that generated this event.
+            </summary>
+        </member>
+        <member name="F:Rewired.InputActionEventData.actionId">
+            <summary>
+            The Action Id of Action this event is for.
+            </summary>
+        </member>
+        <member name="F:Rewired.InputActionEventData.updateLoop">
+            <summary>
+            The update loop this event was called in.
+            </summary>
+        </member>
         <member name="M:Rewired.InputActionEventData.GetAxis">
             <summary>
             Gets the axis value of an Action.
@@ -510,6 +525,11 @@
             <param name="controller">Controller</param>
             <returns>Whether the controller contributed to the Action this frame.</returns>
         </member>
+        <member name="P:Rewired.InputActionEventData.eventType">
+            <summary>
+            The event type of this event.
+            </summary>
+        </member>
         <member name="P:Rewired.InputActionEventData.player">
             <summary>
             The Player that generated this event.
@@ -591,6 +611,29 @@
             <summary>
             Information about a controller element assignment conflict.
             </summary>
+        </member>
+        <member name="M:Rewired.ElementAssignmentConflictInfo.#ctor(System.Boolean,System.Boolean,System.Int32,Rewired.ControllerType,System.Int32,System.Int32,System.Int32,System.Int32,Rewired.ControllerElementType,System.Int32,UnityEngine.KeyCode,Rewired.ModifierKeyFlags)">
+            <summary>
+            Creates a new ElementAssignmentConflictInfo.
+            </summary>
+            <param name="isConflict">Was an assignment conflict found?</param>
+            <param name="isUserAssignable">Is the Map Category of this Action user assignable?</param>
+            <param name="playerId">The id of the Player that contains the map that has the conflicting assignment.</param>
+            <param name="controllerType">The controller type of the controller that contains the conflict.</param>
+            <param name="controllerId">The id of the controller that contains the conflict. Use with controllerType to get the Controller.</param>
+            <param name="controllerMapId">The unique id of the ControllerMap that contains the conflict.</param>
+            <param name="elementMapId">The unique id of the ActionElementMap with the assignment conflict.</param>
+            <param name="actionId">The Action Id assigned to the ActionElementMap with the conflict.</param>
+            <param name="elementType">The controller element type of the conflicting ActionElementMap.</param>
+            <param name="elementIdentifierId">The element identifier id of the conflicting ActionElementMap.</param>
+            <param name="keyCode">The key code of the keyboard key assignment that is conflicting. (Only applies to keyboard maps.)</param>
+            <param name="modifierKeyFlags">The modifier key flags of the keyboard key assignment that is conflicting. (Only applies to keyboard maps.)</param>
+        </member>
+        <member name="M:Rewired.ElementAssignmentConflictInfo.#ctor(Rewired.ElementAssignmentConflictInfo)">
+            <summary>
+            Creates a clone of an ElementAssignmentConflictInfo.
+            </summary>
+            <param name="source">ElementAssignmentConflictInfo to clone.</param>
         </member>
         <member name="P:Rewired.ElementAssignmentConflictInfo.isConflict">
             <summary>
@@ -732,72 +775,192 @@
             A struct for use in element assignment conflict checking.
             Overload for complete assignment.
             </summary>
+            <param name="playerId">The Player that is being assigned to.</param>
+            <param name="controllerType">The type of controller that is being assigned to.</param>
+            <param name="controllerId">The id of the controller that is being assigned to.</param>
+            <param name="controllerMapId">The unique id of the controller map that is being assigned to. Corresponds to ControllerMap.id.</param>
+            <param name="elementAssignmentType">The type of the desired assignment.</param>
+            <param name="elementIdentifierId">The element identifier id of the controller element that is being assigned. (Not used for keyboard assignments.)</param>
+            <param name="axisRange">The range of the axis that is being assigned. (Only used for axis assignments.)</param>
+            <param name="keyboardKey">The keyboard key that is being assigned. (Only used for keyboard assignments.)</param>
+            <param name="modifierKeyFlags">The modifiers keys for the keyboard key that is being assigned. (Only used for keyboard assignments.)</param>
+            <param name="actionId">The id of the Action being assigned.</param>
+            <param name="axisContribution">The positive / negative contribution for the assignment. (Only used for split axes and buttons.)</param>
+            <param name="invert">Is the axis inverted? (Only used for full axis assignments.)</param>
         </member>
         <member name="M:Rewired.ElementAssignmentConflictCheck.#ctor(System.Int32,Rewired.ControllerType,System.Int32,System.Int32,Rewired.ElementAssignmentType,System.Int32,Rewired.AxisRange,UnityEngine.KeyCode,Rewired.ModifierKeyFlags,System.Int32,Rewired.Pole,System.Boolean,System.Int32)">
             <summary>
             A struct for use in element assignment conflict checking.
             Overload for complete assignment to replace an existing element map.
             </summary>
+            <param name="playerId">The Player that is being assigned to.</param>
+            <param name="controllerType">The type of controller that is being assigned to.</param>
+            <param name="controllerId">The id of the controller that is being assigned to.</param>
+            <param name="controllerMapId">The unique id of the controller map that is being assigned to. Corresponds to ControllerMap.id.</param>
+            <param name="elementAssignmentType">The type of the desired assignment.</param>
+            <param name="elementIdentifierId">The element identifier id of the controller element that is being assigned. (Not used for keyboard assignments.)</param>
+            <param name="axisRange">The range of the axis that is being assigned. (Only used for axis assignments.)</param>
+            <param name="keyboardKey">The keyboard key that is being assigned. (Only used for keyboard assignments.)</param>
+            <param name="modifierKeyFlags">The modifiers keys for the keyboard key that is being assigned. (Only used for keyboard assignments.)</param>
+            <param name="actionId">The id of the Action being assigned.</param>
+            <param name="axisContribution">The positive / negative contribution for the assignment. (Only used for split axes and buttons.)</param>
+            <param name="invert">Is the axis inverted? (Only used for full axis assignments.)</param>
+            <param name="elementMapId"></param>
         </member>
         <member name="M:Rewired.ElementAssignmentConflictCheck.#ctor(System.Int32,Rewired.ControllerType,System.Int32,System.Int32,Rewired.ControllerElementType,System.Int32,Rewired.AxisRange,UnityEngine.KeyCode,Rewired.ModifierKeyFlags,System.Int32,Rewired.Pole,System.Boolean)">
             <summary>
             A struct for use in element assignment conflict checking.
             Overload for complete assignment.
             </summary>
+            <param name="playerId">The Player that is being assigned to.</param>
+            <param name="controllerType">The type of controller that is being assigned to.</param>
+            <param name="controllerId">The id of the controller that is being assigned to.</param>
+            <param name="controllerMapId">The unique id of the controller map that is being assigned to. Corresponds to ControllerMap.id.</param>
+            <param name="elementType"></param>
+            <param name="elementIdentifierId">The element identifier id of the controller element that is being assigned. (Not used for keyboard assignments.)</param>
+            <param name="axisRange">The range of the axis that is being assigned. (Only used for axis assignments.)</param>
+            <param name="keyboardKey">The keyboard key that is being assigned. (Only used for keyboard assignments.)</param>
+            <param name="modifierKeyFlags">The modifiers keys for the keyboard key that is being assigned. (Only used for keyboard assignments.)</param>
+            <param name="actionId">The id of the Action being assigned.</param>
+            <param name="axisContribution">The positive / negative contribution for the assignment. (Only used for split axes and buttons.)</param>
+            <param name="invert">Is the axis inverted? (Only used for full axis assignments.)</param>
         </member>
         <member name="M:Rewired.ElementAssignmentConflictCheck.#ctor(System.Int32,Rewired.ControllerType,System.Int32,System.Int32,Rewired.ControllerElementType,System.Int32,Rewired.AxisRange,UnityEngine.KeyCode,Rewired.ModifierKeyFlags,System.Int32,Rewired.Pole,System.Boolean,System.Int32)">
             <summary>
             A struct for use in element assignment conflict checking.
             Overload for complete assignment to replace an existing element map.
             </summary>
+            <param name="playerId">The Player that is being assigned to.</param>
+            <param name="controllerType">The type of controller that is being assigned to.</param>
+            <param name="controllerId">The id of the controller that is being assigned to.</param>
+            <param name="controllerMapId">The unique id of the controller map that is being assigned to. Corresponds to ControllerMap.id.</param>
+            <param name="elementType"></param>
+            <param name="elementIdentifierId">The element identifier id of the controller element that is being assigned. (Not used for keyboard assignments.)</param>
+            <param name="axisRange">The range of the axis that is being assigned. (Only used for axis assignments.)</param>
+            <param name="keyboardKey">The keyboard key that is being assigned. (Only used for keyboard assignments.)</param>
+            <param name="modifierKeyFlags">The modifiers keys for the keyboard key that is being assigned. (Only used for keyboard assignments.)</param>
+            <param name="actionId">The id of the Action being assigned.</param>
+            <param name="axisContribution">The positive / negative contribution for the assignment. (Only used for split axes and buttons.)</param>
+            <param name="invert">Is the axis inverted? (Only used for full axis assignments.)</param>
+            <param name="elementMapId"></param>
         </member>
         <member name="M:Rewired.ElementAssignmentConflictCheck.#ctor(System.Int32,Rewired.ControllerType,System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)">
             <summary>
             A struct for use in element assignment conflict checking.
             Overload for assignment of a full axis.
             </summary>
+            <param name="playerId">The Player that is being assigned to.</param>
+            <param name="controllerType">The type of controller that is being assigned to.</param>
+            <param name="controllerId">The id of the controller that is being assigned to.</param>
+            <param name="controllerMapId">The unique id of the controller map that is being assigned to. Corresponds to ControllerMap.id.</param>
+            <param name="elementIdentifierId">The element identifier id of the controller element that is being assigned. (Not used for keyboard assignments.)</param>
+            <param name="actionId">The id of the Action being assigned.</param>
+            <param name="invert">Is the axis inverted? (Only used for full axis assignments.)</param>
         </member>
         <member name="M:Rewired.ElementAssignmentConflictCheck.#ctor(System.Int32,Rewired.ControllerType,System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean,System.Int32)">
             <summary>
             A struct for use in element assignment conflict checking.
             Overload for assignment of a full axis to replace an existing element map..
             </summary>
+            <param name="playerId">The Player that is being assigned to.</param>
+            <param name="controllerType">The type of controller that is being assigned to.</param>
+            <param name="controllerId">The id of the controller that is being assigned to.</param>
+            <param name="controllerMapId">The unique id of the controller map that is being assigned to. Corresponds to ControllerMap.id.</param>
+            <param name="elementIdentifierId">The element identifier id of the controller element that is being assigned. (Not used for keyboard assignments.)</param>
+            <param name="actionId">The id of the Action being assigned.</param>
+            <param name="invert">Is the axis inverted? (Only used for full axis assignments.)</param>
+            <param name="elementMapId"></param>
         </member>
         <member name="M:Rewired.ElementAssignmentConflictCheck.#ctor(System.Int32,Rewired.ControllerType,System.Int32,System.Int32,System.Int32,Rewired.AxisRange,System.Int32,Rewired.Pole)">
             <summary>
             A struct for use in element assignment conflict checking.
             Overload for assignment of a split axis.
             </summary>
+            <param name="playerId">The Player that is being assigned to.</param>
+            <param name="controllerType">The type of controller that is being assigned to.</param>
+            <param name="controllerId">The id of the controller that is being assigned to.</param>
+            <param name="controllerMapId">The unique id of the controller map that is being assigned to. Corresponds to ControllerMap.id.</param>
+            <param name="elementIdentifierId">The element identifier id of the controller element that is being assigned. (Not used for keyboard assignments.)</param>
+            <param name="axisRange">The range of the axis that is being assigned. (Only used for axis assignments.)</param>
+            <param name="actionId">The id of the Action being assigned.</param>
+            <param name="axisContribution">The positive / negative contribution for the assignment. (Only used for split axes and buttons.)</param>
         </member>
         <member name="M:Rewired.ElementAssignmentConflictCheck.#ctor(System.Int32,Rewired.ControllerType,System.Int32,System.Int32,System.Int32,Rewired.AxisRange,System.Int32,Rewired.Pole,System.Int32)">
             <summary>
             A struct for use in element assignment conflict checking.
             Overload for assignment of a split axis to replace an existing element map.
             </summary>
+            <param name="playerId">The Player that is being assigned to.</param>
+            <param name="controllerType">The type of controller that is being assigned to.</param>
+            <param name="controllerId">The id of the controller that is being assigned to.</param>
+            <param name="controllerMapId">The unique id of the controller map that is being assigned to. Corresponds to ControllerMap.id.</param>
+            <param name="elementIdentifierId">The element identifier id of the controller element that is being assigned. (Not used for keyboard assignments.)</param>
+            <param name="axisRange">The range of the axis that is being assigned. (Only used for axis assignments.)</param>
+            <param name="actionId">The id of the Action being assigned.</param>
+            <param name="axisContribution">The positive / negative contribution for the assignment. (Only used for split axes and buttons.)</param>
+            <param name="elementMapId"></param>
         </member>
         <member name="M:Rewired.ElementAssignmentConflictCheck.#ctor(System.Int32,Rewired.ControllerType,System.Int32,System.Int32,System.Int32,System.Int32,Rewired.Pole)">
             <summary>
             A struct for use in element assignment conflict checking.
             Overload for assignment of a button.
             </summary>
+            <param name="playerId">The Player that is being assigned to.</param>
+            <param name="controllerType">The type of controller that is being assigned to.</param>
+            <param name="controllerId">The id of the controller that is being assigned to.</param>
+            <param name="controllerMapId">The unique id of the controller map that is being assigned to. Corresponds to ControllerMap.id.</param>
+            <param name="elementIdentifierId">The element identifier id of the controller element that is being assigned. (Not used for keyboard assignments.)</param>
+            <param name="actionId">The id of the Action being assigned.</param>
+            <param name="axisContribution">The positive / negative contribution for the assignment. (Only used for split axes and buttons.)</param>
         </member>
         <member name="M:Rewired.ElementAssignmentConflictCheck.#ctor(System.Int32,Rewired.ControllerType,System.Int32,System.Int32,System.Int32,System.Int32,Rewired.Pole,System.Int32)">
             <summary>
             A struct for use in element assignment conflict checking.
             Overload for assignment of a button to replace an existing element map..
             </summary>
+            <param name="playerId">The Player that is being assigned to.</param>
+            <param name="controllerType">The type of controller that is being assigned to.</param>
+            <param name="controllerId">The id of the controller that is being assigned to.</param>
+            <param name="controllerMapId">The unique id of the controller map that is being assigned to. Corresponds to ControllerMap.id.</param>
+            <param name="elementIdentifierId">The element identifier id of the controller element that is being assigned. (Not used for keyboard assignments.)</param>
+            <param name="actionId">The id of the Action being assigned.</param>
+            <param name="axisContribution">The positive / negative contribution for the assignment. (Only used for split axes and buttons.)</param>
+            <param name="elementMapId"></param>
         </member>
         <member name="M:Rewired.ElementAssignmentConflictCheck.#ctor(System.Int32,Rewired.ControllerType,System.Int32,System.Int32,UnityEngine.KeyCode,Rewired.ModifierKeyFlags,System.Int32,Rewired.Pole)">
             <summary>
             A struct for use in element assignment conflict checking.
             Overload for assignment of a keyboard key.
             </summary>
+            <param name="playerId">The Player that is being assigned to.</param>
+            <param name="controllerType">The type of controller that is being assigned to.</param>
+            <param name="controllerId">The id of the controller that is being assigned to.</param>
+            <param name="controllerMapId">The unique id of the controller map that is being assigned to. Corresponds to ControllerMap.id.</param>
+            <param name="keyboardKey">The keyboard key that is being assigned. (Only used for keyboard assignments.)</param>
+            <param name="modifierKeyFlags">The modifiers keys for the keyboard key that is being assigned. (Only used for keyboard assignments.)</param>
+            <param name="actionId">The id of the Action being assigned.</param>
+            <param name="axisContribution">The positive / negative contribution for the assignment. (Only used for split axes and buttons.)</param>
         </member>
         <member name="M:Rewired.ElementAssignmentConflictCheck.#ctor(System.Int32,Rewired.ControllerType,System.Int32,System.Int32,UnityEngine.KeyCode,Rewired.ModifierKeyFlags,System.Int32,Rewired.Pole,System.Int32)">
             <summary>
             A struct for use in element assignment conflict checking.
             Overload for assignment of a keyboard key to replace an existing element map..
             </summary>
+            <param name="playerId">The Player that is being assigned to.</param>
+            <param name="controllerType">The type of controller that is being assigned to.</param>
+            <param name="controllerId">The id of the controller that is being assigned to.</param>
+            <param name="controllerMapId">The unique id of the controller map that is being assigned to. Corresponds to ControllerMap.id.</param>
+            <param name="keyboardKey">The keyboard key that is being assigned. (Only used for keyboard assignments.)</param>
+            <param name="modifierKeyFlags">The modifiers keys for the keyboard key that is being assigned. (Only used for keyboard assignments.)</param>
+            <param name="actionId">The id of the Action being assigned.</param>
+            <param name="axisContribution">The positive / negative contribution for the assignment. (Only used for split axes and buttons.)</param>
+            <param name="elementMapId"></param>
+        </member>
+        <member name="M:Rewired.ElementAssignmentConflictCheck.#ctor(Rewired.ElementAssignmentConflictCheck)">
+            <summary>
+            Creates a copy of an ElementAssignmentConflictCheck object.
+            </summary>
+            <param name="source">The ElementAssignmentConflictCheck to clone.</param>
         </member>
         <member name="M:Rewired.ElementAssignmentConflictCheck.ToElementAssignment">
             <summary>
@@ -837,6 +1000,11 @@
         <member name="T:Rewired.ElementAssignment">
             <summary>
             A struct for making a controller element assignement.
+            </summary>
+        </member>
+        <member name="F:Rewired.ElementAssignment.type">
+            <summary>
+            The type of the element assignment.
             </summary>
         </member>
         <member name="F:Rewired.ElementAssignment.elementMapId">
@@ -884,144 +1052,292 @@
             A struct for use in element assignment.
             Overload for complete assignment to replace an existing element map.
             </summary>
+            <param name="elementAssignmentType">The type of the element assignment.</param>
+            <param name="elementIdentifierId">The element identifier id the Action will be bound to.</param>
+            <param name="axisRange">The range of the axis of this assignment. Use Positive or Negative to assign a split axis or Full for a single unified axis assignment.</param>
+            <param name="keyboardKey">The keyboard key the Action will be bound to. Only used for keyboard maps.</param>
+            <param name="modifierKeyFlags">The keyboard modifiers the Action will be bound to. Use this in combination with keyboardKey to make a modified key assignment. Only used for keyboard maps.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="axisContribution">Does this Action contribute positive or negative values to the final Action's input value? Used for split axis and button/key assignments.</param>
+            <param name="invert">Is the axis inverted? Used only for axis assignments.</param>
+            <param name="elementMapId">The id of the ActionElementMap that this assignment will be replacing. (Optional)</param>
         </member>
         <member name="M:Rewired.ElementAssignment.#ctor(Rewired.ControllerType,Rewired.ControllerElementType,System.Int32,Rewired.AxisRange,UnityEngine.KeyCode,Rewired.ModifierKeyFlags,System.Int32,Rewired.Pole,System.Boolean,System.Int32)">
             <summary>
             A struct for use in element assignment.
             Overload for complete assignment to replace an existing element map.
             </summary>
+            <param name="controllerType">The controller type of the controller this assignment is for.</param>
+            <param name="elementType">The type of element this assignment is for.</param>
+            <param name="elementIdentifierId">The element identifier id the Action will be bound to.</param>
+            <param name="axisRange">The range of the axis of this assignment. Use Positive or Negative to assign a split axis or Full for a single unified axis assignment.</param>
+            <param name="keyboardKey">The keyboard key the Action will be bound to. Only used for keyboard maps.</param>
+            <param name="modifierKeyFlags">The keyboard modifiers the Action will be bound to. Use this in combination with keyboardKey to make a modified key assignment. Only used for keyboard maps.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="axisContribution">Does this Action contribute positive or negative values to the final Action's input value? Used for split axis and button/key assignments.</param>
+            <param name="invert">Is the axis inverted? Used only for axis assignments.</param>
+            <param name="elementMapId">The id of the ActionElementMap that this assignment will be replacing. (Optional)</param>
         </member>
         <member name="M:Rewired.ElementAssignment.#ctor(Rewired.ElementAssignmentType,System.Int32,Rewired.AxisRange,UnityEngine.KeyCode,Rewired.ModifierKeyFlags,System.Int32,Rewired.Pole,System.Boolean)">
             <summary>
             A struct for use in element assignment.
             Overload for complete new assignment.
             </summary>
+            <param name="elementAssignmentType">The type of the element assignment.</param>
+            <param name="elementIdentifierId">The element identifier id the Action will be bound to.</param>
+            <param name="axisRange">The range of the axis of this assignment. Use Positive or Negative to assign a split axis or Full for a single unified axis assignment.</param>
+            <param name="keyboardKey">The keyboard key the Action will be bound to. Only used for keyboard maps.</param>
+            <param name="modifierKeyFlags">The keyboard modifiers the Action will be bound to. Use this in combination with keyboardKey to make a modified key assignment. Only used for keyboard maps.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="axisContribution">Does this Action contribute positive or negative values to the final Action's input value? Used for split axis and button/key assignments.</param>
+            <param name="invert">Is the axis inverted? Used only for axis assignments.</param>
         </member>
         <member name="M:Rewired.ElementAssignment.#ctor(Rewired.ControllerType,Rewired.ControllerElementType,System.Int32,Rewired.AxisRange,UnityEngine.KeyCode,Rewired.ModifierKeyFlags,System.Int32,Rewired.Pole,System.Boolean)">
             <summary>
             A struct for use in element assignment.
             Overload for complete new assignment.
             </summary>
+            <param name="controllerType">The controller type of the controller this assignment is for.</param>
+            <param name="elementType">The type of element this assignment is for.</param>
+            <param name="elementIdentifierId">The element identifier id the Action will be bound to.</param>
+            <param name="axisRange">The range of the axis of this assignment. Use Positive or Negative to assign a split axis or Full for a single unified axis assignment.</param>
+            <param name="keyboardKey">The keyboard key the Action will be bound to. Only used for keyboard maps.</param>
+            <param name="modifierKeyFlags">The keyboard modifiers the Action will be bound to. Use this in combination with keyboardKey to make a modified key assignment. Only used for keyboard maps.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="axisContribution">Does this Action contribute positive or negative values to the final Action's input value? Used for split axis and button/key assignments.</param>
+            <param name="invert">Is the axis inverted? Used only for axis assignments.</param>
         </member>
         <member name="M:Rewired.ElementAssignment.#ctor(System.Int32,System.Int32,System.Boolean)">
             <summary>
             A struct for use in element assignment.
             Overload for assignment of a full axis.
             </summary>
+            <param name="elementIdentifierId">The element identifier id the Action will be bound to.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="invert">Is the axis inverted? Used only for axis assignments.</param>
         </member>
         <member name="M:Rewired.ElementAssignment.#ctor(System.Int32,System.Int32,System.Boolean,System.Int32)">
             <summary>
             A struct for use in element assignment.
             Overload for assignment of a full axis to replace an existing element map.
             </summary>
+            <param name="elementIdentifierId">The element identifier id the Action will be bound to.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="invert">Is the axis inverted? Used only for axis assignments.</param>
+            <param name="elementMapId">The id of the ActionElementMap that this assignment will be replacing. (Optional)</param>
         </member>
         <member name="M:Rewired.ElementAssignment.#ctor(System.Int32,Rewired.AxisRange,System.Int32,Rewired.Pole)">
             <summary>
             A struct for use in element assignment.
             Overload for assignment of a split axis.
             </summary>
+            <param name="elementIdentifierId">The element identifier id the Action will be bound to.</param>
+            <param name="axisRange">The range of the axis of this assignment. Use Positive or Negative to assign a split axis or Full for a single unified axis assignment.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="axisContribution">Does this Action contribute positive or negative values to the final Action's input value? Used for split axis and button/key assignments.</param>
         </member>
         <member name="M:Rewired.ElementAssignment.#ctor(System.Int32,Rewired.AxisRange,System.Int32,Rewired.Pole,System.Int32)">
             <summary>
             A struct for use in element assignment.
             Overload for assignment of a split axis to replace an existing element map.
             </summary>
+            <param name="elementIdentifierId">The element identifier id the Action will be bound to.</param>
+            <param name="axisRange">The range of the axis of this assignment. Use Positive or Negative to assign a split axis or Full for a single unified axis assignment.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="axisContribution">Does this Action contribute positive or negative values to the final Action's input value? Used for split axis and button/key assignments.</param>
+            <param name="elementMapId">The id of the ActionElementMap that this assignment will be replacing. (Optional)</param>
         </member>
         <member name="M:Rewired.ElementAssignment.#ctor(System.Int32,System.Int32,Rewired.Pole)">
             <summary>
             A struct for use in element assignment.
             Overload for assignment of a button.
             </summary>
+            <param name="elementIdentifierId">The element identifier id the Action will be bound to.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="axisContribution">Does this Action contribute positive or negative values to the final Action's input value? Used for split axis and button/key assignments.</param>
         </member>
         <member name="M:Rewired.ElementAssignment.#ctor(System.Int32,System.Int32,Rewired.Pole,System.Int32)">
             <summary>
             A struct for use in element assignment.
             Overload for assignment of a button to replace an existing element map.
             </summary>
+            <param name="elementIdentifierId">The element identifier id the Action will be bound to.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="axisContribution">Does this Action contribute positive or negative values to the final Action's input value? Used for split axis and button/key assignments.</param>
+            <param name="elementMapId">The id of the ActionElementMap that this assignment will be replacing. (Optional)</param>
         </member>
         <member name="M:Rewired.ElementAssignment.#ctor(UnityEngine.KeyCode,Rewired.ModifierKeyFlags,System.Int32,Rewired.Pole)">
             <summary>
             A struct for use in element assignment.
             Overload for assignment of a keyboard key.
             </summary>
+            <param name="keyboardKey">The keyboard key the Action will be bound to. Only used for keyboard maps.</param>
+            <param name="modifierKeyFlags">The keyboard modifiers the Action will be bound to. Use this in combination with keyboardKey to make a modified key assignment. Only used for keyboard maps.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="axisContribution">Does this Action contribute positive or negative values to the final Action's input value? Used for split axis and button/key assignments.</param>
         </member>
         <member name="M:Rewired.ElementAssignment.#ctor(UnityEngine.KeyCode,Rewired.ModifierKeyFlags,System.Int32,Rewired.Pole,System.Int32)">
             <summary>
             A struct for use in element assignment.
             Overload for assignment of a keyboard key to replace an existing element map.
             </summary>
+            <param name="keyboardKey">The keyboard key the Action will be bound to. Only used for keyboard maps.</param>
+            <param name="modifierKeyFlags">The keyboard modifiers the Action will be bound to. Use this in combination with keyboardKey to make a modified key assignment. Only used for keyboard maps.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="axisContribution">Does this Action contribute positive or negative values to the final Action's input value? Used for split axis and button/key assignments.</param>
+            <param name="elementMapId">The id of the ActionElementMap that this assignment will be replacing. (Optional)</param>
         </member>
         <member name="M:Rewired.ElementAssignment.CompleteAssignment(Rewired.ElementAssignmentType,System.Int32,Rewired.AxisRange,UnityEngine.KeyCode,Rewired.ModifierKeyFlags,System.Int32,Rewired.Pole,System.Boolean,System.Int32)">
             <summary>
             Creates a struct for use in element assignment.
             For complete assignment to replace an existing element map.
             </summary>
+            <param name="elementAssignmentType">The type of the element assignment.</param>
+            <param name="elementIdentifierId">The element identifier id the Action will be bound to.</param>
+            <param name="axisRange">The range of the axis of this assignment. Use Positive or Negative to assign a split axis or Full for a single unified axis assignment.</param>
+            <param name="keyboardKey">The keyboard key the Action will be bound to. Only used for keyboard maps.</param>
+            <param name="modifierKeyFlags">The keyboard modifiers the Action will be bound to. Use this in combination with keyboardKey to make a modified key assignment. Only used for keyboard maps.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="axisContribution">Does this Action contribute positive or negative values to the final Action's input value? Used for split axis and button/key assignments.</param>
+            <param name="invert">Is the axis inverted? Used only for axis assignments.</param>
+            <param name="elementMapId">The id of the ActionElementMap that this assignment will be replacing. (Optional)</param>
+            <returns>ElementAssignment</returns>
         </member>
         <member name="M:Rewired.ElementAssignment.CompleteAssignment(Rewired.ControllerType,Rewired.ControllerElementType,System.Int32,Rewired.AxisRange,UnityEngine.KeyCode,Rewired.ModifierKeyFlags,System.Int32,Rewired.Pole,System.Boolean,System.Int32)">
             <summary>
             Creates a struct for use in element assignment.
             For complete assignment to replace an existing element map.
             </summary>
+            <param name="controllerType">The controller type of the controller this assignment is for.</param>
+            <param name="elementType">The type of element this assignment is for.</param>
+            <param name="elementIdentifierId">The element identifier id the Action will be bound to.</param>
+            <param name="axisRange">The range of the axis of this assignment. Use Positive or Negative to assign a split axis or Full for a single unified axis assignment.</param>
+            <param name="keyboardKey">The keyboard key the Action will be bound to. Only used for keyboard maps.</param>
+            <param name="modifierKeyFlags">The keyboard modifiers the Action will be bound to. Use this in combination with keyboardKey to make a modified key assignment. Only used for keyboard maps.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="axisContribution">Does this Action contribute positive or negative values to the final Action's input value? Used for split axis and button/key assignments.</param>
+            <param name="invert">Is the axis inverted? Used only for axis assignments.</param>
+            <param name="elementMapId">The id of the ActionElementMap that this assignment will be replacing. (Optional)</param>
+            <returns>ElementAssignment</returns>
         </member>
         <member name="M:Rewired.ElementAssignment.CompleteAssignment(Rewired.ElementAssignmentType,System.Int32,Rewired.AxisRange,UnityEngine.KeyCode,Rewired.ModifierKeyFlags,System.Int32,Rewired.Pole,System.Boolean)">
             <summary>
             Creates a struct for use in element assignment.
             For complete new assignment.
             </summary>
+            <param name="elementAssignmentType">The type of the element assignment.</param>
+            <param name="elementIdentifierId">The element identifier id the Action will be bound to.</param>
+            <param name="axisRange">The range of the axis of this assignment. Use Positive or Negative to assign a split axis or Full for a single unified axis assignment.</param>
+            <param name="keyboardKey">The keyboard key the Action will be bound to. Only used for keyboard maps.</param>
+            <param name="modifierKeyFlags">The keyboard modifiers the Action will be bound to. Use this in combination with keyboardKey to make a modified key assignment. Only used for keyboard maps.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="axisContribution">Does this Action contribute positive or negative values to the final Action's input value? Used for split axis and button/key assignments.</param>
+            <param name="invert">Is the axis inverted? Used only for axis assignments.</param>
+            <returns>ElementAssignment</returns>
         </member>
         <member name="M:Rewired.ElementAssignment.CompleteAssignment(Rewired.ControllerType,Rewired.ControllerElementType,System.Int32,Rewired.AxisRange,UnityEngine.KeyCode,Rewired.ModifierKeyFlags,System.Int32,Rewired.Pole,System.Boolean)">
             <summary>
             Creates a struct for use in element assignment.
             For complete new assignment.
             </summary>
+            <param name="controllerType">The controller type of the controller this assignment is for.</param>
+            <param name="elementType">The type of element this assignment is for.</param>
+            <param name="elementIdentifierId">The element identifier id the Action will be bound to.</param>
+            <param name="axisRange">The range of the axis of this assignment. Use Positive or Negative to assign a split axis or Full for a single unified axis assignment.</param>
+            <param name="keyboardKey">The keyboard key the Action will be bound to. Only used for keyboard maps.</param>
+            <param name="modifierKeyFlags">The keyboard modifiers the Action will be bound to. Use this in combination with keyboardKey to make a modified key assignment. Only used for keyboard maps.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="axisContribution">Does this Action contribute positive or negative values to the final Action's input value? Used for split axis and button/key assignments.</param>
+            <param name="invert">Is the axis inverted? Used only for axis assignments.</param>
+            <returns>ElementAssignment</returns>
         </member>
         <member name="M:Rewired.ElementAssignment.FullAxisAssignment(System.Int32,System.Int32,System.Boolean)">
             <summary>
             Creates a struct for use in element assignment.
             For assignment of a full axis.
             </summary>
+            <param name="elementIdentifierId">The element identifier id the Action will be bound to.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="invert">Is the axis inverted? Used only for axis assignments.</param>
+            <returns>ElementAssignment</returns>
         </member>
         <member name="M:Rewired.ElementAssignment.FullAxisAssignment(System.Int32,System.Int32,System.Boolean,System.Int32)">
             <summary>
             Creates a struct for use in element assignment.
             For assignment of a full axis to replace an existing element map.
             </summary>
+            <param name="elementIdentifierId">The element identifier id the Action will be bound to.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="invert">Is the axis inverted? Used only for axis assignments.</param>
+            <param name="elementMapId">The id of the ActionElementMap that this assignment will be replacing. (Optional)</param>
+            <returns>ElementAssignment</returns>
         </member>
         <member name="M:Rewired.ElementAssignment.SplitAxisAssignment(System.Int32,Rewired.AxisRange,System.Int32,Rewired.Pole)">
             <summary>
             Creates a struct for use in element assignment.
             For assignment of a split axis.
             </summary>
+            <param name="elementIdentifierId">The element identifier id the Action will be bound to.</param>
+            <param name="axisRange">The range of the axis of this assignment. Use Positive or Negative to assign a split axis or Full for a single unified axis assignment.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="axisContribution">Does this Action contribute positive or negative values to the final Action's input value? Used for split axis and button/key assignments.</param>
+            <returns>ElementAssignment</returns>
         </member>
         <member name="M:Rewired.ElementAssignment.SplitAxisAssignment(System.Int32,Rewired.AxisRange,System.Int32,Rewired.Pole,System.Int32)">
             <summary>
             Creates a struct for use in element assignment.
             For assignment of a split axis to replace an existing element map.
             </summary>
+            <param name="elementIdentifierId">The element identifier id the Action will be bound to.</param>
+            <param name="axisRange">The range of the axis of this assignment. Use Positive or Negative to assign a split axis or Full for a single unified axis assignment.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="axisContribution">Does this Action contribute positive or negative values to the final Action's input value? Used for split axis and button/key assignments.</param>
+            <param name="elementMapId">The id of the ActionElementMap that this assignment will be replacing. (Optional)</param>
+            <returns>ElementAssignment</returns>
         </member>
         <member name="M:Rewired.ElementAssignment.ButtonAssignment(System.Int32,System.Int32,Rewired.Pole)">
             <summary>
             Creates a struct for use in element assignment.
             For assignment of a button.
             </summary>
+            <param name="elementIdentifierId">The element identifier id the Action will be bound to.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="axisContribution">Does this Action contribute positive or negative values to the final Action's input value? Used for split axis and button/key assignments.</param>
+            <returns>ElementAssignment</returns>
         </member>
         <member name="M:Rewired.ElementAssignment.ButtonAssignment(System.Int32,System.Int32,Rewired.Pole,System.Int32)">
             <summary>
             Creates a struct for use in element assignment.
             For assignment of a button to replace an existing element map.
             </summary>
+            <param name="elementIdentifierId">The element identifier id the Action will be bound to.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="axisContribution">Does this Action contribute positive or negative values to the final Action's input value? Used for split axis and button/key assignments.</param>
+            <param name="elementMapId">The id of the ActionElementMap that this assignment will be replacing. (Optional)</param>
+            <returns>ElementAssignment</returns>
         </member>
         <member name="M:Rewired.ElementAssignment.KeyboardKeyAssignment(UnityEngine.KeyCode,Rewired.ModifierKeyFlags,System.Int32,Rewired.Pole)">
             <summary>
             Creates a struct for use in element assignment.
             For assignment of a keyboard key.
             </summary>
+            <param name="keyboardKey">The keyboard key the Action will be bound to. Only used for keyboard maps.</param>
+            <param name="modifierKeyFlags">The keyboard modifiers the Action will be bound to. Use this in combination with keyboardKey to make a modified key assignment. Only used for keyboard maps.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="axisContribution">Does this Action contribute positive or negative values to the final Action's input value? Used for split axis and button/key assignments.</param>
+            <returns>ElementAssignment</returns>
         </member>
         <member name="M:Rewired.ElementAssignment.KeyboardKeyAssignment(UnityEngine.KeyCode,Rewired.ModifierKeyFlags,System.Int32,Rewired.Pole,System.Int32)">
             <summary>
             Creates a struct for use in element assignment.
             For assignment of a keyboard key to replace an existing element map.
             </summary>
+            <param name="keyboardKey">The keyboard key the Action will be bound to. Only used for keyboard maps.</param>
+            <param name="modifierKeyFlags">The keyboard modifiers the Action will be bound to. Use this in combination with keyboardKey to make a modified key assignment. Only used for keyboard maps.</param>
+            <param name="actionId">The id of the Action that will be bound to the controller element.</param>
+            <param name="axisContribution">Does this Action contribute positive or negative values to the final Action's input value? Used for split axis and button/key assignments.</param>
+            <param name="elementMapId">The id of the ActionElementMap that this assignment will be replacing. (Optional)</param>
+            <returns>ElementAssignment</returns>
         </member>
         <member name="M:Rewired.ElementAssignment.ToElementAssignmentConflictCheck">
             <summary>
@@ -1769,6 +2085,31 @@
             </summary>
             <param name="useRawValues">Use raw axis values</param>
             <returns>Timestamp</returns>
+        </member>
+        <member name="P:Rewired.ControllerWithAxes.axisCount">
+            <summary>
+            The axis count in the controller.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerWithAxes.axis2DCount">
+            <summary>
+            The Axis2D count in the controller.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerWithAxes.Axes">
+            <summary>
+            List of axes in this controller.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerWithAxes.Axes2D">
+            <summary>
+            List of Axis2Ds in this controller.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerWithAxes.calibrationMap">
+            <summary>
+            The Calibration Map in this controller.
+            </summary>
         </member>
         <member name="T:Rewired.CustomController">
             <summary>
