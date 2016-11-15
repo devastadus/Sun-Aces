@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-public class RedShipController : PlayerController {	        		
+public class SpathiController : PlayerController {	        		
 	public float Speed = 200f; 
 	public float RotateSpeed = 80f;
 	public float MaxSpeed = 8;

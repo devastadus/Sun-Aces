@@ -1,12 +1,13 @@
 fileFormatVersion: 2
 guid: 8f9c21ab9688b4a49a1a8171d56f6819
-timeCreated: 1471915264
+timeCreated: 1477542802
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
     21300000: Red Ship
     21300002: Red Bullet
     21300004: Astroid
+    21300006: Missle
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -91,6 +92,19 @@ TextureImporter:
         height: 95
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Missle
+      rect:
+        serializedVersion: 2
+        x: 829
+        y: 377
+        width: 14
+        height: 36
+      alignment: 9
+      pivot: {x: 0.5, y: 0.9}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

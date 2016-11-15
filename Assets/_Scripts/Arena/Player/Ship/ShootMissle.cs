@@ -2,7 +2,7 @@
 using System.Collections;
 using Rewired;
 
-public class ShootRedLazer : WeaponBase {
+public class ShootMissle : WeaponBase {
 
 	public string Button;
 	private Rewired.Player _player; // The Rewired Player
@@ -15,9 +15,9 @@ public class ShootRedLazer : WeaponBase {
 	void Start () {
 		int PlayerId = GetComponent<ShipController>().PlayerId;
 		_player = ReInput.players.GetPlayer(PlayerId);
-        base.energy = GetComponent<Energy>();
-    }
-	
+		base.energy = GetComponent<Energy>();
+	}
+
 	// Update is called once per frame
 	void Update () {
 		fire = _player.GetButtonDown(Button);
@@ -26,9 +26,8 @@ public class ShootRedLazer : WeaponBase {
 
 			foreach(Transform gun in Guns){
 				GameObject bullet = Instantiate(projectile, gun.position, gun.rotation) as GameObject;
-				RedLazer lazer = bullet.GetComponent<RedLazer>();
-			    lazer.speedOfShip = gameObject.GetComponent<Rigidbody2D>().velocity;
-			    bullet.layer = gameObject.layer;
+				bullet.layer = gameObject.layer;
+//				Debug.Log(bullet.layer);
 			}
 		}			
 	}

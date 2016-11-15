@@ -17,7 +17,7 @@ public class ShipEngine : MonoBehaviour {
 
     void Start()
     {
-        int PlayerId = GetComponent<RedShipController>().PlayerId;
+        int PlayerId = GetComponent<ShipController>().PlayerId;
         _player = ReInput.players.GetPlayer(PlayerId);
     }
 

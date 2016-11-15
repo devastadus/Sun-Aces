@@ -12,9 +12,7 @@ public class UIBalancer : MonoBehaviour {
 	private void Start()
 	{
 		m_RelativeRotation = transform.parent.localRotation;
-
 	}
-
 
 	private void Update()
 	{

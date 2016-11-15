@@ -10,6 +10,11 @@ public class WarpObjectController : MonoBehaviour {
     public List<GameObject> nonFollowableObjects;
 	public List<Vector3> localPos;
 
+	public Transform topCollider;
+	public Transform bottomCollider;
+	public Transform rightCollider;
+	public Transform leftCollider;
+
 	private float timmer;
 	private int onNextUpdate = 0;
 
@@ -35,8 +40,9 @@ public class WarpObjectController : MonoBehaviour {
 		}
 	}
 
-	public void Warper(GameObject obj, Collider2D collider){		
-		if (collider.gameObject.GetComponent<TrackObject>() && (timmer+ .1f < Time.time))
+	public void Warper(GameObject obj, Collider2D collider){
+		//if (collider.gameObject.GetComponent<TrackObject>() && (timmer+ .1f < Time.time))
+		if ((timmer+ .1f < Time.time))
 		{
             WarpObject(obj,collider);
 		}		
@@ -54,36 +60,87 @@ public class WarpObjectController : MonoBehaviour {
 		}
 	}
 
+	//collider is the object colliding, obj is the collider=2
     private void WarpObject(GameObject obj, Collider2D collider)
     {
-		Vector3 playerPos = Vector3.zero;
-//        Vector3 temp2 = Vector3.zero;
-        playerPos = collider.transform.position;
+		Vector3 temp = Vector3.zero;
+        Vector3 temp2 = Vector3.zero;
+		temp = collider.transform.position;
         if (obj.name == "Top")
         {
-            playerPos.y = obj.transform.position.y;
-            playerPos.y = playerPos.y - (arenaRange * 4) + 1f;
-			SaveLocalPosition();
+			if(collider.gameObject.GetComponent<TrackObject>())
+			{          
+				temp.y = obj.transform.position.y;
+            	temp.y = temp.y - (arenaRange * 4) + 1f;
+
+				foreach (var nonfollowable in nonFollowableObjects) {
+					temp2 = nonfollowable.transform.position;
+					temp2.y = temp2.y - arenaRange;
+					nonfollowable.transform.position = temp2;
+				}
+			}
+			else 
+			{
+				temp.y = obj.transform.position.y;
+				temp.y = temp.y - (arenaRange * 2) + 1f;
+			}				
         }
         else if (obj.name == "Bottom")
         {
-            playerPos.y = obj.transform.position.y;
-            playerPos.y = playerPos.y + (arenaRange * 4) - 1f;
-			SaveLocalPosition();
+			if(collider.gameObject.GetComponent<TrackObject>())
+			{
+				temp.y = obj.transform.position.y;
+				temp.y = temp.y + (arenaRange * 4) - 1f;
+
+				foreach (var nonfollowable in nonFollowableObjects) {
+					temp2 = nonfollowable.transform.position;
+					temp2.y = temp2.y + arenaRange;
+					nonfollowable.transform.position = temp2;
+				}
+			}
+			else
+			{
+				temp.y = obj.transform.position.y;
+				temp.y = temp.y + (arenaRange * 2) - 1f;
+			}            
         }
         else if (obj.name == "Right")
         {
-            playerPos.x = obj.transform.position.x;
-            playerPos.x = playerPos.x - (arenaRange * 4) + 1f;
-			SaveLocalPosition();
+			if(collider.gameObject.GetComponent<TrackObject>())
+			{
+				temp.x = obj.transform.position.x;
+				temp.x = temp.x - (arenaRange * 4) + 1f;
+
+				foreach (var nonfollowable in nonFollowableObjects) {
+					temp2 = nonfollowable.transform.position;
+					temp2.x = temp2.x - arenaRange;
+					nonfollowable.transform.position = temp2;
+				}
+			}
+			else{
+				temp.x = obj.transform.position.x;
+				temp.x = temp.x - (arenaRange * 2) + 1f;
+			}
         }
         else if (obj.name == "Left")
         {
-            playerPos.x = obj.transform.position.x;
-            playerPos.x = playerPos.x + (arenaRange * 4) - 1f;
-			SaveLocalPosition();
+			if(collider.gameObject.GetComponent<TrackObject>())
+			{
+				temp.x = obj.transform.position.x;
+				temp.x = temp.x + (arenaRange * 4) - 1f;
+
+				foreach (var nonfollowable in nonFollowableObjects) {
+					temp2 = nonfollowable.transform.position;
+					temp2.x = temp2.x + arenaRange;
+					nonfollowable.transform.position = temp2;
+				}
+			}
+			else{
+				temp.x = obj.transform.position.x;
+				temp.x = temp.x + (arenaRange * 2) - 1f;
+			}            
         }
-        collider.transform.position = playerPos;
+        collider.transform.position = temp;
         timmer = Time.time + .1f;
     }
 
