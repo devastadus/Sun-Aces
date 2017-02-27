@@ -33,7 +33,7 @@ namespace DarkTonic.CoreGameKit {
         }
 
         /// <summary>
-        /// This method gets called when the Killable is about to despawn (before Despawned).
+        /// This method gets called when the Killable is about to despawn (before Despawned). Will not get automatically called by PoolBoss.Despawn.
         /// </summary>
         public virtual void Despawning(TriggeredSpawner.EventType eType) {
             // your code here.

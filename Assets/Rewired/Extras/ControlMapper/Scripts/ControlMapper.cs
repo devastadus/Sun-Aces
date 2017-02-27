@@ -39,6 +39,10 @@ namespace Rewired.UI.ControlMapper {
         [SerializeField]
         [Tooltip("Must be assigned a Rewired Input Manager scene object or prefab.")]
         private InputManager _rewiredInputManager;
+        
+        [SerializeField]
+        [Tooltip("Set to True to prevent the Game Object from being destroyed when a new scene is loaded.\n\nNOTE: Changing this value from True to False at runtime will have no effect because Object.DontDestroyOnLoad cannot be undone once set.")]
+        private bool _dontDestroyOnLoad;
 
         [SerializeField]
         [Tooltip("Open the control mapping screen immediately on start. Mainly used for testing.")]
@@ -258,6 +262,7 @@ namespace Rewired.UI.ControlMapper {
         private List<GUIButton> mapCategoryButtons;
         private List<GUIButton> assignedControllerButtons;
         private GUIButton assignedControllerButtonsPlaceholder;
+        private List<GameObject> miscInstantiatedObjects;
         private GameObject canvas;
         private GameObject lastUISelection;
         private int currentJoystickId = -1;
@@ -279,33 +284,34 @@ namespace Rewired.UI.ControlMapper {
         // This is useful if you want to show only certain settings based on the current platform.
         // Not all properties are runtime modifiable.
 
-        public InputManager rewiredInputManager { get { return _rewiredInputManager; } set { _rewiredInputManager = value; InspectorPropertyChanged(); } }
-        public int keyboardMapDefaultLayout { get { return _keyboardMapDefaultLayout; } set { _keyboardMapDefaultLayout = value; InspectorPropertyChanged(); } }
-        public int mouseMapDefaultLayout { get { return _mouseMapDefaultLayout; } set { _mouseMapDefaultLayout = value; InspectorPropertyChanged(); } }
-        public int joystickMapDefaultLayout { get { return _joystickMapDefaultLayout; } set { _joystickMapDefaultLayout = value; InspectorPropertyChanged(); } }
+        public InputManager rewiredInputManager { get { return _rewiredInputManager; } set { _rewiredInputManager = value; InspectorPropertyChanged(true); } }
+        public bool dontDestroyOnLoad { get { return _dontDestroyOnLoad; } set { if(value != _dontDestroyOnLoad) { if(value) DontDestroyOnLoad(transform.gameObject); } _dontDestroyOnLoad = value; } }
+        public int keyboardMapDefaultLayout { get { return _keyboardMapDefaultLayout; } set { _keyboardMapDefaultLayout = value; InspectorPropertyChanged(true); } }
+        public int mouseMapDefaultLayout { get { return _mouseMapDefaultLayout; } set { _mouseMapDefaultLayout = value; InspectorPropertyChanged(true); } }
+        public int joystickMapDefaultLayout { get { return _joystickMapDefaultLayout; } set { _joystickMapDefaultLayout = value; InspectorPropertyChanged(true); } }
         //public MappingSet[] mappingSets { get { return _mappingSets; } set { _mappingSets = value; InspectorPropertyChanged(); } }
-        public bool showPlayers { get { return _showPlayers && ReInput.players.playerCount > 1; } set { _showPlayers = value; InspectorPropertyChanged(); } }
-        public bool showControllers { get { return _showControllers; } set { _showControllers = value; InspectorPropertyChanged(); } }
-        public bool showKeyboard { get { return _showKeyboard; } set { _showKeyboard = value; InspectorPropertyChanged(); } }
-        public bool showMouse { get { return _showMouse; } set { _showMouse = value; InspectorPropertyChanged(); } }
-        public int maxControllersPerPlayer { get { return _maxControllersPerPlayer; } set { _maxControllersPerPlayer = value; InspectorPropertyChanged(); } }
-        public bool showActionCategoryLabels { get { return _showActionCategoryLabels; } set { _showActionCategoryLabels = value; InspectorPropertyChanged(); } }
-        public int keyboardInputFieldCount { get { return _keyboardInputFieldCount; } set { _keyboardInputFieldCount = value; InspectorPropertyChanged(); } }
-        public int mouseInputFieldCount { get { return _mouseInputFieldCount; } set { _mouseInputFieldCount = value; InspectorPropertyChanged(); } }
-        public int controllerInputFieldCount { get { return _controllerInputFieldCount; } set { _controllerInputFieldCount = value; InspectorPropertyChanged(); } }
-        public bool showFullAxisInputFields { get { return _showFullAxisInputFields; } set { _showFullAxisInputFields = value; InspectorPropertyChanged(); } }
-        public bool showSplitAxisInputFields { get { return _showSplitAxisInputFields; } set { _showSplitAxisInputFields = value; InspectorPropertyChanged(); } }
+        public bool showPlayers { get { return _showPlayers && ReInput.players.playerCount > 1; } set { _showPlayers = value; InspectorPropertyChanged(true); } }
+        public bool showControllers { get { return _showControllers; } set { _showControllers = value; InspectorPropertyChanged(true); } }
+        public bool showKeyboard { get { return _showKeyboard; } set { _showKeyboard = value; InspectorPropertyChanged(true); } }
+        public bool showMouse { get { return _showMouse; } set { _showMouse = value; InspectorPropertyChanged(true); } }
+        public int maxControllersPerPlayer { get { return _maxControllersPerPlayer; } set { _maxControllersPerPlayer = value; InspectorPropertyChanged(true); } }
+        public bool showActionCategoryLabels { get { return _showActionCategoryLabels; } set { _showActionCategoryLabels = value; InspectorPropertyChanged(true); } }
+        public int keyboardInputFieldCount { get { return _keyboardInputFieldCount; } set { _keyboardInputFieldCount = value; InspectorPropertyChanged(true); } }
+        public int mouseInputFieldCount { get { return _mouseInputFieldCount; } set { _mouseInputFieldCount = value; InspectorPropertyChanged(true); } }
+        public int controllerInputFieldCount { get { return _controllerInputFieldCount; } set { _controllerInputFieldCount = value; InspectorPropertyChanged(true); } }
+        public bool showFullAxisInputFields { get { return _showFullAxisInputFields; } set { _showFullAxisInputFields = value; InspectorPropertyChanged(true); } }
+        public bool showSplitAxisInputFields { get { return _showSplitAxisInputFields; } set { _showSplitAxisInputFields = value; InspectorPropertyChanged(true); } }
         public bool allowElementAssignmentConflicts { get { return _allowElementAssignmentConflicts; } set { _allowElementAssignmentConflicts = value; InspectorPropertyChanged(); } }
-        public int actionLabelWidth { get { return _actionLabelWidth; } set { _actionLabelWidth = value; InspectorPropertyChanged(); } }
-        public int keyboardColMaxWidth { get { return _keyboardColMaxWidth; } set { _keyboardColMaxWidth = value; InspectorPropertyChanged(); } }
-        public int mouseColMaxWidth { get { return _mouseColMaxWidth; } set { _mouseColMaxWidth = value; InspectorPropertyChanged(); } }
-        public int controllerColMaxWidth { get { return _controllerColMaxWidth; } set { _controllerColMaxWidth = value; InspectorPropertyChanged(); } }
-        public int inputRowHeight { get { return _inputRowHeight; } set { _inputRowHeight = value; InspectorPropertyChanged(); } }
-        public int inputColumnSpacing { get { return _inputColumnSpacing; } set { _inputColumnSpacing = value; InspectorPropertyChanged(); } }
-        public int inputRowCategorySpacing { get { return _inputRowCategorySpacing; } set { _inputRowCategorySpacing = value; InspectorPropertyChanged(); } }
-        public int invertToggleWidth { get { return _invertToggleWidth; } set { _invertToggleWidth = value; InspectorPropertyChanged(); } }
-        public int defaultWindowWidth { get { return _defaultWindowWidth; } set { _defaultWindowWidth = value; InspectorPropertyChanged(); } }
-        public int defaultWindowHeight { get { return _defaultWindowHeight; } set { _defaultWindowHeight = value; InspectorPropertyChanged(); } }
+        public int actionLabelWidth { get { return _actionLabelWidth; } set { _actionLabelWidth = value; InspectorPropertyChanged(true); } }
+        public int keyboardColMaxWidth { get { return _keyboardColMaxWidth; } set { _keyboardColMaxWidth = value; InspectorPropertyChanged(true); } }
+        public int mouseColMaxWidth { get { return _mouseColMaxWidth; } set { _mouseColMaxWidth = value; InspectorPropertyChanged(true); } }
+        public int controllerColMaxWidth { get { return _controllerColMaxWidth; } set { _controllerColMaxWidth = value; InspectorPropertyChanged(true); } }
+        public int inputRowHeight { get { return _inputRowHeight; } set { _inputRowHeight = value; InspectorPropertyChanged(true); } }
+        public int inputColumnSpacing { get { return _inputColumnSpacing; } set { _inputColumnSpacing = value; InspectorPropertyChanged(true); } }
+        public int inputRowCategorySpacing { get { return _inputRowCategorySpacing; } set { _inputRowCategorySpacing = value; InspectorPropertyChanged(true); } }
+        public int invertToggleWidth { get { return _invertToggleWidth; } set { _invertToggleWidth = value; InspectorPropertyChanged(true); } }
+        public int defaultWindowWidth { get { return _defaultWindowWidth; } set { _defaultWindowWidth = value; InspectorPropertyChanged(true); } }
+        public int defaultWindowHeight { get { return _defaultWindowHeight; } set { _defaultWindowHeight = value; InspectorPropertyChanged(true); } }
         public float controllerAssignmentTimeout { get { return _controllerAssignmentTimeout; } set { _controllerAssignmentTimeout = value; InspectorPropertyChanged(); } }
         public float preInputAssignmentTimeout { get { return _preInputAssignmentTimeout; } set { _preInputAssignmentTimeout = value; InspectorPropertyChanged(); } }
         public float inputAssignmentTimeout { get { return _inputAssignmentTimeout; } set { _inputAssignmentTimeout = value; InspectorPropertyChanged(); } }
@@ -317,17 +323,17 @@ namespace Rewired.UI.ControlMapper {
         //public int screenCloseAction { get { return _screenCloseAction; } set { _screenCloseAction = value; InspectorPropertyChanged(); } }
         //public int universalCancelAction { get { return _universalCancelAction; } set { _universalCancelAction = value; InspectorPropertyChanged(); } }
         public bool universalCancelClosesScreen { get { return _universalCancelClosesScreen; } set { _universalCancelClosesScreen = value; InspectorPropertyChanged(); } }
-        public bool showInputBehaviorSettings { get { return _showInputBehaviorSettings; } set { _showInputBehaviorSettings = value; InspectorPropertyChanged(); } }
-        public bool useThemeSettings { get { return _useThemeSettings; } set { _useThemeSettings = value; InspectorPropertyChanged(); } }
-        public LanguageData language { get { return _language; } set { _language = value; if(_language != null) _language.Initialize(); InspectorPropertyChanged(); } }
+        public bool showInputBehaviorSettings { get { return _showInputBehaviorSettings; } set { _showInputBehaviorSettings = value; InspectorPropertyChanged(true); } }
+        public bool useThemeSettings { get { return _useThemeSettings; } set { _useThemeSettings = value; InspectorPropertyChanged(true); } }
+        public LanguageData language { get { return _language; } set { _language = value; if(_language != null) _language.Initialize(); InspectorPropertyChanged(true); } }
 
-        public bool showPlayersGroupLabel { get { return _showPlayersGroupLabel; } set { _showPlayersGroupLabel = value; InspectorPropertyChanged(); } }
-        public bool showControllerGroupLabel { get { return _showControllerGroupLabel; } set { _showControllerGroupLabel = value; InspectorPropertyChanged(); } }
-        public bool showAssignedControllersGroupLabel { get { return _showAssignedControllersGroupLabel; } set { _showAssignedControllersGroupLabel = value; InspectorPropertyChanged(); } }
-        public bool showSettingsGroupLabel { get { return _showSettingsGroupLabel; } set { _showSettingsGroupLabel = value; InspectorPropertyChanged(); } }
-        public bool showMapCategoriesGroupLabel { get { return _showMapCategoriesGroupLabel; } set { _showMapCategoriesGroupLabel = value; InspectorPropertyChanged(); } }
-        public bool showControllerNameLabel { get { return _showControllerNameLabel; } set { _showControllerNameLabel = value; InspectorPropertyChanged(); } }
-        public bool showAssignedControllers { get { return _showAssignedControllers; } set { _showAssignedControllers = value; InspectorPropertyChanged(); } }
+        public bool showPlayersGroupLabel { get { return _showPlayersGroupLabel; } set { _showPlayersGroupLabel = value; InspectorPropertyChanged(true); } }
+        public bool showControllerGroupLabel { get { return _showControllerGroupLabel; } set { _showControllerGroupLabel = value; InspectorPropertyChanged(true); } }
+        public bool showAssignedControllersGroupLabel { get { return _showAssignedControllersGroupLabel; } set { _showAssignedControllersGroupLabel = value; InspectorPropertyChanged(true); } }
+        public bool showSettingsGroupLabel { get { return _showSettingsGroupLabel; } set { _showSettingsGroupLabel = value; InspectorPropertyChanged(true); } }
+        public bool showMapCategoriesGroupLabel { get { return _showMapCategoriesGroupLabel; } set { _showMapCategoriesGroupLabel = value; InspectorPropertyChanged(true); } }
+        public bool showControllerNameLabel { get { return _showControllerNameLabel; } set { _showControllerNameLabel = value; InspectorPropertyChanged(true); } }
+        public bool showAssignedControllers { get { return _showAssignedControllers; } set { _showAssignedControllers = value; InspectorPropertyChanged(true); } }
 
         #endregion
 
@@ -415,6 +421,10 @@ namespace Rewired.UI.ControlMapper {
         #region Unity Events
 
         void Awake() {
+            if(_dontDestroyOnLoad) {
+                DontDestroyOnLoad(transform.gameObject);
+            }
+        
             PreInitialize();
 
             // Open immediately if instantiated with canvas active
@@ -550,6 +560,7 @@ namespace Rewired.UI.ControlMapper {
             playerButtons = new List<GUIButton>();
             mapCategoryButtons = new List<GUIButton>();
             assignedControllerButtons = new List<GUIButton>();
+            miscInstantiatedObjects = new List<GameObject>();
 
             // Set default values
             currentMapCategoryId = _mappingSets[0].mapCategoryId;
@@ -2033,6 +2044,7 @@ namespace Rewired.UI.ControlMapper {
 
             // Create Input Behavior Settings button
             GUIButton button = CreateButton(_language.inputBehaviorSettingsButtonLabel, references.settingsGroup.content, Vector2.zero);
+            miscInstantiatedObjects.Add(button.gameObject);
             button.buttonInfo.OnSelectedEvent += OnUIElementSelected;
             button.SetButtonInfoData(buttonIdentifier_editInputBehaviors, 0);
             button.SetOnClickCallback(OnButtonActivated);
@@ -2683,6 +2695,11 @@ namespace Rewired.UI.ControlMapper {
                 Object.Destroy(assignedControllerButtonsPlaceholder.gameObject);
                 assignedControllerButtonsPlaceholder = null;
             }
+
+            foreach(GameObject item in miscInstantiatedObjects) {
+                Object.Destroy(item);
+            }
+            miscInstantiatedObjects.Clear();
         }
 
         private void ClearVarsOnPlayerChange() {
@@ -2704,6 +2721,7 @@ namespace Rewired.UI.ControlMapper {
             currentMapCategoryId = -1;
             playerButtons = null;
             mapCategoryButtons = null;
+            miscInstantiatedObjects = null;
             canvas = null;
             lastUISelection = null;
             currentJoystickId = -1;
@@ -2868,8 +2886,8 @@ namespace Rewired.UI.ControlMapper {
             return false;
         }
 
-        private void InspectorPropertyChanged() {
-
+        private void InspectorPropertyChanged(bool reset = false) {
+            if(reset) Reset();
         }
 
         private void AssignController(Player player, int controllerId) {

@@ -2,6 +2,11 @@ CORE GAMEKIT PLUGIN - By Dark Tonic, Inc. (c) 2012-2016
 
 -Code by Brian Hunsaker
 
+-V 3.2.6.9  - Fixed compile error for Unity 5.5
+			- Fixed max qty mismatch in Pool Boss Inspector.
+			- Fixed Pool Boss lookup prefab name error.
+			- Fixed bug in PoolBossDespawn Playmaker Custom Action that would not despawn 2 different objects if the property changed.
+
 -V 3.2.6.8  - Added ChangeTimerDelay method to TimedDespawner.
 			- Can now see Global Wave name when the wave is collapsed in the Inspector.
 			- Added Level name field for Global Waves. You can see it even when the level is collapsed.

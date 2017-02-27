@@ -31,6 +31,22 @@
 
 
 <div class="container">
+
+    <div class="google-search-bar">
+        <script>
+          (function() {
+            var cx = '007961148920562332911:oocvtwz5jce';
+            var gcse = document.createElement('script');
+            gcse.type = 'text/javascript';
+            gcse.async = true;
+            gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(gcse, s);
+          })();
+        </script>
+        <gcse:search></gcse:search>
+    </div>
+
   <div class="content">
 	
 	
@@ -81,12 +97,12 @@
             <strong>Help:</strong>
             <ul>
               <li><a href="SupportedControllers.html" title="Supported Controllers">Supported Controllers</a></li>
+              <li><a href="Troubleshooting.html" title="Troubleshooting">Troubleshooting</a></li>
+              <li><a href="KnownIssues.html">Known Issues</a></li>
               <li><a href="SpecialPlatformSupport.html" title="Special Platform Support">Special Platform Support</a></li>
 	          <li><a href="Examples.html" title="Examples">Examples</a></li>
               <li><a href="Integration.html">Integrations</a></li>
 	          <li><a href="Updating.html" title="Updating Rewired">Updating Rewired</a></li>
-	          <li><a href="Troubleshooting.html" title="Troubleshooting">Troubleshooting</a></li>
-              <li><a href="KnownIssues.html">Known Issues</a></li>
             </ul>
             <strong>FAQ</strong>
             <ul>
@@ -109,7 +125,7 @@
     	<div class="main-body">
 	        <div class="logo"><a href="http://guavaman.com/projects/rewired" title="Rewired"><img src="files/images/rewired-logo.png" width="173" height="139" alt="Rewired" /></a></div>
                      
-          <h1>
+            <h1>
             <!-- InstanceBeginEditable name="PageHeader" -->Integration with Other Packages
       <!-- InstanceEndEditable -->
             </h1>
@@ -129,6 +145,8 @@
       <li><a href="#GAC">GAC (Great Animation Combos) System</a></li>
       <li><a href="#InventoryPro">Inventory Pro</a></li>
       <li><a href="#UFS">uFS - Flight Simulation Engine</a></li>
+      <li><a href="#RealisticFPS">Realistic FPS Prefab</a></li>
+      <li><a href="#Deftly">Deftly: Top Down Shooter Framework</a></li>
       <li><a href="#others">Others</a></li>
     </ul>
     <p>&nbsp;</p>
@@ -248,7 +266,19 @@
 <ol>
   <li>Delete the Rewired/Integration/UFS folder.</li>
   <li>Optionally uninstall <a href="UnityInputOverride.html">Unity Input Override</a>.</li>
-</ol>
+  </ol>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="RealisticFPS" id="RealisticFPS"></a>Realistic FPS Prefab</h3>
+<p><a href="https://www.assetstore.unity3d.com/en/#!/content/7739" target="_blank">Realistic FPS Prefab</a> by <a href="http://azulinestudios.blogspot.com/" target="_blank">Azuline Studios</a> is a first-person shooter complete project.</p>
+<p><a href="https://forum.unity3d.com/threads/realistic-fps-prefab-released.176985/page-69#post-2921727">This forum post by longroadhwy shows how to do the integration by modifying a bit of source code.</a></p>
+<p>Note: This integration is a 3rd party integration and not maintained or supported by Guavaman Enterprises.</p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="Deftly" id="Deftly"></a>Deftly: Top Down Shooter Framework</h3>
+<p><a href="https://www.assetstore.unity3d.com/en/#!/content/34177" target="_blank">Deftly: Top Down Shooter Framework</a> by <a href="http://www.cleverous.com/" target="_blank">Cleverous</a> aims to deliver flexibility and ease of use into a stable top down shooter environment with AAA quality. </p>
+<p>The Rewired integration is included in the package. Please see the Deftly documentation for details.</p>
+<p>Note: This integration is a 3rd party integration package and not maintained or supported by Guavaman Enterprises.</p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="others" id="others"></a>Others</h3>

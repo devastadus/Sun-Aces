@@ -360,11 +360,14 @@ namespace Rewired.Data {
             if(controller == null) return count;
 
             // Load the controller maps first and make sure we have them to load
-            List<string> xmlMaps = GetAllControllerMapsXml(player, true, controllerType, controller);
-            if(xmlMaps.Count == 0) return count;
+            List<SavedControllerMapData> savedData = GetAllControllerMapsXml(player, true, controller);
+            if(savedData.Count == 0) return count;
 
             // Load Joystick Maps
-            count += player.controllers.maps.AddMapsFromXml(controllerType, controllerId, xmlMaps); // load controller maps
+            count += player.controllers.maps.AddMapsFromXml(controllerType, controllerId, SavedControllerMapData.GetXmlStringList(savedData)); // load controller maps
+
+            // Analyze the saved data and compare to defaults to find bindings for newly created Actions
+            AddDefaultMappingsForNewActions(player, savedData, controllerType, controllerId);
 
             return count;
         }
@@ -453,7 +456,7 @@ namespace Rewired.Data {
         private void SaveJoystickCalibrationData(Joystick joystick) {
             if(joystick == null) return;
             JoystickCalibrationMapSaveData saveData = joystick.GetCalibrationMapSaveData();
-            string key = GetJoystickCalibrationMapPlayerPrefsKey(saveData);
+            string key = GetJoystickCalibrationMapPlayerPrefsKey(joystick);
             PlayerPrefs.SetString(key, saveData.map.ToXmlString()); // save the map to player prefs in XML format
         }
 
@@ -496,8 +499,7 @@ namespace Rewired.Data {
 
         private void SaveControllerMaps(Player player, PlayerSaveData playerSaveData) {
             foreach(ControllerMapSaveData saveData in playerSaveData.AllControllerMapSaveData) {
-                string key = GetControllerMapPlayerPrefsKey(player, saveData);
-                PlayerPrefs.SetString(key, saveData.map.ToXmlString()); // save the map to player prefs in XML format
+                SaveControllerMap(player, saveData);
             }
         }
         private void SaveControllerMaps(int playerId, ControllerType controllerType, int controllerId) {
@@ -505,7 +507,6 @@ namespace Rewired.Data {
             if(player == null) return;
 
             // Save controller maps in this player for this controller id
-            string key;
             if(!player.controllers.ContainsController(controllerType, controllerId)) return; // player does not have the controller
 
             // Save controller maps
@@ -513,9 +514,20 @@ namespace Rewired.Data {
             if(saveData == null) return;
 
             for(int i = 0; i < saveData.Length; i++) {
-                key = GetControllerMapPlayerPrefsKey(player, saveData[i]);
-                PlayerPrefs.SetString(key, saveData[i].map.ToXmlString()); // save the map to player prefs in XML format
+                SaveControllerMap(player, saveData[i]);
             }
+        }
+
+        private void SaveControllerMap(Player player, ControllerMapSaveData saveData) {
+
+            // Save the Controller Map
+            string key = GetControllerMapPlayerPrefsKey(player, saveData.controller, saveData.categoryId, saveData.layoutId);
+            PlayerPrefs.SetString(key, saveData.map.ToXmlString()); // save the map to player prefs in XML format
+
+            // Save the Action ids list for this Controller Map used to allow new Actions to be added to the
+            // Rewired Input Manager and have the new mappings show up when saved data is loaded
+            key = GetControllerMapKnownActionIdsPlayerPrefsKey(player, saveData.controller, saveData.categoryId, saveData.layoutId);
+            PlayerPrefs.SetString(key, GetAllActionIdsString());
         }
 
         private void SaveInputBehaviors(Player player, PlayerSaveData playerSaveData) {
@@ -541,13 +553,13 @@ namespace Rewired.Data {
         private void SaveInputBehaviorNow(Player player, InputBehavior inputBehavior) {
             if(player == null || inputBehavior == null) return;
 
-            string key = GetInputBehaviorPlayerPrefsKey(player, inputBehavior);
+            string key = GetInputBehaviorPlayerPrefsKey(player, inputBehavior.id);
             PlayerPrefs.SetString(key, inputBehavior.ToXmlString()); // save the behavior to player prefs in XML format
         }
 
-#endregion
+        #endregion
 
-#region PlayerPrefs Methods
+        #region PlayerPrefs Methods
 
         /* NOTE ON PLAYER PREFS:
          * PlayerPrefs on Windows Standalone is saved in the registry. There is a bug in Regedit that makes any entry with a name equal to or greater than 255 characters
@@ -564,94 +576,220 @@ namespace Rewired.Data {
             return key;
         }
 
-        private string GetControllerMapPlayerPrefsKey(Player player, ControllerMapSaveData saveData) {
+        private string GetControllerMapPlayerPrefsKey(Player player, Controller controller, int categoryId, int layoutId) {
             // Create a player prefs key like a web querystring so we can search for player prefs key when loading maps
-            string key = GetBasePlayerPrefsKey(player);
-            key += "|dataType=ControllerMap";
-            key += "|controllerMapType=" + saveData.mapTypeString;
-            key += "|categoryId=" + saveData.map.categoryId + "|" + "layoutId=" + saveData.map.layoutId;
-            key += "|hardwareIdentifier=" + saveData.controllerHardwareIdentifier; // the hardware identifier string helps us identify maps for unknown hardware because it doesn't have a Guid
-            if(saveData.mapType == typeof(JoystickMap)) { // store special info for joystick maps
-                key += "|hardwareGuid=" + ((JoystickMapSaveData)saveData).joystickHardwareTypeGuid.ToString(); // the identifying GUID that determines which known joystick this is
-            }
-            return key;
-        }
-
-        private string GetControllerMapXml(Player player, ControllerType controllerType, int categoryId, int layoutId, Controller controller) {
             string key = GetBasePlayerPrefsKey(player);
             key += "|dataType=ControllerMap";
             key += "|controllerMapType=" + controller.mapTypeString;
             key += "|categoryId=" + categoryId + "|" + "layoutId=" + layoutId;
             key += "|hardwareIdentifier=" + controller.hardwareIdentifier; // the hardware identifier string helps us identify maps for unknown hardware because it doesn't have a Guid
-            if(controllerType == ControllerType.Joystick) {
-                Joystick joystick = (Joystick)controller;
-                key += "|hardwareGuid=" + joystick.hardwareTypeGuid.ToString(); // the identifying GUID that determines which known joystick this is
+            if(controller.type == ControllerType.Joystick) { // store special info for joystick maps
+                key += "|hardwareGuid=" + ((Joystick)controller).hardwareTypeGuid.ToString(); // the identifying GUID that determines which known joystick this is
             }
+            return key;
+        }
 
+        private string GetControllerMapKnownActionIdsPlayerPrefsKey(Player player, Controller controller, int categoryId, int layoutId) {
+            // Create a player prefs key like a web querystring so we can search for player prefs key when loading maps
+            string key = GetBasePlayerPrefsKey(player);
+            key += "|dataType=ControllerMap_KnownActionIds";
+            key += "|controllerMapType=" + controller.mapTypeString;
+            key += "|categoryId=" + categoryId + "|" + "layoutId=" + layoutId;
+            key += "|hardwareIdentifier=" + controller.hardwareIdentifier; // the hardware identifier string helps us identify maps for unknown hardware because it doesn't have a Guid
+            if(controller.type == ControllerType.Joystick) { // store special info for joystick maps
+                key += "|hardwareGuid=" + ((Joystick)controller).hardwareTypeGuid.ToString(); // the identifying GUID that determines which known joystick this is
+            }
+            return key;
+        }
+
+        private string GetJoystickCalibrationMapPlayerPrefsKey(Joystick joystick) {
+            // Create a player prefs key like a web querystring so we can search for player prefs key when loading maps
+            string key = playerPrefsKeyPrefix;
+            key += "|dataType=CalibrationMap";
+            key += "|controllerType=" + joystick.type.ToString();
+            key += "|hardwareIdentifier=" + joystick.hardwareIdentifier; // the hardware identifier string helps us identify maps for unknown hardware because it doesn't have a Guid
+            key += "|hardwareGuid=" + joystick.hardwareTypeGuid.ToString();
+            return key;
+        }
+
+        private string GetInputBehaviorPlayerPrefsKey(Player player, int inputBehaviorId) {
+            // Create a player prefs key like a web querystring so we can search for player prefs key when loading maps
+            string key = GetBasePlayerPrefsKey(player);
+            key += "|dataType=InputBehavior";
+            key += "|id=" + inputBehaviorId;
+            return key;
+        }
+
+        private string GetControllerMapXml(Player player, Controller controller, int categoryId, int layoutId) {
+            string key = GetControllerMapPlayerPrefsKey(player, controller, categoryId, layoutId);
             if(!PlayerPrefs.HasKey(key)) return string.Empty; // key does not exist
             return PlayerPrefs.GetString(key); // return the data
         }
 
-        private List<string> GetAllControllerMapsXml(Player player, bool userAssignableMapsOnly, ControllerType controllerType, Controller controller) {
+        private List<int> GetControllerMapKnownActionIds(Player player, Controller controller, int categoryId, int layoutId) {
+            List<int> actionIds = new List<int>();
+
+            string key = GetControllerMapKnownActionIdsPlayerPrefsKey(player, controller, categoryId, layoutId);
+
+            if(!PlayerPrefs.HasKey(key)) return actionIds; // key does not exist
+
+            // Get the data and try to parse it
+            string data = PlayerPrefs.GetString(key);
+            if(string.IsNullOrEmpty(data)) return actionIds;
+
+            string[] split = data.Split(',');
+            for(int i = 0; i < split.Length; i++) {
+                if(string.IsNullOrEmpty(split[i])) continue;
+                int id;
+                if(int.TryParse(split[i], out id)) {
+                    actionIds.Add(id);
+                }
+            }
+            return actionIds;
+        }
+
+        private List<SavedControllerMapData> GetAllControllerMapsXml(Player player, bool userAssignableMapsOnly, Controller controller) {
             // Because player prefs does not allow us to search for partial keys, we have to check all possible category ids and layout ids to find the maps to load
 
-            List<string> mapsXml = new List<string>();
+            List<SavedControllerMapData> data = new List<SavedControllerMapData>();
 
             IList<InputMapCategory> categories = ReInput.mapping.MapCategories;
             for(int i = 0; i < categories.Count; i++) {
                 InputMapCategory cat = categories[i];
                 if(userAssignableMapsOnly && !cat.userAssignable) continue; // skip map because not user-assignable
 
-                IList<InputLayout> layouts = ReInput.mapping.MapLayouts(controllerType);
+                IList<InputLayout> layouts = ReInput.mapping.MapLayouts(controller.type);
                 for(int j = 0; j < layouts.Count; j++) {
                     InputLayout layout = layouts[j];
-                    string xml = GetControllerMapXml(player, controllerType, cat.id, layout.id, controller);
+                    string xml = GetControllerMapXml(player, controller, cat.id, layout.id);
                     if(xml == string.Empty) continue;
-                    mapsXml.Add(xml);
+                    List<int> knownActionIds = GetControllerMapKnownActionIds(player, controller, cat.id, layout.id);
+                    data.Add(new SavedControllerMapData(xml, knownActionIds));
                 }
             }
 
-            return mapsXml;
-        }
-
-        private string GetJoystickCalibrationMapPlayerPrefsKey(JoystickCalibrationMapSaveData saveData) {
-            // Create a player prefs key like a web querystring so we can search for player prefs key when loading maps
-            string key = playerPrefsKeyPrefix;
-            key += "|dataType=CalibrationMap";
-            key += "|controllerType=" + saveData.controllerType.ToString();
-            key += "|hardwareIdentifier=" + saveData.hardwareIdentifier; // the hardware identifier string helps us identify maps for unknown hardware because it doesn't have a Guid
-            key += "|hardwareGuid=" + saveData.joystickHardwareTypeGuid.ToString();
-            return key;
+            return data;
         }
 
         private string GetJoystickCalibrationMapXml(Joystick joystick) {
-            string key = playerPrefsKeyPrefix;
-            key += "|dataType=CalibrationMap";
-            key += "|controllerType=" + joystick.type.ToString();
-            key += "|hardwareIdentifier=" + joystick.hardwareIdentifier; // the hardware identifier string helps us identify maps for unknown hardware because it doesn't have a Guid
-            key += "|hardwareGuid=" + joystick.hardwareTypeGuid.ToString();
-
+            string key = GetJoystickCalibrationMapPlayerPrefsKey(joystick);
             if(!PlayerPrefs.HasKey(key)) return string.Empty; // key does not exist
             return PlayerPrefs.GetString(key); // return the data
-        }
-
-        private string GetInputBehaviorPlayerPrefsKey(Player player, InputBehavior saveData) {
-            // Create a player prefs key like a web querystring so we can search for player prefs key when loading maps
-            string key = GetBasePlayerPrefsKey(player);
-            key += "|dataType=InputBehavior";
-            key += "|id=" + saveData.id;
-            return key;
         }
 
         private string GetInputBehaviorXml(Player player, int id) {
-            string key = GetBasePlayerPrefsKey(player);
-            key += "|dataType=InputBehavior";
-            key += "|id=" + id;
-
+            string key = GetInputBehaviorPlayerPrefsKey(player, id);
             if(!PlayerPrefs.HasKey(key)) return string.Empty; // key does not exist
             return PlayerPrefs.GetString(key); // return the data
         }
 
-#endregion
+        #endregion
+
+        #region Misc
+
+        private void AddDefaultMappingsForNewActions(Player player, List<SavedControllerMapData> savedData, ControllerType controllerType, int controllerId) {
+            if(player == null || savedData == null) return;
+
+            // Check for new Actions added to the default mappings that didn't exist when the Controller Map was saved
+            List<int> allActionIds = GetAllActionIds();
+
+            for(int i = 0; i < savedData.Count; i++) {
+                SavedControllerMapData data = savedData[i];
+                if(data == null) continue;
+                if(data.knownActionIds == null || data.knownActionIds.Count == 0) continue;
+
+                // Create a map from the Xml so we can get information
+                ControllerMap mapFromXml = ControllerMap.CreateFromXml(controllerType, savedData[i].xml);
+                if(mapFromXml == null) continue;
+
+                // Load the map that was added to the Player
+                ControllerMap mapInPlayer = player.controllers.maps.GetMap(controllerType, controllerId, mapFromXml.categoryId, mapFromXml.layoutId);
+                if(mapInPlayer == null) continue;
+
+                // Load default map for comparison
+                ControllerMap defaultMap = ReInput.mapping.GetControllerMapInstance(ReInput.controllers.GetController(controllerType, controllerId), mapFromXml.categoryId, mapFromXml.layoutId);
+                if(defaultMap == null) continue;
+
+                // Find any new Action ids that didn't exist when the Controller Map was saved
+                List<int> unknownActionIds = new List<int>();
+                foreach(int id in allActionIds) {
+                    if(data.knownActionIds.Contains(id)) continue;
+                    unknownActionIds.Add(id);
+                }
+
+                if(unknownActionIds.Count == 0) continue; // no new Action ids
+
+                // Add all mappings in the default map for previously unknown Action ids
+                foreach(ActionElementMap aem in defaultMap.AllMaps) {
+                    if(!unknownActionIds.Contains(aem.actionId)) continue;
+
+                    // Skip this ActionElementMap if there's a conflict within the loaded map
+                    if(mapInPlayer.DoesElementAssignmentConflict(aem)) continue;
+
+                    // Create an assignment
+                    ElementAssignment assignment = new ElementAssignment(
+                        controllerType,
+                        aem.elementType,
+                        aem.elementIdentifierId,
+                        aem.axisRange,
+                        aem.keyCode,
+                        aem.modifierKeyFlags,
+                        aem.actionId,
+                        aem.axisContribution,
+                        aem.invert
+                    );
+
+                    // Assign it
+                    mapInPlayer.CreateElementMap(assignment);
+                }
+            }
+        }
+
+        private List<int> GetAllActionIds() {
+            List<int> ids = new List<int>();
+            IList<InputAction> actions = ReInput.mapping.Actions;
+            for(int i = 0; i < actions.Count; i++) {
+                ids.Add(actions[i].id);
+            }
+            return ids;
+        }
+
+        private string GetAllActionIdsString() {
+            string str = string.Empty;
+            List<int> ids = GetAllActionIds();
+            for(int i = 0; i < ids.Count; i++) {
+                if(i > 0) str += ",";
+                str += ids[i];
+            }
+            return str;
+        }
+
+        #endregion
+
+        #region Classes
+
+        private class SavedControllerMapData {
+            public string xml;
+            public List<int> knownActionIds;
+
+            public SavedControllerMapData(string xml, List<int> knownActionIds) {
+                this.xml = xml;
+                this.knownActionIds = knownActionIds;
+            }
+
+            public static List<string> GetXmlStringList(List<SavedControllerMapData> data) {
+                List<string> xml = new List<string>();
+                if(data == null) return xml;
+
+                for(int i = 0; i < data.Count; i++) {
+                    if(data[i] == null) continue;
+                    if(string.IsNullOrEmpty(data[i].xml)) continue;
+                    xml.Add(data[i].xml);
+                }
+                return xml;
+            }
+        }
+
+        #endregion
     }
 }

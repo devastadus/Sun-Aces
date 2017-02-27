@@ -8,6 +8,7 @@ namespace Rewired.Utils {
 
     using UnityEngine;
     using System.Collections;
+    using System.Collections.Generic;
     using Rewired.Utils.Interfaces;
 
     /// <exclude></exclude>
@@ -284,5 +285,53 @@ namespace Rewired.Utils {
 
         public System.IntPtr PS4Input_MoveGetControllerInputForTracking() { return System.IntPtr.Zero; }
 #endif
-    }
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+
+        const int SDK_VERSION_HONEYCOMB = 9;
+        const int SDK_VERSION_KITKAT = 19;
+
+        public void GetDeviceVIDPIDs(out List<int> vids, out List<int> pids) {
+
+            vids = new List<int>();
+            pids = new List<int>();
+
+            try {
+                // Get the Android SDK version
+                int androidSDKVersion = SDK_VERSION_HONEYCOMB;
+                using(var version = new AndroidJavaClass("android.os.Build$VERSION")) {
+                    androidSDKVersion = version.GetStatic<int>("SDK_INT");
+                }
+                if(androidSDKVersion < SDK_VERSION_KITKAT) return;
+
+                AndroidJavaClass android_view_InputDevice = new AndroidJavaClass("android.view.InputDevice");
+
+                int[] ids = null;
+                using(AndroidJavaObject jniArray = android_view_InputDevice.CallStatic<AndroidJavaObject>("getDeviceIds")) {
+                    if(jniArray != null) {
+                        ids = AndroidJNIHelper.ConvertFromJNIArray<int[]>(jniArray.GetRawObject());
+                    }
+                }
+
+                if(ids == null) return;
+                for(int i = 0; i < ids.Length; i++) {
+                    try {
+                        using(AndroidJavaObject jo = android_view_InputDevice.CallStatic<AndroidJavaObject>("getDevice", ids[i])) {
+                            if(jo == null) continue;
+                            vids.Add(jo.Call<int>("getVendorId"));
+                            pids.Add(jo.Call<int>("getProductId"));
+                        }
+                    } catch {
+                    }
+                }
+            } catch {
+            }
+        }
+#else
+        public void GetDeviceVIDPIDs(out List<int> vids, out List<int> pids) {
+            vids = new List<int>();
+            pids = new List<int>();
+        }
+#endif
+        }
 }

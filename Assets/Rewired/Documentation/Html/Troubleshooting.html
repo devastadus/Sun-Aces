@@ -31,6 +31,22 @@
 
 
 <div class="container">
+
+    <div class="google-search-bar">
+        <script>
+          (function() {
+            var cx = '007961148920562332911:oocvtwz5jce';
+            var gcse = document.createElement('script');
+            gcse.type = 'text/javascript';
+            gcse.async = true;
+            gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(gcse, s);
+          })();
+        </script>
+        <gcse:search></gcse:search>
+    </div>
+
   <div class="content">
 	
 	
@@ -81,12 +97,12 @@
             <strong>Help:</strong>
             <ul>
               <li><a href="SupportedControllers.html" title="Supported Controllers">Supported Controllers</a></li>
+              <li><a href="Troubleshooting.html" title="Troubleshooting">Troubleshooting</a></li>
+              <li><a href="KnownIssues.html">Known Issues</a></li>
               <li><a href="SpecialPlatformSupport.html" title="Special Platform Support">Special Platform Support</a></li>
 	          <li><a href="Examples.html" title="Examples">Examples</a></li>
               <li><a href="Integration.html">Integrations</a></li>
 	          <li><a href="Updating.html" title="Updating Rewired">Updating Rewired</a></li>
-	          <li><a href="Troubleshooting.html" title="Troubleshooting">Troubleshooting</a></li>
-              <li><a href="KnownIssues.html">Known Issues</a></li>
             </ul>
             <strong>FAQ</strong>
             <ul>
@@ -109,9 +125,8 @@
     	<div class="main-body">
 	        <div class="logo"><a href="http://guavaman.com/projects/rewired" title="Rewired"><img src="files/images/rewired-logo.png" width="173" height="139" alt="Rewired" /></a></div>
                      
-          <h1>
-            <!-- InstanceBeginEditable name="PageHeader" -->precence Troubleshooting
-      <!-- InstanceEndEditable -->
+            <h1>
+            <!-- InstanceBeginEditable name="PageHeader" -->Troubleshooting <!-- InstanceEndEditable -->
             </h1>
             
 			<!-- InstanceBeginEditable name="MainBody" -->
@@ -126,12 +141,14 @@
       <li><a href="#mouse-problems">Mouse control doesn't work</a></li>
       <li><a href="#keyboard-ghosting">Two or more keyboard keys cannot be pressed at the same time</a></li>
       <li><a href="#xbox360-triggers">XBox 360 controller L/R triggers can't be pressed at the same time on Windows</a></li>
+      <li><a href="#joystick-count-on-start">Joystick count is always zero on Start() even when joysticks are connected</a></li>
       <li><a href="#compiler-errors-name-clashes">Compiler errors with Rewired classes such as Rewired.Player</a></li>
       <li><a href="#null-reference-during-recompile">Null reference exception when recompiling scripts in the editor at runtime</a></li>
       <li><a href="#compile-errors-ps4-xbone">Unity 5 compile errors in PS4, XBox One, WiiU, or other special platforms</a></li>
       <li><a href="#not-initialized">Rewired is not initialized error</a></li>
+      <li><a href="#joystick-axes-dont-work-on-fallback-platforms">Joystick axes don't work on Xbox One, PS4, Android, iOS, etc.</a></li>
       <li><a href="#exception-input-manager-entries-not-setup">Exception: &quot;Message: Input Axis MouseAxis1 is not setup.&quot;</a></li>
-      <li><a href="#missing-unity-input-entries">Rewired works in the editor but not on Xbox One, PS4, Android, etc.</a></li>
+      <li><a href="#missing-unity-input-entries">Rewired works in the editor but not on Xbox One, PS4, Android, iOS, etc.</a></li>
       <li><a href="#time-comparison">Time comparisons to Time.time don't match</a></li>
       <li><a href="#android-joystick-keyboard-keys">Joystick buttons  activate keyboard keys on Android</a></li>
       <li><a href="#ongui-getbuttondown">OnGUI may return GetButtonDown/Up true for multiple frames</a></li>
@@ -141,9 +158,10 @@
       <li><a href="#steam-controller">Steam Controller</a></li>
       <li><a href="#steam-controller-not-detected-windows">Steam Controller is not detected (Windows)</a></li>
       <li><a href="#steam-streaming-linux">Steam Streaming controller support on Linux/SteamOS</a></li>
-      <li><a href="#steam-controller-breaks-rawinput-controllers">Steam Controller doesn't work with other controllers at the same time in Windows</a></li>
+      <li><a href="#steam-gamepad-appears-as-two-devices">Steam: Sony DualShock 4 or generic gamepad doesn't work or appears as two devices</a></li>
       <li><a href="#windows-xinput-multiple-devices">Windows, XInput: XInput-compatible device shows up as multiple controllers</a></li>
       <li><a href="#windows-xinput-device-always-connected">Windows, XInput: XInput-compatible device is always connected even after disconnecting the controller and no connect or disconnect events are sent</a></li>
+      <li><a href="#windows-uwp-serialization-errors">Windows 10 Universal: Serialization errors</a></li>
       <li><a href="#osx-xbox-one-controller-vibration">OSX: XBox One Controller vibration doesn't work</a></li>
       <li><a href="#rewired-standalone-input-module-issues">RewiredStandaloneInputModue issues</a></li>
       <li><a href="#xbox-one-crash-on-start">XBox One: Crash/blank screen on start in game build</a></li>
@@ -258,6 +276,10 @@ foreach(var p in ReInput.players.Players) {
 <h3><a name="xbox360-triggers" id="dll-not-found-xinput5"></a>XBox 360 controller L/R triggers can't be pressed at the same time on Windows</h3>
 <p>This is a design issue with the Microsoft XBox 360 controller driver. The XBox 360 controller driver only returns a single byte of data for both the left and right triggers making it impossible to distinguish the two when both are pressed simultaneously when using Raw Input or Direct Input. You can read about this issue and the reasoning behind the design <a href="https://en.wikipedia.org/wiki/DirectInput#Xbox_360_Controller_support" target="_blank">here</a>.</p>
 <p>The solution is to <a href="RewiredEditor.html#Settings">enable XInput in the Rewired Editor - Settings</a>. XInput is able to treat the triggers as separate values.</p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="joystick-count-on-start" id="dll-not-found-xinput7"></a>Joystick count is zero on Start() even when joysticks are connected</h3>
+<p>Please see <a href="http://guavaman.com/projects/rewired/docs/HowTos.html#connect-disconnect-events">How To's - Receiving Joystick connect and disconnect events</a> for important information.</p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="compiler-errors-name-clashes" id="compiler-errors-name-clashes"></a>Compiler errors with Rewired classes such as Rewired.Player</h3>
@@ -386,6 +408,10 @@ void CacheRewiredPlayer() {
 <p>Proceed with the installation and Rewired will set its Script Execution Order.</p>
 <p>&nbsp;</p>
 <hr />
+<h3><a name="joystick-axes-dont-work-on-fallback-platforms" id="missing-unity-input-entries2"></a>Joystick axes don't work on Xbox One, PS4, Android, iOS, etc.</h3>
+<p><a href="#exception-input-manager-entries-not-setup">Please see the following topic.</a></p>
+<p>&nbsp;</p>
+<hr />
 <h3><a name="exception-input-manager-entries-not-setup" id="exception-input-manager-entries-not-setup"></a>Exception: &quot;Message: Input Axis MouseAxis1 is not setup.&quot;</h3>
 <p>Rewired was not installed properly (canceled during installation) preventing it from installing the Unity Input Manager entries necessary for supporting input on Unity fallback platforms and for getting mouse input when Native Mouse Handling is unavailable or disabled. Another possible cause is that these entries were deleted by some other asset installed after Rewired. This can happen with assets that contain an entire project. These assets will warn you before installation that they will overwrite the entire project. It can also happen if the asset contains its own Input Manager settings and overwrites the file instead of adding entries to it.</p>
 <p>The solution is to re-run the Rewired installation script by going to the menu:</p>
@@ -395,7 +421,7 @@ void CacheRewiredPlayer() {
 <p>Proceed with the installation and Rewired will add the necessary Input Manager entries.</p>
 <p>&nbsp;</p>
 <hr />
-<h3><a name="missing-unity-input-entries" id="missing-unity-input-entries"></a>Rewired works in the editor but not on Xbox One, PS4, Android, etc.</h3>
+<h3><a name="missing-unity-input-entries" id="missing-unity-input-entries"></a>Rewired works in the editor but not on Xbox One, PS4, Android, iOS, etc.</h3>
 <p>If Rewired works in the editor but not on certain platforms, check the log file. The logs will tell you if Rewired was unable to initialize or any other errors that may have occurred.</p>
 <p>The most common reason for this issue is that Rewired was not installed properly (canceled during installation) preventing it from installing the Unity Input Manager entries necessary for supporting input on Unity fallback platforms. Another possible cause is that these entries were deleted by some other asset installed after Rewired. This can happen with assets that contain an entire project. These assets will warn you before installation that they will overwrite the entire project. It can also happen if the asset contains its own Input Manager settings and overwrites the file instead of adding entries to it.</p>
 <p>The solution is to re-run the Rewired installation script by going to the menu:</p>
@@ -486,8 +512,9 @@ void CacheRewiredPlayer() {
 <p>Steam Streaming support is currently untested on Linux/SteamOS.  To choose SDL2 as your input source on Linux, choose it in the <a href="RewiredEditor.html#Settings">Settings page</a> of the Rewired Input Manager. You will also need to install the SDL2 libraries. See <a href="Deployment.html">Deployment</a> for more information.</p>
 <p>&nbsp;</p>
 <hr />
-<h3><a name="steam-controller-breaks-rawinput-controllers" id="steam-controller-breaks-rawinput-controllers"></a>Steam Controller doesn't work with other controllers at the same time in Windows</h3>
-<p>On Windows, Steam takes control over all input systems at the OS level. When using a Steam Controller in conjunction with other Raw Input controllers, Steam will prevent all Raw Input controllers from being seen by the system. This is an intentional behavior by Steam because they want to be able to determine what controllers are seen on both the host and client systems when using Steam Streaming, hiding all controllers on the host system and showing the application only those controllers detected on the client device and emulated on the host by Steam. What Steam did not account for is that this breaks compatibility with all non-XInput controllers when using a Steam Controller at the same time. Rewired implements a unique workaround that allows non-XInput controllers to work along side a Steam Controller. Enable this option in the <a href="RewiredEditor.html#Settings">Rewired Input Manager -&gt; Settings</a> page. See the notes on that page for caveats of this workaround.</p>
+<h3><a name="steam-gamepad-appears-as-two-devices" id="steam-gamepad-appears-as-two-devices"></a>Steam: Sony DualShock 4 or generic gamepad doesn't work or appears as two devices</h3>
+<p>This can happen if the user has enabled DualShock 4 configuration support or Generic Gamepad configuration suppor in Steam Big Picture mode under Settings -&gt; Controller. These settings conflict with the Rewired setting &quot;Use Steam Raw Input Fix&quot; which existed in Rewired versions below 1.0.0.112. The fix was removed because it no longer works due to changes to Steam. If you are experiencing this issue, update to the latest version of Rewired or disable  the option in the Rewired Input Manager under Settings -&gt; Windows -&gt; &quot;Use Steam Raw Input Fix.&quot;</p>
+<p>Note that Steam creates an emulated XInput device for all controllers for which Steam configuration support is enabled. Steam will then block access to and hide the Raw Input device when this option is enabled. Because of how Steam works, this means that <strong>your game must use XInput</strong> or else your users will not be able to use these controllers when configured by Steam.</p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="windows-xinput-multiple-devices" id="windows-xinput-multiple-devices"></a>Windows, XInput: XInput-compatible device shows up as multiple controllers</h3>
@@ -507,6 +534,26 @@ other tools that emulate XInput devices. Uninstall these tools/drivers and try a
 <p>The most common cause is that you have a 3rd party tool that 
   creates emulated XInput devices such as the PS3 SCP driver or 
 other tools that emulate XInput devices. Uninstall these tools/drivers and try again. This issue  occurs at the driver level and is not related to Rewired.</p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="windows-uwp-serialization-errors" id="windows-uwp-serialization-errors"></a>Windows 10 Universal: Serialization errors</h3>
+<p>If you get errors when building the UWP project in visual studio like the following:</p>
+<pre class="code">InvalidCastException: Unable to cast object of type
+'Rewired.Data.Mapping.HardwareJoystickMap' to type
+'UnityEngine.IUnitySerializable'.
+   at UnityEngine.Internal.Types.$UnityType4390.$Invoke0(Int64
+instance, Int64* args)
+   at UnityEngine.Internal.$MethodUtility.InvokeMethod(Int64 instance,
+Int64* args, IntPtr method) 
+(Filename: <Unknown> Line: 0)
+</pre>
+<p>It is caused by the Rewired_Core.dll version being out of sync with the main Rewired_Core.dll used in the editor.</p>
+<p>There are several things you can to do:</p>
+<ul>
+  <li>Try reinstalling the Windows UWP libraries in the Unity editor <a href="SpecialPlatformSupport.html#windows-uwp">as shown here</a>.</li>
+  <li>Clear all cached files  in Visual Studio</li>
+  <li>Make sure the version of Rewired_Core.dll copied to the Visual Studio project matches the version in Unity in the Rewired\Internal\Libraries\Runtime\UWP folder. (The one you would compare to depends on if you're using the .NET or IL2CPP scripting backend.)</li>
+</ul>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="osx-xbox-one-controller-vibration" id="osx-xbox-one-controller-vibration"></a>OSX: XBox One Controller vibration doesn't work</h3>

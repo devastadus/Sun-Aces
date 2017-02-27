@@ -31,6 +31,22 @@
 
 
 <div class="container">
+
+    <div class="google-search-bar">
+        <script>
+          (function() {
+            var cx = '007961148920562332911:oocvtwz5jce';
+            var gcse = document.createElement('script');
+            gcse.type = 'text/javascript';
+            gcse.async = true;
+            gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(gcse, s);
+          })();
+        </script>
+        <gcse:search></gcse:search>
+    </div>
+
   <div class="content">
 	
 	
@@ -81,12 +97,12 @@
             <strong>Help:</strong>
             <ul>
               <li><a href="SupportedControllers.html" title="Supported Controllers">Supported Controllers</a></li>
+              <li><a href="Troubleshooting.html" title="Troubleshooting">Troubleshooting</a></li>
+              <li><a href="KnownIssues.html">Known Issues</a></li>
               <li><a href="SpecialPlatformSupport.html" title="Special Platform Support">Special Platform Support</a></li>
 	          <li><a href="Examples.html" title="Examples">Examples</a></li>
               <li><a href="Integration.html">Integrations</a></li>
 	          <li><a href="Updating.html" title="Updating Rewired">Updating Rewired</a></li>
-	          <li><a href="Troubleshooting.html" title="Troubleshooting">Troubleshooting</a></li>
-              <li><a href="KnownIssues.html">Known Issues</a></li>
             </ul>
             <strong>FAQ</strong>
             <ul>
@@ -109,7 +125,7 @@
     	<div class="main-body">
 	        <div class="logo"><a href="http://guavaman.com/projects/rewired" title="Rewired"><img src="files/images/rewired-logo.png" width="173" height="139" alt="Rewired" /></a></div>
                      
-          <h1>
+            <h1>
             <!-- InstanceBeginEditable name="PageHeader" -->Known Issues
       <!-- InstanceEndEditable -->
             </h1>
@@ -133,6 +149,7 @@
       <li><a href="#xinput-device-name">Windows Platforms: XInput devices on Windows appear as &quot;XInput Gamepad&quot;</a></li>
       <li><a href="#windows-xinput-devices-use-x360-map">Windows Platforms: All XInput devices use the Xbox 360 Controller map when &quot;Use XInput&quot; is enabled</a></li>
       <li><a href="#more-than-4-xbox-controllers">More than 4 XBox controllers cannot be used at the same time</a></li>
+      <li><a href="#win-10-insider-preview-xinput-crash">Windows Standalone (Use XInput enabled, Windows 10 Insider Preview): Game crashes when using or plugging in an XInput-compatible controller.</a></li>
       <li><a href="#windows-10-fallback-xbox-one-mapping-issues">Windows Standalone (Unity Fallback, Windows 10): Xbox One Controller L/R and D-Pad mapping problems</a></li>
       <li><a href="#windows-10-xbox-one-crash">Windows Standalone (Raw Input, Windows 10): XBox One controller causes system crash when removed when using Raw Input on Windows 10</a></li>
       <li><a href="#direct-input-windows-10-multiple-xbox-one-controllers-hang">Windows Standalone (Direct Input, Windows 10): Using two or more XBox One controllers  will cause Unity to hang when using Direct Input on Windows 10</a></li>
@@ -343,6 +360,12 @@ public class RewiredCustomController_AndroidRemote : MonoBehaviour {
 </ol>
 <p><strong>OSX Standalone</strong><br />
   XBox 360 controllers on OSX require <a href="https://github.com/360Controller/360Controller/releases" target="_blank"> this XBox 360 driver</a>. This driver also imposes the 4-device limit just like XInput. It is currently not possible to use more than 4 XInput devices simultaneously on OSX. Again, you can mix and match non-XInput controllers to achieve a total count greater than 4. Because the driver is required for the controller to be detected, there is no way to disable the use of this driver and get around this issue.</p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="win-10-insider-preview-xinput-crash" id="win-10-insider-preview-xinput-crash"></a>Windows Standalone (Use XInput enabled, Windows 10 Insider Preview): Game crashes when using or plugging in an XInput-compatible controller.</h3>
+<p>There have been reports of crashes when using XInput on one or more versions of Windows 10 Insider Preview. The crash can occur either on the start of the application (if an XInput-compatible device is attached) or when any XInput-compatible device is first attached. This issue is not an issue with Rewired but an issue with Windows 10 Insider Preview. I have been unable to reproduce any issue in Windows 10 Insider Preview.</p>
+<p>The only possible workaround is to disable Use XInput in the Rewired Input Manager -&gt; Settings -&gt; Windows tab.</p>
+<p>Rewired is 100% compliant with Microsoft's published guidelines for using XInput. Rewired works with all versions of XInput from Windows XP - Windows 10 without issue. If you or your customers experience this crash in Windows 10 Insider Preview, please report this error to Microsoft so they can fix it before rolling out the public release.</p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="windows-10-fallback-xbox-one-mapping-issues" id="windows-10-xbox-one-crash2"></a>Windows Standalone (Unity Fallback, Windows 10): Xbox One Controller L/R and D-Pad mapping problems</h3>

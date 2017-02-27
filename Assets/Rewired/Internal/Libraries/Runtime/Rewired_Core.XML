@@ -1909,6 +1909,81 @@
             The combined raw value of the X and Y axes from the previous frame.
             </summary>
         </member>
+        <member name="T:Rewired.Controller.Hat">
+            <summary>
+            A hat is a compound element made up of 4 or 8 individual buttons.
+            If this is a 4-way hat, only up, down, right, and left are supported. Corner presses will activate the two cardinal directions.
+            If this is an 8-way hat, all 8 directions are supported. Corner presses will activate the corner buttons.
+            </summary>
+        </member>
+        <member name="P:Rewired.Controller.Hat.elementCapacity">
+            <summary>
+            The maximum number of member Buttons of the Hat.
+            </summary>
+        </member>
+        <member name="P:Rewired.Controller.Hat.force4Way">
+            <summary>
+            Force this hat to behave as a 4-way hat. This only has any effect if the hat is an 8-way hat.
+            If enabled, the corner directions will activate the adjacent 2 cardinal direction buttons instead of the corner button.
+            This is useful if you need the hat to behave like a D-Pad instead of an 8-way hat.
+            If the global ReInput.configuration.force4WayHats is enabled, setting this to false will have no effect as the global flag overrides this value.
+            </summary>
+        </member>
+        <member name="P:Rewired.Controller.Hat.directionCount">
+            <summary>
+            The number of directions supported by this hat.
+            This can be 4, 8, or 0.
+            </summary>
+        </member>
+        <member name="P:Rewired.Controller.Hat.Buttons">
+            <summary>
+            Gets the list of member buttons.
+            There is one entry for each possible direction button in this hat.
+            Check directionCount to determine whether this is a 4 or 8-way hat.
+            Entries may be null of no button is assigned to a direction.
+            The order of the buttons starts at up and rotates clockwise.
+            </summary>
+        </member>
+        <member name="P:Rewired.Controller.Hat.buttonUp">
+            <summary>
+            The button for the up direction. This value may be null if no button is assigned.
+            </summary>
+        </member>
+        <member name="P:Rewired.Controller.Hat.buttonRight">
+            <summary>
+            The button for the right direction. This value may be null if no button is assigned.
+            </summary>
+        </member>
+        <member name="P:Rewired.Controller.Hat.buttonDown">
+            <summary>
+            The button for the down direction. This value may be null if no button is assigned.
+            </summary>
+        </member>
+        <member name="P:Rewired.Controller.Hat.buttonLeft">
+            <summary>
+            The button for the left direction. This value may be null if no button is assigned.
+            </summary>
+        </member>
+        <member name="P:Rewired.Controller.Hat.buttonUpRight">
+            <summary>
+            The button for the up-right direction. This value may be null if no button is assigned.
+            </summary>
+        </member>
+        <member name="P:Rewired.Controller.Hat.buttonDownRight">
+            <summary>
+            The button for the down-right direction. This value may be null if no button is assigned.
+            </summary>
+        </member>
+        <member name="P:Rewired.Controller.Hat.buttonDownLeft">
+            <summary>
+            The button for the down-left direction. This value may be null if no button is assigned.
+            </summary>
+        </member>
+        <member name="P:Rewired.Controller.Hat.buttonUpLeft">
+            <summary>
+            The button for the up-left direction. This value may be null if no button is assigned.
+            </summary>
+        </member>
         <member name="T:Rewired.Controller.Extension">
             <summary>
             A class that can be used as a base class to allow for special controller or platform-specific functions in a controller.
@@ -2819,6 +2894,16 @@
             The number of vibration motors this device supports.
             </summary>
         </member>
+        <member name="P:Rewired.Joystick.hatCount">
+            <summary>
+            The number of Hats in this controller.
+            </summary>
+        </member>
+        <member name="P:Rewired.Joystick.Hats">
+            <summary>
+            List of Hats in this controller.
+            </summary>
+        </member>
         <member name="T:Rewired.Keyboard">
             <summary>
             A keyboard with keys.
@@ -2856,6 +2941,12 @@
         <member name="T:Rewired.Data.ConfigVars.PlatformVars">
             <summary>
             Configuration variables for the Input Manager.
+            </summary>
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.ConfigVars.EditorVars">
+            <summary>
+            Editor configuration variables for the Input Manager.
             </summary>
             <exclude></exclude>
         </member>
@@ -2952,6 +3043,9 @@
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_RawOrDirectInput.Elements_Platform_Base">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_RawOrDirectInput.CustomCalculationSourceData">
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_RawOrDirectInput.Element">
@@ -3261,6 +3355,15 @@
             <summary>
             A specific direction of an axis.
             </summary>
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareAxisType">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.AxisDataFormat">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.AxisCalibrationType">
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Data.RuntimeData">
@@ -7673,8 +7776,7 @@
         </member>
         <member name="M:Rewired.ReInput.Reset">
             <summary>
-            Resets Rewired completely and reinitializes input source(s). All stored Rewired objects such as Players, Controllers, Maps, etc. will no longer be valid after reset.
-            Joystick assignments will be lost and re-assigned based on joystick auto-assignment settings in the Rewired Input Manager.
+            Completely clears and reinitializes the Input Manager. This is equivalent to destroying the Rewired Input Manager and reinstantiating it.
             </summary>
         </member>
         <member name="F:Rewired.ReInput.absFrame">
@@ -8699,6 +8801,24 @@
             <param name="behaviorName">Input Behavior name</param>
             <returns></returns>
         </member>
+        <member name="M:Rewired.ReInput.MappingHelper.GetControllerMapInstance(Rewired.Controller,System.Int32,System.Int32)">
+            <summary>
+            Gets an instanced copy of a controller map
+            </summary>
+            <param name="controller">Controller for which to retrieve the map</param>
+            <param name="categoryId">Category Id</param>
+            <param name="layoutId">Layout Id</param>
+            <returns>Controller Map</returns>
+        </member>
+        <member name="M:Rewired.ReInput.MappingHelper.GetControllerMapInstance(Rewired.Controller,System.String,System.String)">
+            <summary>
+            Gets an instanced copy of a controller map
+            </summary>
+            <param name="controller">Controller for which to retrieve the map</param>
+            <param name="categoryName">Category Name</param>
+            <param name="layoutName">Layout Name</param>
+            <returns>Controller Map</returns>
+        </member>
         <member name="M:Rewired.ReInput.MappingHelper.GetJoystickMapInstance(Rewired.Joystick,System.Int32,System.Int32)">
             <summary>
             Gets an instanced copy of a joystick map
@@ -8926,6 +9046,11 @@
             Toggles the use of enhanced device support during runtime. Rewired will be completely reset if this value is changed.
             </summary>
         </member>
+        <member name="P:Rewired.ReInput.ConfigHelper.ignoreInputWhenAppNotInFocus">
+            <summary>
+            Ignores input if the application is not in focus This setting has no effect on some platforms. NOTE: Disabling this does not guarantee that input will be processed when the application is out of focus. Whether input is received by the application or not is dependent on A) the input device type B) the current platform C) the input source(s) being used. This setting can be changed without resetting Rewired.
+            </summary>
+        </member>
         <member name="P:Rewired.ReInput.ConfigHelper.android_supportUnknownGamepads">
             <summary>
             Toggles the support of unknown gamepads on the Android platform during runtime. Rewired will be completely reset if this value is changed.
@@ -8934,6 +9059,14 @@
         <member name="P:Rewired.ReInput.ConfigHelper.defaultJoystickAxis2DDeadZoneType">
             <summary>
             Changes the default dead zone type for 2D joystick axes for recognized controllers. This setting can be changed without resetting Rewired.
+            </summary>
+        </member>
+        <member name="P:Rewired.ReInput.ConfigHelper.force4WayHats">
+            <summary>
+            Force all 8-way hats on recognized joysticks to be treated as 4-way hats.
+            If enabled, the corner directions on all hats will activate the adjacent 2 cardinal direction buttons instead of the corner button.
+            This is useful if you need joystick hats to behave like D-Pads instead of 8-way hats.
+            This setting can be changed without resetting Rewired.
             </summary>
         </member>
         <member name="P:Rewired.ReInput.ConfigHelper.autoAssignJoysticks">

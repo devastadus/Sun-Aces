@@ -31,6 +31,22 @@
 
 
 <div class="container">
+
+    <div class="google-search-bar">
+        <script>
+          (function() {
+            var cx = '007961148920562332911:oocvtwz5jce';
+            var gcse = document.createElement('script');
+            gcse.type = 'text/javascript';
+            gcse.async = true;
+            gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(gcse, s);
+          })();
+        </script>
+        <gcse:search></gcse:search>
+    </div>
+
   <div class="content">
 	
 	
@@ -81,12 +97,12 @@
             <strong>Help:</strong>
             <ul>
               <li><a href="SupportedControllers.html" title="Supported Controllers">Supported Controllers</a></li>
+              <li><a href="Troubleshooting.html" title="Troubleshooting">Troubleshooting</a></li>
+              <li><a href="KnownIssues.html">Known Issues</a></li>
               <li><a href="SpecialPlatformSupport.html" title="Special Platform Support">Special Platform Support</a></li>
 	          <li><a href="Examples.html" title="Examples">Examples</a></li>
               <li><a href="Integration.html">Integrations</a></li>
 	          <li><a href="Updating.html" title="Updating Rewired">Updating Rewired</a></li>
-	          <li><a href="Troubleshooting.html" title="Troubleshooting">Troubleshooting</a></li>
-              <li><a href="KnownIssues.html">Known Issues</a></li>
             </ul>
             <strong>FAQ</strong>
             <ul>
@@ -121,6 +137,7 @@
     <h4>Pages:</h4>
     <ul>
       <li><a href="#Settings">Settings</a></li>
+      <li><a href="#Tools">Tools</a></li>
       <li><a href="#Players">Players</a></li>
       <li><a href="#Actions">Actions</a></li>
       <li><a href="#InputBehaviors">Input Behaviors</a></li>
@@ -138,7 +155,7 @@
     </ul>
     <hr />
     <h3><a name="Settings" id="Settings"></a>Settings</h3>
-<p><img src="files/images/rewirededitor_settings.png" alt="Settings" /></p>
+<p><img src="files/images/rewirededitor_settings.png" alt="Settings" width="770" height="708" /></p>
 <p>The Settings page allows you change the options for the current Input Manager. The options available are as follows:</p>
  <table width="100%" border="0" cellpadding="0" cellspacing="0">
   <tr>
@@ -182,6 +199,11 @@
     <td valign="top">Disable keyboard input on all platforms? Disabling this can improve performance slightly.</td>
   </tr>
   <tr>
+    <td valign="top">Ignore Input When App Not In Focus</td>
+    <td valign="top"><p>Ignores input if the application is not in focus. This setting has no effect on some platforms.</p>
+      <p>NOTE: Disabling this does not guarantee that input will be processed when the application is out of focus. Whether input is received by the application or not is dependent on A) the input device type B) the current platform C) the input source(s) being used.</p></td>
+  </tr>
+  <tr>
     <td valign="top"><strong>Windows:</strong></td>
     <td valign="top">&nbsp;</td>
   </tr>
@@ -195,11 +217,6 @@
   <tr>
     <td valign="top">Use XInput</td>
     <td valign="top">On Windows, use XInput for compatible devices. Otherwise fall back to Raw Input or Direct Input. Installation of DirectX end-user runtimes may be required for XInput support. (Windows Vista+ include XInput support without the need for additional drivers.) Required for XBox 360 vibration support.</td>
-  </tr>
-  <tr>
-    <td valign="top">Steam Raw Input Fix</td>
-    <td valign="top"><p>Force Raw Input controllers to appear in list when using a Steam Controller along with other controllers. This is a workaround for an issue caused by Steam when a Steam Controller is used in conjunction with other Raw Input controllers that causes said Raw Input controllers to disappear once a Steam Controller is attached.</p>
-      <p>Note: When using Steam Streaming, this workaround will cause all Raw Input controllers connected to the host machine to appear to the client.</p></td>
   </tr>
   <tr>
     <td valign="top"> Native Mouse Handling</td>
@@ -288,6 +305,11 @@
     <td valign="top">Disable keyboard input on this platform? Disabling this can improve performance slightly.</td>
   </tr>
   <tr>
+    <td valign="top">Ignore Input When App Not In Focus</td>
+    <td valign="top"><p>Ignores input if the application is not in focus. This setting has no effect on some platforms.</p>
+      <p>NOTE: Disabling this does not guarantee that input will be processed when the application is out of focus. Whether input is received by the application or not is dependent on A) the input device type B) the current platform C) the input source(s) being used.</p></td>
+  </tr>
+  <tr>
     <td valign="top">&nbsp;</td>
     <td valign="top">&nbsp;</td>
   </tr>
@@ -302,6 +324,10 @@
         Axial: X and Y axes are calculated independently.<br />
         </p>
   <p>This setting only applies to joysticks on recognized controllers.</p></td>
+  </tr>
+  <tr>
+    <td valign="top">Force 4-Way Hats</td>
+    <td valign="top">Force all 8-way hats on recognized joysticks to be treated as 4-way hats. If enabled, the corner directions on all hats will activate the adjacent 2 cardinal direction buttons instead of the corner button. This is useful if you need joystick hats to behave like D-Pads instead of 8-way hats.</td>
   </tr>
   <tr>
     <td valign="top">&nbsp;</td>
@@ -333,6 +359,62 @@
   </tr>
 </table>
 <p>&nbsp;</p>
+<hr />
+<h3><a name="Tools" id="Settings2"></a>Tools</h3>
+<p><img src="files/images/rewirededitor_tools.png" alt="Tools" /></p>
+<p><strong>Export Constants:</strong></p>
+<p>Allows you to export a list of constants for all Rewired Actions, Map Categories, and Layouts. These constants can be used in place of strings when interacting with the Rewired API. Clicking &quot;Export&quot; will create a CS file which must be saved somewhere in your project.</p>
+<p>Note: The exported consts will only be valid for this Rewired Input Manager. Also, if you add or delete items from the Rewired Input Manager, this list must be exported again.</p>
+<p> (See <a href="HowTos.html#exporting-constants">How To's - Exporting constants for use in scripting</a> for more information.)</p>
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="19%" valign="top">Use Namespace</td>
+    <td width="81%" valign="top">Wrap all the exported classes in a namespace.</td>
+  </tr>
+  <tr>
+    <td valign="top">Namespace</td>
+    <td valign="top">The namespace. Only valid C# namespace characters are allowed.</td>
+  </tr>
+  <tr>
+    <td valign="top">Use Parent Class</td>
+    <td valign="top">Wrap all the exported classes in a single parent class for better organization.</td>
+  </tr>
+  <tr>
+    <td valign="top">Parent Class Name</td>
+    <td valign="top">Name of the parent class. Only valid C# class name characters are allowed. This class name must be unique.</td>
+  </tr>
+  <tr>
+    <td valign="top">Export Actions</td>
+    <td valign="top">Export Actions to a class of constants.</td>
+  </tr>
+  <tr>
+    <td valign="top">Actions Class Name</td>
+    <td valign="top">Name of the class that will contain the Action constants. Only valid C# class name characters are allowed. This class name must be unique.</td>
+  </tr>
+  <tr>
+    <td valign="top">Include Action Category</td>
+    <td valign="top"><p>Includes the Action Category in the name of each constant. The Action Category name will preceed the Action name for the final const name.</p>
+      <p>Example: public const int Default_Jump = 1;</p>
+      <p>Otherwise, the Action name alone will be used.</p>
+      <p>Example: public const int Jump = 1;</p></td>
+  </tr>
+  <tr>
+    <td valign="top">Export Map Categories</td>
+    <td valign="top">Export Map Categories to a class of constants.</td>
+  </tr>
+  <tr>
+    <td valign="top">Map Categories Class Name</td>
+    <td valign="top">Name of the class that will contain the Map Category constants. Only valid C# class name characters are allowed. This class name must be unique.</td>
+  </tr>
+  <tr>
+    <td valign="top">Export Layouts</td>
+    <td valign="top">Export Layouts to a class of constants.</td>
+  </tr>
+  <tr>
+    <td valign="top">Layouts Class Name</td>
+    <td valign="top">Name of the class that will contain the Layout constants. Only valid C# class name characters are allowed. This class name must be unique. Layout constants will be wrapped in an additional class named for the Layout type.</td>
+  </tr>
+</table>
 <hr />
 <h3><a name="Players" id="Players"></a>Players</h3>
 <p><img src="files/images/rewirededitor_players.png" alt="Players" /></p>
@@ -413,8 +495,6 @@
 <p><strong>Category Box:</strong><br />
   Select a category to see the Actions in this category.<br />
   Click &quot;Edit Categories&quot; to add or edit Action Categories.</p>
-<p><strong>Exporting Actions to Consts:</strong><br />
-  Click &quot;Export Actions to Consts&quot; to export all Actions. (See <a href="HowTos.html#exporting-actions">How To's - Exporting Actions as constants for use in scripting</a> for more information.)</p>
 <p><strong>Action Box:</strong><br />
   Select an Action to modify its properties.</p>
 <p><strong>Action Properties:</strong></p>

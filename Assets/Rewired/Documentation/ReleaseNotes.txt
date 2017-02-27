@@ -1,3 +1,121 @@
+1.0.0.112:
+
+  Changes:
+    - Removed "Steam Raw Input Fix" option entirely due to recent changes in Steam making it non-functional.
+
+1.0.0.111:
+
+  Changes:
+    - Disabled "Steam Raw Input Fix" by default. It is recommended that this fix be disabled on almost all games. It causes issues with the new DualShock 4 configuration support in Steam. The fix is no longer needed for using Raw Input controllers together with the Steam Controller as Steam has fixed the bug for which this workaround was created. However, the option may still be useful for some use cases. Please see Rewired Editor - Settings in the documentation for more details.
+    - Added workaround for Steam not sending device notifications when emulated XInput devices are attached.
+    - Added "Ignore Input When App Not In Focus" option to Rewired Input Manager Settings.
+    - Control Mapper: When a popup window is opened and the user clicks on a non-selectable area, the currently selected UI element is no longer deselected.
+    - Rewired Input Manager "Don't Destroy on Load" is now applied to root Game Object to avoid warnings in log if Rewired Input Manager is parented under another Game Object.
+   
+   API Changes:
+    - Added ReInput.ConfigHelper.ignoreInputWhenAppNotInFocus property.
+   
+   New Controller Definitions:
+    - Elecom Gamepad (JC-U3312)
+    
+   Bug Fixes:
+     - Thrustmaster T.Flight Rudder Pedals: Fixed inverted mappings for L/R pedals.
+     - Fixed issue when disconnecting and reconnecting a controller with calibrated axes that return non-zero values at rest.
+
+1.0.0.110:
+
+  New Controller Definitions:
+    - Thrustmaster T.Flight Rudder Pedals
+    - Thrustmaster TWCS Throttle
+    - Logitech G920 Driving Force Racing Wheel
+    
+  Modified Controller Definitions:
+    - Logitech G25, Raw Input: Added variant for when no driver is installed
+
+1.0.0.109:
+  
+  Changes:
+    - Windows Standalone, XInput: XInput library version 1.4 is now prioritized over version 1.3.
+    - Windows Standalone, XInput: Removed Guide button detection due to possible crashes in Windows 10 developer preview builds.
+    - Added "Don't Destroy On Load" option to Control Mapper inspector.
+  
+  Bug Fixes:
+    - Fixed incorrect mapping in HOTAS template for Saitek X45 Y axis.
+
+1.0.0.108:
+
+  Bug Fixes:
+    - Fixed exception when setting ReInput.controllers.keyboardEnabled property.
+    - Fixed exception in ControllerMap.ReplaceElementMap when used with Custom Controller maps.
+    - Fixed exception in ControllerMap.CreateElementMap when used with Custom Controller maps.
+
+1.0.0.107:
+
+  Changes:
+    - Android: Supports new Xbox One S controller firmware.
+
+  Bug Fixes:
+    - ControllerMap.ReplaceElementMap now works properly with Custom Controller maps.
+    - ControllerMap.CreateElementMap now works properly with Custom Controller maps.
+
+1.0.0.106:
+
+  Changes:
+    - Added new native input library for Windows Store 8.1 to support non-XInput devices.
+    - Added Enhanced Device Support for Sony DualShock 4 model CUH-ZCT2U.
+    - UserDataStore_PlayerPrefs tries to add new default mappings for newly created Actions when loading XML saved data.
+  
+  New Controller Definitions:
+    - Microsoft SideWinder Joystick
+  
+  API Changes:
+    - Added ControllerMap.CreateFromXml method.
+    - Added ReInput.MappingHelper.GetControllerMapInstance method.
+
+  Bug Fixes:
+    - Control Mapper: UI now resets when certain public properties are changed at runtime.
+    - Fixed incorrect Controller Map category name displayed in the Debug Options in the Rewired Input Manager inspector.
+    - Fixed bug when unchecking certain options in the Global Options window causing it to copy the Android scripting symbols regardless of the current build target platform.
+
+1.0.0.105:
+
+  Changes:
+    - Windows Raw Input: Added support for CustomCalculation in axes and buttons in HardwareJoystickMap.
+    - Windows Direct Input: Added support for CustomCalculation in axes and buttons in HardwareJoystickMap.
+    - Added option to treat all hats as 4-way hats to Rewired Input Manager.
+    - *** BREAKING CHANGE *** Changed Compound Element system so Compound Elements are defined per-device instead of per-platform. If you have created your own HardwareJoystickMap files, you must re-create all Compound Elements using the new system.
+    - Windows Raw Input, Direct Input: Eliminated frame rate drop when connecting or disconnecting a Joystick.
+    - Windows Raw Input: Yet more changes to work around new bugs in the latest Microsoft Xbox One driver update for Windows 10.
+    - Windows Direct Input: Improved Bluetooth device disconnection for certain devices.
+    - Added Use Playing Players Only option to the Rewired Standalone Input Module.
+    - Invalid XML characters are now removed from hardware joystick name when writing ControllerMap save data to XML.
+    - Moved export Action constants functionality to the Tools page of the Rewired Input Manager.
+    - Added ability to export Map Category Id and Layout Id constants.
+
+  API Changes:
+    - Added Controller.Hat class.
+    - Added CompoundControllerElementType.Hat.
+    - Added ReInput.ConfigHelper.force4WayHats property.
+    - Added Joystick.hatCount property.
+    - Added Joystick.Hats property.
+
+  New Controller Definitions:
+    - Logitech WingMan Attack 2
+    - Logitech Attack 3
+    - Microsoft SideWinder 3D Pro
+    - Microsoft SideWinder Precision Pro
+    - Microsoft SideWinder Force Feedback Pro
+    - Saitek ST290 Pro
+    - Saitek Cyborg Evo
+
+  Modified Controller Definitions:
+    - All controllers with Compound Elements updated to use new system.
+    - Added Hat Compound Elements to all controllers with hats.
+    - Logitech G25, Raw Input: Added support for combined-axis pedal option in driver.
+    - Logitech G27, Raw Input: Added variant for when no driver is installed, added support for combined-axis pedal option in driver.
+    - Logitech G29, Raw Input: Added support for combined-axis pedal option in driver.
+    - Logitech G29, Direct Input: Added mapping.
+
 1.0.0.104:
 
   Changes:

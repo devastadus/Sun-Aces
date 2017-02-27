@@ -655,7 +655,7 @@ public class PoolBossInspector : Editor {
 
                         if (poolItem.allowInstantiateMore) {
                             var newLimit = EditorGUILayout.IntSlider("Item Limit", poolItem.itemHardLimit,
-                                poolItem.instancesToPreload, 1000);
+                                poolItem.instancesToPreload, 10000);
                             if (newLimit != poolItem.itemHardLimit) {
                                 UndoHelper.RecordObjectPropertyForUndo(ref _isDirty, _pool, "change Item Limit");
                                 poolItem.itemHardLimit = newLimit;

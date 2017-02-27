@@ -1,4 +1,6 @@
-
+#if UNITY_5_5 || UNITY_5_6 || unity_6
+    using UnityEngine.AI;
+#endif
 //#define PHOTON_NETWORK
 
 using System;
@@ -505,16 +507,12 @@ namespace DarkTonic.CoreGameKit {
         /// <param name="vId">View ID</param>
         [PunRPC]
         // ReSharper disable once UnusedMember.Local
-        private void RemoteDespawn(string nameOfTransform, int vId) {
+		private void CGK_RemoteDespawn(string nameOfTransform, int vId) {
             //we need to get the base name of the item minus the (Clone x) on the end, in order to find the game object
-            var itemName = nameOfTransform;
-            var index = itemName.IndexOf(" (Clone", StringComparison.Ordinal);
-            if (index > 0) {
-                itemName = itemName.Substring(0, index);
-            }
+            var itemName = GetPrefabName(nameOfTransform);
 
             if (logMessages) {
-                Debug.Log("RemoteDespawn: try Remote Despawn for " + nameOfTransform + ", vID: " + vId);
+				Debug.Log("CGK_RemoteDespawn: try Remote Despawn for " + nameOfTransform + ", vID: " + vId);
             }
             //technically, any client could request despawns here to "Cheat" but the client to client builds should only exist during early development
 
@@ -553,7 +551,7 @@ namespace DarkTonic.CoreGameKit {
             //  Another client registered the collision first and throws an rpc request for this client(the owner) to 
             //  make the despawn but the this client recovered and called the despawn before any rpc was recieved.
             if (logMessages) {
-                Debug.LogWarning("RemoteDespawn: " + nameOfTransform + "(" + vId + ") was not found in the list of spawned objects. It was likely locally despawned before the RPC request was recieved.");
+				Debug.LogWarning("CGK_RemoteDespawn: " + nameOfTransform + "(" + vId + ") was not found in the list of spawned objects. It was likely locally despawned before the RPC request was recieved.");
             }
         }
 
@@ -605,12 +603,7 @@ namespace DarkTonic.CoreGameKit {
                 return null;
             }
 
-            var itemName = transToSpawn.name;
-
-            var index = itemName.IndexOf(" (Clone", StringComparison.Ordinal);
-            if (index > 0) {
-                itemName = itemName.Substring(0, index);
-            }
+			var itemName = GetPrefabName(transToSpawn.name);
 
             if (PoolItemsByName.ContainsKey(itemName)) {
                 return Spawn(itemName, position, rotation, parentTransform);
@@ -842,12 +835,11 @@ namespace DarkTonic.CoreGameKit {
                         return;
                     }
 
-                    _view.RPC("RemoteDespawn", owner, transToDespawn.name, vId); //some reason we get NullReferenceException here so im going to try sending to all targets and have the rpc function check if owner
+					_view.RPC("CGK_RemoteDespawn", owner, transToDespawn.name, vId); //some reason we get NullReferenceException here so im going to try sending to all targets and have the rpc function check if owner
                 } else { //the owner of this object must have left the game or d/c
                     //lets make the master client the owner then and then ask him to despawn
                     targetPV.TransferOwnership(PhotonNetwork.masterClient);
-                    _view.RPC("RemoteDespawn", PhotonNetwork.masterClient, transToDespawn.name, vId); //some reason we get NullReferenceException here so im going to try sending to all targets and have the rpc function check if owner
-
+					_view.RPC("CGK_RemoteDespawn", PhotonNetwork.masterClient, transToDespawn.name, vId); //some reason we get NullReferenceException here so im going to try sending to all targets and have the rpc function check if owner
                 }
             }
 
@@ -1172,18 +1164,18 @@ namespace DarkTonic.CoreGameKit {
             return false;
         }
 
-        /// <summary>
-        /// Call this method determine if the item name you pass in is set up in Pool Boss.
-        /// </summary>
-        /// <param name="transName">Item name you want to know is in the Pool or not.</param>
-        /// <returns>Boolean value.</returns>
-        public static bool PrefabIsInPool(string transName) {
-            if (_isReady) {
-                return PoolItemsByName.ContainsKey(transName);
-            }
-            LevelSettings.LogIfNew(NotInitError);
-            return false;
-        }
+		/// <summary>
+		/// Call this method determine if the item name you pass in is set up in Pool Boss.
+		/// </summary>
+		/// <param name="transName">Item name you want to know is in the Pool or not.</param>
+		/// <returns>Boolean value.</returns>
+		public static bool PrefabIsInPool(string transName) {
+			if (_isReady) {
+				return PoolItemsByName.ContainsKey(GetPrefabName(transName));
+			}
+			Debug.LogWarning(NotInitError);
+			return false;
+		}
 
         /// <summary>
         /// This will tell you how many available clones of a prefab are despawned and ready to spawn. A value of -1 indicates an error
@@ -1293,22 +1285,30 @@ namespace DarkTonic.CoreGameKit {
         }
 
 		/// <summary>
-		/// Gets the name of the prefab. Chops off "(clone X)" text.
+		/// This will return the name of the game object's prefab without "(Clone X)" in the name. It is used internally by PoolBoss for a lot of things.
 		/// </summary>
-		/// <returns>The prefab name.</returns>
-		/// <param name="trans">Trans.</param>
+		/// <param name="trans">The Transform of the game object</param>
+		/// <returns>string</returns>
 		public static string GetPrefabName(Transform trans) {
 			if (trans == null) {
 				return null;
 			}
 			
-			var itemName = trans.name;
-			var iParen = itemName.IndexOf(" (", StringComparison.Ordinal);
+			return GetPrefabName(trans.name);
+		}
+		
+		/// <summary>
+		/// This will return the name of the game object's prefab without "(Clone X)" in the name. It is used internally by PoolBoss for a lot of things.
+		/// </summary>
+		/// <param name="prefabName">The name of the game object</param>
+		/// <returns>string</returns>
+		public static string GetPrefabName(string prefabName) {
+			var iParen = prefabName.IndexOf(" (Clone", StringComparison.Ordinal);
 			if (iParen > -1) {
-				itemName = itemName.Substring(0, iParen);
+				prefabName = prefabName.Substring(0, iParen);
 			}
 			
-			return itemName;
+			return prefabName;
 		}
 
         private static int NumberOfClones(PoolItemInstanceList instList) {
